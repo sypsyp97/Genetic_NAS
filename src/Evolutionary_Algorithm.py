@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.Create_Model import create_model
+from src.Create_Model import create_model, model_summary
 from src.Evaluate_Model import model_evaluation
 from src.Train_Model import train_model
 
@@ -19,6 +19,7 @@ def select_best_2_model(train_ds, val_ds, test_ds,
     # tflite_accuracies = []
     for i in range(population_array.shape[0]):
         model = create_model(population_array[i], num_classes=num_classes)
+        model_summary(model)
         trained_model, history = train_model(train_ds, val_ds, model=model, epochs=epochs)
         acc = model_evaluation(trained_model, test_ds)
         accuracies.append(acc)
