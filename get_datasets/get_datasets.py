@@ -6,29 +6,28 @@ import numpy as np
 import tensorflow as tf
 from imgaug import augmenters as iaa
 from sklearn.model_selection import train_test_split
+from tqdm.notebook import tqdm
 
 
-def get_data(data_dir, img_size=128, labels=None):
-    if labels is None:
-        labels = ['PNEUMONIA', 'NORMAL']
+def get_data(data_dir, img_size=128, labels=['PNEUMONIA', 'NORMAL']):
     data = []
     for label in labels:
         path = join(data_dir, label)
         class_num = labels.index(label)
-        # for img in tqdm(listdir(path)):
-        for img in listdir(path):
+        for img in tqdm(listdir(path)):
             try:
                 img_arr = cv2.imread(join(path, img))
-                resized_arr = cv2.resize(img_arr, (img_size, img_size))  # Reshaping images to preferred size
-                data.append([resized_arr, class_num])
+                resized_arr = tf.image.resize(img_arr, (img_size, img_size)) # Reshaping images to preferred size
+                data.append((resized_arr, class_num))
             except Exception as e:
                 print(e)
-    return np.array(data)
+    return data
 
 
 def get_data_array(train_dir='../content/chest_xray_new/train',
                    test_dir='../content/chest_xray_new/test',
                    img_size=128, num_classes=2):
+
     train = get_data(train_dir)
     test = get_data(test_dir)
 
@@ -71,40 +70,34 @@ def augment(images):
 
 
 def get_datasets(x_train, y_train, x_test, y_test, x_val, y_val,
-                 auto=tf.data.AUTOTUNE, batch_size=64, image_size=128):
+                 auto=tf.data.AUTOTUNE, batch_size=64):
     train_ds_rand = (
         tf.data.Dataset.from_tensor_slices((x_train, y_train))
         .shuffle(batch_size * 100)
         .batch(batch_size)
-        .map(lambda x, y: (tf.image.resize(x, (image_size, image_size)), y), num_parallel_calls=auto)
         .map(lambda x, y: (tf.py_function(augment, [x], [tf.float32])[0], y), num_parallel_calls=auto)
-        .prefetch(buffer_size=auto)
+        .prefetch(auto)
     )
 
     test_ds = (
         tf.data.Dataset.from_tensor_slices((x_test, y_test))
         .shuffle(batch_size * 100)
         .batch(batch_size)
-        .map(lambda x, y: (tf.image.resize(x, (image_size, image_size)), y), num_parallel_calls=auto)
-        .prefetch(buffer_size=auto)
+        .prefetch(auto)
     )
 
     val_ds = (
         tf.data.Dataset.from_tensor_slices((x_val, y_val))
         .shuffle(batch_size * 100)
         .batch(batch_size)
-        .map(lambda x, y: (tf.image.resize(x, (image_size, image_size)), y), num_parallel_calls=auto)
-        .prefetch(buffer_size=auto)
+        .prefetch(auto)
     )
 
     train_ds = (
         tf.data.Dataset.from_tensor_slices((x_train, y_train))
         .shuffle(batch_size * 100)
         .batch(batch_size)
-        .map(lambda x, y: (tf.image.resize(x, (image_size, image_size)), y), num_parallel_calls=auto)
-        .prefetch(buffer_size=auto)
+        .prefetch(auto)
     )
-
-
 
     return train_ds_rand, val_ds, test_ds, train_ds

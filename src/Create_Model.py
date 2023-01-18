@@ -1,6 +1,6 @@
 import numpy as np
-from keras import layers
 from tensorflow import keras
+from keras import layers
 
 from Decode_Layer import decoded_layer
 from Gene_Pool import conv_block
