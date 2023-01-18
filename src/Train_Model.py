@@ -31,10 +31,11 @@ def train_model(train_ds, val_ds,
                             epochs=epochs,
                             validation_data=val_ds,
                             callbacks=[checkpoint_callback])
+
+        model.load_weights(checkpoint_filepath)
+
     except:
         history = None
         print("Do not have enough memory.")
-
-    model.load_weights(checkpoint_filepath)
 
     return model, history
