@@ -65,6 +65,7 @@ def get_data_array(train_dir='../content/chest_xray_new/train',
     return x_train, y_train, x_val, y_val, x_test, y_test
 
 # TODO: Fix the RangAugment
+
 # def augment(images):
 #     rand_aug = iaa.RandAugment(n=2, m=7)
 #     images = tf.cast(images, tf.uint8)
