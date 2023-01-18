@@ -1,8 +1,8 @@
 import numpy as np
 
-from Create_Model import create_model
-from Evaluate_Model import model_evaluation
-from Train_Model import train_model
+from src.Create_Model import create_model
+from src.Evaluate_Model import model_evaluation
+from src.Train_Model import train_model
 
 
 def create_first_population(population=10):

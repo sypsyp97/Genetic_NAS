@@ -2,8 +2,8 @@ import numpy as np
 from tensorflow import keras
 from keras import layers
 
-from Decode_Layer import decoded_layer
-from Gene_Pool import conv_block
+from src.Decode_Layer import decoded_layer
+from src.Gene_Pool import conv_block
 
 
 def create_model(model_array=np.random.randint(0, 2, (9, 18)),

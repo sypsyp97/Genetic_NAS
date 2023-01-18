@@ -1,5 +1,5 @@
-from Gene_Pool import conv_block, inverted_residual_block, mobilevit_block
-from Search_Space import kernel_size_space, stride_space, filters_space,\
+from src.Gene_Pool import conv_block, inverted_residual_block, mobilevit_block
+from src.Search_Space import kernel_size_space, stride_space, filters_space,\
     expansion_factor_space, residual_space, normalization_space, activation_space, transformer_space, head_space
 
 

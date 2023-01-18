@@ -1,7 +1,7 @@
 import tensorflow_addons as tfa
 from tensorflow import keras
 
-from Create_Model import create_model
+from src.Create_Model import create_model
 
 
 def train_model(train_ds, val_ds,
