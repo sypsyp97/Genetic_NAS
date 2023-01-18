@@ -1,4 +1,6 @@
 # Byte-compiled / optimized / DLL files
+test.ipynb
+chest_xray_new
 .idea
 __pycache__/
 *.py[cod]

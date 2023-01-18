@@ -9,7 +9,9 @@ from sklearn.model_selection import train_test_split
 from tqdm.notebook import tqdm
 
 
-def get_data(data_dir, img_size=128, labels=['PNEUMONIA', 'NORMAL']):
+def get_data(data_dir, img_size=128, labels=None):
+    if labels is None:
+        labels = ['PNEUMONIA', 'NORMAL']
     data = []
     for label in labels:
         path = join(data_dir, label)
@@ -62,22 +64,22 @@ def get_data_array(train_dir='../content/chest_xray_new/train',
 
     return x_train, y_train, x_val, y_val, x_test, y_test
 
-
-def augment(images):
-    rand_aug = iaa.RandAugment(n=2, m=7)
-    images = tf.cast(images, tf.uint8)
-    return rand_aug(images=images.numpy())
+# TODO: Fix the RangAugment
+# def augment(images):
+#     rand_aug = iaa.RandAugment(n=2, m=7)
+#     images = tf.cast(images, tf.uint8)
+#     return rand_aug(images=images.numpy())
 
 
 def get_datasets(x_train, y_train, x_test, y_test, x_val, y_val,
                  auto=tf.data.AUTOTUNE, batch_size=64):
-    train_ds_rand = (
-        tf.data.Dataset.from_tensor_slices((x_train, y_train))
-        .shuffle(batch_size * 100)
-        .batch(batch_size)
-        .map(lambda x, y: (tf.py_function(augment, [x], [tf.float32])[0], y), num_parallel_calls=auto)
-        .prefetch(auto)
-    )
+    # train_ds_rand = (
+    #     tf.data.Dataset.from_tensor_slices((x_train, y_train))
+    #     .shuffle(batch_size * 100)
+    #     .batch(batch_size)
+    #     .map(lambda x, y: (tf.py_function(augment, [x], [tf.float32])[0], y), num_parallel_calls=auto)
+    #     .prefetch(auto)
+    # )
 
     test_ds = (
         tf.data.Dataset.from_tensor_slices((x_test, y_test))
@@ -100,4 +102,6 @@ def get_datasets(x_train, y_train, x_test, y_test, x_val, y_val,
         .prefetch(auto)
     )
 
-    return train_ds_rand, val_ds, test_ds, train_ds
+    return train_ds, val_ds, test_ds
+
+    # return train_ds_rand, val_ds, test_ds, train_ds

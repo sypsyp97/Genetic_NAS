@@ -12,13 +12,15 @@ def create_first_population(population=10):
     return first_population_array
 
 
-def select_best_2_model(x_test, y_test, population_array=np.random.randint(0, 2, (10, 9, 18))):
+def select_best_2_model(train_ds, val_ds, test_ds,
+                        population_array=np.random.randint(0, 2, (10, 9, 18)),
+                        epochs=20, num_classes=2):
     accuracies = []
     # tflite_accuracies = []
     for i in range(population_array.shape[0]):
-        model = create_model(population_array[i], num_classes=2)
-        trained_model, history = train_model(model=model, epochs=20)
-        acc = model_evaluation(trained_model, x_test, y_test)
+        model = create_model(population_array[i], num_classes=num_classes)
+        trained_model, history = train_model(train_ds, val_ds, model=model, epochs=epochs)
+        acc = model_evaluation(trained_model, test_ds)
         accuracies.append(acc)
 
     # TODO: Use custom fitness function to select the individual.
