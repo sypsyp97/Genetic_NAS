@@ -6,8 +6,7 @@ from src.Decode_Block import decoded_block
 from src.Gene_Pool import conv_block
 
 
-def create_model(model_array=np.random.randint(0, 2, (9, 18)),
-                 num_classes=2, input_shape=(128, 128, 3)):
+def create_model(model_array, num_classes=2, input_shape=(128, 128, 3)):
 
     inputs = layers.Input(shape=input_shape)
     x = layers.Rescaling(scale=1.0 / 255)(inputs)
