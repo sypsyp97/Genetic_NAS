@@ -74,7 +74,7 @@ def get_data_array(train_dir='../content/chest_xray_new/train',
 
 
 def get_datasets(x_train, y_train, x_test, y_test, x_val, y_val,
-                 auto=tf.data.AUTOTUNE, batch_size=2):
+                 auto=tf.data.AUTOTUNE, batch_size=16):
     # train_ds_rand = (
     #     tf.data.Dataset.from_tensor_slices((x_train, y_train))
     #     .shuffle(batch_size * 100)
