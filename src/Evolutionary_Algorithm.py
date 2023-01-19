@@ -3,6 +3,7 @@ import numpy as np
 from src.Create_Model import create_model, model_summary
 from src.Evaluate_Model import model_evaluation
 from src.Train_Model import train_model
+from src.Fitness_Function import calculate_fitness
 
 
 def create_first_population(population=10):
@@ -24,9 +25,12 @@ def select_best_2_model(train_ds,
         model_summary(model)
         trained_model, history = train_model(train_ds, val_ds, model=model, epochs=epochs)
         acc = model_evaluation(trained_model, test_ds)
-        fitness_list.append(acc)
 
-    # TODO: Use custom fitness function to select the individual.
+        # TODO: Calculate the memory_footprint_edge and inference_time
+        #       Need a Linux
+
+        fitness = calculate_fitness(acc)
+        fitness_list.append(fitness)
 
     best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:2]
     best_models_array = [population_array[i] for i in best_models_indices]
@@ -48,10 +52,11 @@ def mutate(model_array, mutate_prob=0.02):
     return mutated_array
 
 
+# TODO: Optimize the code, do not use for loop
 def create_next_population(parent_1_array, parent_2_array, population=10):
     next_population_array = np.random.randint(0, 2, (population, 9, 18))
     for i in range(population):
         next_population_array[i] = crossover(parent_1_array, parent_2_array)
-        next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.1)
+        next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.02)
 
     return next_population_array
