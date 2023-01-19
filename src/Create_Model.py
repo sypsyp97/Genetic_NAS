@@ -2,7 +2,7 @@ import numpy as np
 from tensorflow import keras
 from keras import layers
 
-from src.Decode_Layer import decoded_layer
+from src.Decode_Block import decoded_block
 from src.Gene_Pool import conv_block
 
 
@@ -14,7 +14,7 @@ def create_model(model_array=np.random.randint(0, 2, (9, 18)),
     x = conv_block(x, kernel_size=2, filters=16, strides=2)
 
     for i in range(9):
-        x = decoded_layer(x, model_array[i])
+        x = decoded_block(x, model_array[i])
 
     x = conv_block(x, filters=320, kernel_size=1, strides=1)
     x = layers.GlobalAvgPool2D()(x)

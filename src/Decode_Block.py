@@ -3,7 +3,7 @@ from src.Search_Space import kernel_size_space, stride_space, filters_space,\
     expansion_factor_space, residual_space, normalization_space, activation_space, transformer_space, head_space
 
 
-def decoded_layer(x, layer_array):
+def decoded_block(x, layer_array):
     layer_type_index = int(str(layer_array[0]) + str(layer_array[1]), 2)
     kernel_size_index = int(str(layer_array[2]) + str(layer_array[3]), 2)
     stride_index = layer_array[4]
