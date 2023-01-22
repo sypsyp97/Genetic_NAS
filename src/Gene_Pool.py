@@ -78,23 +78,23 @@ def inverted_residual_block(x, expansion_factor, output_channels, strides=1, ker
 
         if residual == 'Concatenate':
             m = layers.Concatenate(axis=-1)([m, x])
-        if residual == 'StochasticDepth':
+        elif residual == 'StochasticDepth':
             m = tfa.layers.StochasticDepth(0.5)([m, x])
-        if residual == 'Add':
+        elif residual == 'Add':
             m = layers.Add()([m, x])
-        if residual == 'None':
+        else:
             m = m
 
-    if tf.math.equal(x.shape[-1], output_channels) and strides == 2:
+    elif tf.math.equal(x.shape[-1], output_channels) and strides == 2:
         x = layers.Conv2D(output_channels, kernel_size=(2, 2), strides=2, padding="same")(x)
 
         if residual == 'Concatenate':
             m = layers.Concatenate(axis=-1)([m, x])
-        if residual == 'StochasticDepth':
+        elif residual == 'StochasticDepth':
             m = tfa.layers.StochasticDepth(0.5)([m, x])
-        if residual == 'Add':
+        elif residual == 'Add':
             m = layers.Add()([m, x])
-        if residual == 'None':
+        else:
             m = m
 
     else:
@@ -162,21 +162,21 @@ def mobilevit_block(x, num_blocks, projection_dim, strides=1, kernel_size=3, num
 
         if residual == 'Concatenate':
             local_global_features = layers.Concatenate(axis=-1)([folded_feature_map, x])
-        if residual == 'StochasticDepth':
+        elif residual == 'StochasticDepth':
             local_global_features = tfa.layers.StochasticDepth(0.5)([folded_feature_map, x])
-        if residual == 'Add':
+        elif residual == 'Add':
             local_global_features = layers.Add()([folded_feature_map, x])
         else:
             local_global_features = folded_feature_map
 
-    if strides == 2:
+    elif strides == 2:
         x = layers.Conv2D(x.shape[-1], kernel_size=(2, 2), strides=2, padding="same")(x)
 
         if residual == 'Concatenate':
             local_global_features = layers.Concatenate(axis=-1)([folded_feature_map, x])
-        if residual == 'StochasticDepth':
+        elif residual == 'StochasticDepth':
             local_global_features = tfa.layers.StochasticDepth(0.5)([folded_feature_map, x])
-        if residual == 'Add':
+        elif residual == 'Add':
             local_global_features = layers.Add()([folded_feature_map, x])
         else:
             local_global_features = folded_feature_map
