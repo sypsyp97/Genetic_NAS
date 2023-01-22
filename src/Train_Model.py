@@ -6,7 +6,7 @@ from src.Create_Model import create_model
 
 def train_model(train_ds, val_ds,
                 model, epochs=20,
-                checkpoint_filepath="E:/Genetic_NAS/checkpoints/checkpoint",
+                checkpoint_filepath="C:/Users/yd57yjac/PycharmProjects/Genetic_NAS/checkpoints/checkpoint",
                 optimizer=tfa.optimizers.AdaBelief(learning_rate=1e-3,
                                                    total_steps=10000,
                                                    warmup_proportion=0.1,

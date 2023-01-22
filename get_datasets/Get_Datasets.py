@@ -19,23 +19,17 @@ def get_data(data_dir, img_size=128, labels=None):
         for img in tqdm(listdir(path)):
             try:
                 img_arr = cv2.imread(join(path, img))
-                resized_arr = tf.image.resize(img_arr, (img_size, img_size))  # Reshaping images to preferred size
+                resized_arr = tf.image.resize(img_arr, (img_size, img_size)) # Reshaping images to preferred size
                 data.append((resized_arr, class_num))
             except Exception as e:
                 print(e)
     return data
 
 
-def augment(images):
-    rand_aug = iaa.RandAugment(n=2, m=7)
-    images = images.astype(np.uint8)
-    # images = tf.cast(images, tf.uint8)
-    return rand_aug(images=images)
-
-
 def get_data_array(train_dir='../content/chest_xray_new/train',
                    test_dir='../content/chest_xray_new/test',
                    img_size=128, num_classes=2):
+
     train = get_data(train_dir)
     test = get_data(test_dir)
 
@@ -68,35 +62,29 @@ def get_data_array(train_dir='../content/chest_xray_new/train',
     y_val = tf.one_hot(y_val, num_classes)
     y_test = tf.one_hot(y_test, num_classes)
 
-    ## Image Augmentation ###
-    x_train = augment(x_train)
-
     return x_train, y_train, x_val, y_val, x_test, y_test
-
 
 # TODO: Fix the RangAugment
 
-###### Here is the test code ######
+# def augment(images):
+#     rand_aug = iaa.RandAugment(n=2, m=7)
+#     images = tf.cast(images, tf.uint8)
+#     return rand_aug(images=images.numpy())
+
 
 def get_datasets(x_train, y_train, x_test, y_test, x_val, y_val,
-                 auto=tf.data.AUTOTUNE, batch_size=16):
-    # def augment(x, y):
-    #     x = tf.image.random_flip_left_right(x)
-    #     x = tf.image.random_brightness(x, max_delta=0.5)
-    #     x = tf.image.random_contrast(x, lower=0.5, upper=1.5)
-    #     return x, y
+                 auto=tf.data.AUTOTUNE, batch_size=2):
+    # train_ds_rand = (
+    #     tf.data.Dataset.from_tensor_slices((x_train, y_train))
+    #     .shuffle(batch_size * 100)
+    #     .batch(batch_size)
+    #     .map(lambda x, y: (tf.py_function(augment, [x], [tf.float32])[0], y), num_parallel_calls=auto)
+    #     .prefetch(auto)
+    # )
 
-    # def augment(x, y):
-    #     rand_aug = iaa.RandAugment(n=2, m=7)
-    #     x = tf.cast(x, tf.uint8)
-    #     x = rand_aug(images=x.numpy())
-    #     return x, y
-
-    train_ds = (
-        tf.data.Dataset.from_tensor_slices((x_train, y_train))
+    test_ds = (
+        tf.data.Dataset.from_tensor_slices((x_test, y_test))
         .shuffle(batch_size * 100)
-        # .map(augment, num_parallel_calls=auto)
-        .cache()
         .batch(batch_size)
         .prefetch(auto)
     )
@@ -104,55 +92,17 @@ def get_datasets(x_train, y_train, x_test, y_test, x_val, y_val,
     val_ds = (
         tf.data.Dataset.from_tensor_slices((x_val, y_val))
         .shuffle(batch_size * 100)
-        .cache()
         .batch(batch_size)
         .prefetch(auto)
     )
 
-    test_ds = (
-        tf.data.Dataset.from_tensor_slices((x_test, y_test))
+    train_ds = (
+        tf.data.Dataset.from_tensor_slices((x_train, y_train))
         .shuffle(batch_size * 100)
-        .cache()
         .batch(batch_size)
         .prefetch(auto)
     )
 
     return train_ds, val_ds, test_ds
 
-    # def get_datasets(x_train, y_train, x_test, y_test, x_val, y_val,
-#                  auto=tf.data.AUTOTUNE, batch_size=2):
-#     # train_ds_rand = (
-#     #     tf.data.Dataset.from_tensor_slices((x_train, y_train))
-#     #     .shuffle(batch_size * 100)
-#     #     .batch(batch_size)
-#     #     .map(lambda x, y: (tf.py_function(augment, [x], [tf.float32])[0], y), num_parallel_calls=auto)
-#     #     .prefetch(auto)
-#     # )
-#
-#     test_ds = (
-#         tf.data.Dataset.from_tensor_slices((x_test, y_test))
-#         .cache()
-#         .shuffle(batch_size * 100)
-#         .batch(batch_size)
-#         .prefetch(auto)
-#     )
-#
-#     val_ds = (
-#         tf.data.Dataset.from_tensor_slices((x_val, y_val))
-#         .cache()
-#         .shuffle(batch_size * 100)
-#         .batch(batch_size)
-#         .prefetch(auto)
-#     )
-#
-#     train_ds = (
-#         tf.data.Dataset.from_tensor_slices((x_train, y_train))
-#         .cache()
-#         .shuffle(batch_size * 100)
-#         .batch(batch_size)
-#         .prefetch(auto)
-#     )
-#
-#     return train_ds, val_ds, test_ds
-
-# return train_ds_rand, val_ds, test_ds, train_ds
+    # return train_ds_rand, val_ds, test_ds, train_ds
