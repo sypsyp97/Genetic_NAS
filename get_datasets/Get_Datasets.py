@@ -26,35 +26,19 @@ def get_data(data_dir, img_size=128, labels=None):
     return data
 
 
-def get_data_array(train_dir, test_dir,
-                   img_size=128, num_classes=2):
-    train = get_data(train_dir)
-    test = get_data(test_dir)
-
-    x_train = []
-    y_train = []
-
-    x_test = []
-    y_test = []
-
-    for feature, label in train:
-        x_train.append(feature)
-        y_train.append(label)
-
-    for feature, label in test:
-        x_test.append(feature)
-        y_test.append(label)
+def get_data_array(train_dir, test_dir, img_size=128, num_classes=2):
+    train_data = get_data(train_dir)
+    test_data = get_data(test_dir)
+    x_train, y_train = zip(*train_data)
+    x_test, y_test = zip(*test_data)
 
     x_train = np.array(x_train)
     x_test = np.array(x_test)
 
     x_train = x_train.reshape(-1, img_size, img_size, 3)
-    y_train = np.array(y_train)
-
     x_test = x_test.reshape(-1, img_size, img_size, 3)
-    y_test = np.array(y_test)
 
-    x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.1, random_state=33)
+    x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.1)
 
     y_train = tf.one_hot(y_train, num_classes)
     y_val = tf.one_hot(y_val, num_classes)
@@ -62,8 +46,6 @@ def get_data_array(train_dir, test_dir,
 
     return x_train, y_train, x_val, y_val, x_test, y_test
 
-
-# TODO: Fix the RangAugment
 
 def augment(images):
     rand_aug = iaa.RandAugment(n=2, m=7)
