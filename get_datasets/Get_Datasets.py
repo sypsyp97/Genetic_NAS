@@ -87,7 +87,5 @@ def get_datasets(x_train, y_train, x_val, y_val, x_test, y_test,
         .cache()
         .prefetch(auto)
     )
-    #
-    # return train_ds, val_ds, test_ds
 
     return train_ds_rand, val_ds, test_ds, train_ds
