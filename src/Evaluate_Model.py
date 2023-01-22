@@ -4,7 +4,6 @@ from tqdm.notebook import tqdm
 
 
 def model_evaluation(trained_model, test_ds):
-
     _, raw_model_accuracy = trained_model.evaluate(test_ds)
 
     return raw_model_accuracy

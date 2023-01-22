@@ -1,10 +1,11 @@
-import numpy as np
 import concurrent.futures
 
-from src.Create_Model import create_model, model_summary
+import numpy as np
+
+from src.Create_Model import create_model
 from src.Evaluate_Model import model_evaluation
-from src.Train_Model import train_model
 from src.Fitness_Function import calculate_fitness
+from src.Train_Model import train_model
 
 
 def create_first_population(population=10):

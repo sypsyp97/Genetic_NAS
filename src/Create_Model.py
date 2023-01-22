@@ -1,13 +1,11 @@
-import numpy as np
-from tensorflow import keras
 from keras import layers
+from tensorflow import keras
 
 from src.Decode_Block import decoded_block
 from src.Gene_Pool import conv_block
 
 
 def create_model(model_array, num_classes=2, input_shape=(128, 128, 3)):
-
     inputs = layers.Input(shape=input_shape)
     x = layers.Rescaling(scale=1.0 / 255)(inputs)
     x = conv_block(x, kernel_size=2, filters=16, strides=2)

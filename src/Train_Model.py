@@ -1,8 +1,6 @@
 import tensorflow_addons as tfa
 from tensorflow import keras
 
-from src.Create_Model import create_model
-
 
 def train_model(train_ds, val_ds,
                 model, epochs=20,
@@ -12,7 +10,6 @@ def train_model(train_ds, val_ds,
                                                    warmup_proportion=0.1,
                                                    min_lr=2e-6,
                                                    rectify=True)):
-
     checkpoint_callback = keras.callbacks.ModelCheckpoint(checkpoint_filepath,
                                                           monitor="val_accuracy",
                                                           save_best_only=True,
