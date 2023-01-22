@@ -18,7 +18,7 @@ def train_and_evaluate(i, population_array, train_ds, val_ds, test_ds, epochs, n
     trained_model, history = train_model(train_ds, val_ds, model=model, epochs=epochs)
     acc = model_evaluation(trained_model, test_ds)
     fitness = calculate_fitness(acc)
-    return (i, fitness)
+    return i, fitness
 
 
 def select_best_2_model(train_ds, val_ds, test_ds, population_array, epochs=20, num_classes=2):
