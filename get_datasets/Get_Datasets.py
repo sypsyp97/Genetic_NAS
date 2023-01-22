@@ -47,8 +47,8 @@ def get_data_array(train_dir, test_dir, img_size=128, num_classes=2):
     return x_train, y_train, x_val, y_val, x_test, y_test
 
 
-def augment(images):
-    rand_aug = iaa.RandAugment(n=2, m=7)
+def augment(images, seed=0):
+    rand_aug = iaa.RandAugment(n=2, m=7, seed=seed)
     images = tf.cast(images, tf.uint8)
     return rand_aug(images=images.numpy())
 
