@@ -2,7 +2,7 @@ import concurrent.futures
 
 import numpy as np
 
-from src.Create_Model import create_model
+from src.Create_Model import create_model, model_summary
 from src.Evaluate_Model import model_evaluation
 from src.Fitness_Function import calculate_fitness
 from src.Train_Model import train_model
@@ -14,51 +14,51 @@ def create_first_population(population=10):
     return first_population_array
 
 
-def train_and_evaluate(i, population_array, train_ds, val_ds, test_ds, epochs, num_classes):
-    model = create_model(population_array[i], num_classes=num_classes)
-    trained_model, history = train_model(train_ds, val_ds, model=model, epochs=epochs)
-    acc = model_evaluation(trained_model, test_ds)
-    fitness = calculate_fitness(acc)
-    return i, fitness
-
-
-def select_best_2_model(train_ds, val_ds, test_ds, population_array, epochs=20, num_classes=2):
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        fitness_results = [
-            executor.submit(train_and_evaluate, i, population_array, train_ds, val_ds, test_ds, epochs, num_classes) for
-            i in range(population_array.shape[0])]
-        fitness_list = [r.result()[1] for r in fitness_results]
-
-    best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:2]
-    best_models_array = [population_array[i] for i in best_models_indices]
-
-    return best_models_array[0], best_models_array[1]
-
-
-# def select_best_2_model(train_ds,
-#                         val_ds,
-#                         test_ds,
-#                         population_array,
-#                         epochs=20,
-#                         num_classes=2):
-#     fitness_list = []
-#     # tflite_accuracies = []
-#     for i in range(population_array.shape[0]):
-#         model = create_model(population_array[i], num_classes=num_classes)
-#         model_summary(model)
-#         trained_model, history = train_model(train_ds, val_ds, model=model, epochs=epochs)
-#         acc = model_evaluation(trained_model, test_ds)
+# def train_and_evaluate(i, population_array, train_ds, val_ds, test_ds, epochs, num_classes):
+#     model = create_model(population_array[i], num_classes=num_classes)
+#     trained_model, history = train_model(train_ds, val_ds, model=model, epochs=epochs)
+#     acc = model_evaluation(trained_model, test_ds)
+#     fitness = calculate_fitness(acc)
+#     return i, fitness
 #
-#         # TODO: Calculate the memory_footprint_edge and inference_time
-#         #       Need a Linux
 #
-#         fitness = calculate_fitness(acc)
-#         fitness_list.append(fitness)
+# def select_best_2_model(train_ds, val_ds, test_ds, population_array, epochs=20, num_classes=2):
+#     with concurrent.futures.ProcessPoolExecutor() as executor:
+#         fitness_results = [
+#             executor.submit(train_and_evaluate, i, population_array, train_ds, val_ds, test_ds, epochs, num_classes) for
+#             i in range(population_array.shape[0])]
+#         fitness_list = [r.result()[1] for r in fitness_results]
 #
 #     best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:2]
 #     best_models_array = [population_array[i] for i in best_models_indices]
 #
 #     return best_models_array[0], best_models_array[1]
+
+
+def select_best_2_model(train_ds,
+                        val_ds,
+                        test_ds,
+                        population_array,
+                        epochs=20,
+                        num_classes=2):
+    fitness_list = []
+    # tflite_accuracies = []
+    for i in range(population_array.shape[0]):
+        model = create_model(population_array[i], num_classes=num_classes)
+        model_summary(model)
+        trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
+        acc = model_evaluation(trained_model, test_ds)
+
+        # TODO: Calculate the memory_footprint_edge and inference_time
+        #       Need a Linux
+
+        fitness = calculate_fitness(acc)
+        fitness_list.append(fitness)
+
+    best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:2]
+    best_models_array = [population_array[i] for i in best_models_indices]
+
+    return best_models_array[0], best_models_array[1]
 
 
 def crossover(parent_1_array, parent_2_array):
