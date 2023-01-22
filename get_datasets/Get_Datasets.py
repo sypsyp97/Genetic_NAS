@@ -26,8 +26,7 @@ def get_data(data_dir, img_size=128, labels=None):
     return data
 
 
-def get_data_array(train_dir='../content/chest_xray_new/train',
-                   test_dir='../content/chest_xray_new/test',
+def get_data_array(train_dir, test_dir,
                    img_size=128, num_classes=2):
     train = get_data(train_dir)
     test = get_data(test_dir)
@@ -72,7 +71,7 @@ def augment(images):
     return rand_aug(images=images.numpy())
 
 
-def get_datasets(x_train, y_train, x_test, y_test, x_val, y_val,
+def get_datasets(x_train, y_train, x_val, y_val, x_test, y_test,
                  auto=tf.data.AUTOTUNE, batch_size=16):
     train_ds_rand = (
         tf.data.Dataset.from_tensor_slices((x_train, y_train))
