@@ -6,10 +6,17 @@ from src.Create_Model import create_model, model_summary
 from src.Evaluate_Model import model_evaluation
 from src.Fitness_Function import calculate_fitness
 from src.Train_Model import train_model
+from tools.Model_Checker import check_large_model
 
 
-def create_first_population(population=10):
+def create_first_population(population=10, num_classes=2):
     first_population_array = np.random.randint(0, 2, (population, 9, 18))
+
+    for i in range(population):
+        model = create_model(first_population_array[i], num_classes=num_classes)
+        while check_large_model(model):
+            first_population_array[i] = np.random.randint(0, 2, (9, 18))
+            model = create_model(first_population_array[i], num_classes=num_classes)
 
     return first_population_array
 
@@ -82,10 +89,18 @@ def mutate(model_array, mutate_prob=0.02):
 
 
 # TODO: Optimize the code, do not use for loop
-def create_next_population(parent_1_array, parent_2_array, population=10):
+def create_next_population(parent_1_array, parent_2_array, population=10, num_classes=2):
     next_population_array = np.random.randint(0, 2, (population, 9, 18))
+
     for i in range(population):
         next_population_array[i] = crossover(parent_1_array, parent_2_array)
         next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.02)
+
+    for i in range(population):
+        model = create_model(next_population_array[i], num_classes=num_classes)
+        while check_large_model(model):
+            next_population_array[i] = crossover(parent_1_array, parent_2_array)
+            next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.02)
+            model = create_model(next_population_array[i], num_classes=num_classes)
 
     return next_population_array

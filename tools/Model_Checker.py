@@ -1,7 +1,7 @@
 from keras import Model
 
 
-def check_model(model):
+def check_large_model(model):
     for layer in model.layers:
         # Check if the layer is a MultiHeadAttention layer
         if 'multi_head_attention' in str(layer):
@@ -10,5 +10,5 @@ def check_model(model):
             # Get the size of the second dimension
             size = output_shape[1]
             if size > 1024:
-                return False
-    return True
+                return True
+    return False
