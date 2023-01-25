@@ -61,20 +61,20 @@ def select_best_2_model(train_ds,
     return best_models_array[0], best_models_array[1]
 
 
-def crossover(parent_1_array, parent_2_array, probability_of_1=0.5):
-    mask = np.random.binomial(1, probability_of_1, size=(9, 18)).astype(np.bool_)
-    child_array = np.where(mask, parent_1_array, parent_2_array)
-    return child_array
-
-
-# def crossover(parent_1_array, parent_2_array):
-#     mask = np.random.randint(0, 2, size=(9, 18), dtype=np.bool_)
+# def crossover(parent_1_array, parent_2_array, probability_of_1=0.5):
+#     mask = np.random.binomial(1, probability_of_1, size=(9, 18)).astype(np.bool_)
 #     child_array = np.where(mask, parent_1_array, parent_2_array)
-#
 #     return child_array
 
 
-def mutate(model_array, mutate_prob=0.02):
+def crossover(parent_1_array, parent_2_array):
+    mask = np.random.randint(0, 2, size=(9, 18), dtype=np.bool_)
+    child_array = np.where(mask, parent_1_array, parent_2_array)
+
+    return child_array
+
+
+def mutate(model_array, mutate_prob=0.01):
     prob = np.random.uniform(size=(9, 18))
     mutated_array = np.where(prob < mutate_prob, np.logical_not(model_array), model_array)
 
@@ -87,13 +87,13 @@ def create_next_population(parent_1_array, parent_2_array, population=10, num_cl
 
     for i in range(population):
         next_population_array[i] = crossover(parent_1_array, parent_2_array)
-        next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.02)
+        next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.01)
 
     for i in range(population):
         model = create_model(next_population_array[i], num_classes=num_classes)
         while check_large_model(model):
             next_population_array[i] = crossover(parent_1_array, parent_2_array)
-            next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.02)
+            next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.01)
             model = create_model(next_population_array[i], num_classes=num_classes)
 
     return next_population_array

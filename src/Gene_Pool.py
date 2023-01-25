@@ -174,8 +174,6 @@ def transformer_block(encoded_patches, transformer_layers, projection_dim, num_h
         t2 = tfa.layers.StochasticDepth()([attention_output, encoded_patches])
         # Layer normalization 2.
         t3 = layers.LayerNormalization(epsilon=1e-6)(t2)
-        # t3 = layers.GaussianDropout(rate=0.2)(t3)
-        # t3 = tf.math.minimum(tf.nn.silu(t3), 6)
         t3 = ffn(t3, hidden_units=[projection_dim * 2, projection_dim], dropout_rate=0.1)
 
         # Skip connection 2.
