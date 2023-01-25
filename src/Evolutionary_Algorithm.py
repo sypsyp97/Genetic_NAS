@@ -35,6 +35,21 @@ def create_first_population(population=10, num_classes=2):
     return first_population_array
 
 
+'''This function takes in several inputs including the training, validation and test datasets, an array of models (
+population_array), the number of output classes and the number of training epochs. It then iterates through the 
+population_array, creating a model for each array element using the create_model function and passing in the array 
+element and number of output classes. It then trains the model using the train_model function, passing in the 
+train_ds, val_ds and the number of epochs. Then it evaluates the model on the test_ds using the model_evaluation 
+function.
+
+It then uses the accuracy of the model to calculate the fitness of the model using the calculate_fitness function. It 
+appends the fitness of each model to the fitness_list.
+
+After evaluating all models in population_array, it finds the indices of the two models with the highest fitness 
+values by sorting the fitness_list in descending order and taking the first two indices. It then creates an array of 
+the two best models using these indices and returns this array.'''
+
+
 def select_best_2_model(train_ds,
                         val_ds,
                         test_ds,
@@ -66,6 +81,17 @@ def select_best_2_model(train_ds,
 #     child_array = np.where(mask, parent_1_array, parent_2_array)
 #     return child_array
 
+'''This function takes in two inputs, parent_1_array and parent_2_array. The function performs a crossover operation 
+on these two arrays, creating a new child array.
+
+It starts by creating a boolean mask of shape (9,18) filled with random 0s and 1s using np.random.randint(). Then it 
+uses np.where() function with the mask, parent_1_array and parent_2_array as inputs to create a new child_array. 
+Elements of the child array are taken from parent_1_array where the mask is True, and from parent_2_array where the 
+mask is False.
+
+This way, the child array inherits certain characteristics from parent_1_array and certain characteristics from 
+parent_2_array, simulating the crossover operation in genetic algorithms.'''
+
 
 def crossover(parent_1_array, parent_2_array):
     mask = np.random.randint(0, 2, size=(9, 18), dtype=np.bool_)
@@ -74,11 +100,46 @@ def crossover(parent_1_array, parent_2_array):
     return child_array
 
 
+'''This function takes in two inputs, model_array and mutate_prob. The function performs a mutation operation on the 
+model_array, creating a new mutated_array.
+
+It starts by creating an array of random float values between 0 and 1 of shape (9,18) using np.random.uniform(). It 
+then uses np.where() function with this array, mutate_prob and the input model_array as inputs. It compares each 
+element of the random float array with mutate_prob, if the element is less than mutate_prob, it applies the numpy 
+function logical_not to the corresponding element of model_array, otherwise it keeps the element unchanged.
+
+Thus, this function will flip a certain percentage of elements in the model_array, simulating the mutation operation 
+in genetic algorithms. The percentage of elements flipped is determined by the mutate_prob input, which is set to 
+0.01 by default.'''
+
+
 def mutate(model_array, mutate_prob=0.01):
     prob = np.random.uniform(size=(9, 18))
     mutated_array = np.where(prob < mutate_prob, np.logical_not(model_array), model_array)
 
     return mutated_array
+
+
+'''This function takes in three inputs: parent_1_array, parent_2_array, population and num_classes. It creates the 
+next population of models for a genetic algorithm by default, it creates 10 models.
+
+The function starts by creating an array called next_population_array, which is filled with random integers between 0 
+and 1 of shape (population, 9, 18).
+
+Then it iterates through the population and applies the crossover function to the parent_1_array and parent_2_array, 
+creating a new child array. Then it applies the mutate function to this child array, flipping a certain percentage of 
+elements in the array.
+
+After this, it iterates through the population again and creates a model using the create_model function, passing in 
+the array element of next_population_array and the number of output classes. It then uses the check_large_model 
+function to check if the model has any MultiHeadAttention layers with an output size greater than 1024. If it finds 
+such a layer, it regenerates the child array by applying crossover and mutate again, until it finds a model that is 
+not violating the rule.
+
+Finally, it returns the next_population_array with all the models that don't have a MultiHeadAttention layer with 
+output size greater than 1024.
+
+It also uses the mutate_prob=0.01 as default value, which means it will flip 1% of elements'''
 
 
 # TODO: Optimize the code, do not use for loop
