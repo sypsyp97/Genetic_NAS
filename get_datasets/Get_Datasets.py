@@ -55,6 +55,7 @@ def augment(images, seed=0):
 
 def get_datasets(x_train, y_train, x_val, y_val, x_test, y_test,
                  auto=tf.data.AUTOTUNE, batch_size=16):
+
     train_ds_rand = (
         tf.data.Dataset.from_tensor_slices((x_train, y_train))
         .shuffle(batch_size * 100)
@@ -80,12 +81,4 @@ def get_datasets(x_train, y_train, x_val, y_val, x_test, y_test,
         .prefetch(auto)
     )
 
-    train_ds = (
-        tf.data.Dataset.from_tensor_slices((x_train, y_train))
-        .shuffle(batch_size * 100)
-        .batch(batch_size)
-        .cache()
-        .prefetch(auto)
-    )
-
-    return train_ds_rand, val_ds, test_ds, train_ds
+    return train_ds_rand, val_ds, test_ds
