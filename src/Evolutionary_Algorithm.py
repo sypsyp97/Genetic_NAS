@@ -61,11 +61,17 @@ def select_best_2_model(train_ds,
     return best_models_array[0], best_models_array[1]
 
 
-def crossover(parent_1_array, parent_2_array):
-    mask = np.random.permutation(np.concatenate((np.zeros(9 * 18 // 2),
-                                                 np.ones(9 * 18 // 2)))).reshape(9, 18).astype(np.bool_)
+def crossover(parent_1_array, parent_2_array, probability_of_1=0.5):
+    mask = np.random.binomial(1, probability_of_1, size=(9, 18)).astype(np.bool_)
     child_array = np.where(mask, parent_1_array, parent_2_array)
     return child_array
+
+
+# def crossover(parent_1_array, parent_2_array):
+#     mask = np.random.randint(0, 2, size=(9, 18), dtype=np.bool_)
+#     child_array = np.where(mask, parent_1_array, parent_2_array)
+#
+#     return child_array
 
 
 def mutate(model_array, mutate_prob=0.02):
