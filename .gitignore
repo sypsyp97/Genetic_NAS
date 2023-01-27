@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 checkpoints
+results
 chest_xray_new
 .idea
 __pycache__/
