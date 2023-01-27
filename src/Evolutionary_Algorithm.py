@@ -158,3 +158,22 @@ def create_next_population(parent_1_array, parent_2_array, population=10, num_cl
             model = create_model(next_population_array[i], num_classes=num_classes)
 
     return next_population_array
+
+
+'''This function implements a genetic algorithm for training a neural network. The function takes in 
+several parameters such as a training dataset, validation dataset, test dataset, number of generations, population 
+size, number of classes, and number of epochs. If a population array is not provided, it creates an initial 
+population of models using the create_first_population function. The function then loops through the specified number 
+of generations, where in each iteration it selects the best 2 models using the select_best_2_model function, 
+and creates a new population using the create_next_population function. The final population array is returned.'''
+
+
+def start_evolution(train_ds, val_ds, test_ds, generations, population, num_classes, epochs, population_array=None):
+    if population_array is None:
+        population_array = create_first_population(population=population, num_classes=num_classes)
+
+    for i in range(generations):
+        a, b = select_best_2_model(train_ds, val_ds, test_ds, population_array, epochs=epochs, num_classes=num_classes)
+        population_array = create_next_population(a, b, population=population, num_classes=num_classes)
+
+    return population_array
