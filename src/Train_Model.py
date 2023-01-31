@@ -25,6 +25,10 @@ def train_model(train_ds, val_ds,
                                                           save_best_only=True,
                                                           save_weights_only=True)
 
+    optimizer = tfa.optimizers.LazyAdam(learning_rate=0.002)
+    optimizer = tfa.optimizers.MovingAverage(optimizer)
+    optimizer = tfa.optimizers.Lookahead(optimizer)
+
     model.compile(optimizer=optimizer,
                   loss=keras.losses.CategoricalCrossentropy(from_logits=True),
                   metrics=['accuracy'])
