@@ -30,7 +30,7 @@ def train_model(train_ds, val_ds,
     optimizer = tfa.optimizers.Lookahead(optimizer)
 
     model.compile(optimizer=optimizer,
-                  loss=keras.losses.CategoricalCrossentropy(from_logits=True),
+                  loss=keras.losses.CategoricalCrossentropy(label_smoothing=0.1),
                   metrics=['accuracy'])
 
     # TODO: Find a solution to the problem of large transformer sequence.

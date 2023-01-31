@@ -29,7 +29,7 @@ def create_model(model_array, num_classes=2, input_shape=(256, 256, 3)):
     x = conv_block(x, filters=320, kernel_size=1, strides=1)
     x = layers.GlobalAvgPool2D()(x)
     x = layers.Dropout(0.5)(x)
-    outputs = layers.Dense(num_classes)(x)
+    outputs = layers.Dense(num_classes, activation="softmax")(x)
 
     return keras.Model(inputs, outputs)
 
