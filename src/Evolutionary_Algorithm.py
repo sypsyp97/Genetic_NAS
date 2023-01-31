@@ -176,7 +176,7 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
         population_array = create_first_population(population=population, num_classes=num_classes)
 
     for i in range(generations):
-        print('Generations: ', generations)
+        print('Generations: ', i)
         a, b, max_fitness = select_best_2_model(train_ds, val_ds, test_ds, population_array, epochs=epochs, num_classes=num_classes)
         population_array = create_next_population(a, b, population=population, num_classes=num_classes)
         fitness_history.append(max_fitness)
