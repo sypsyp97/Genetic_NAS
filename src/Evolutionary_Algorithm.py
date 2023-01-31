@@ -24,7 +24,7 @@ Finally it returns the first_population_array with all the models that don't hav
 output size greater than 1024.'''
 
 
-def create_first_population(population=10, num_classes=2):
+def create_first_population(population=10, num_classes=5):
     first_population_array = np.random.randint(0, 2, (population, 9, 18))
 
     for i in range(population):
@@ -176,7 +176,7 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
         population_array = create_first_population(population=population, num_classes=num_classes)
 
     for i in range(generations):
-        print('Generations: ' + generations)
+        print('Generations: ', generations)
         a, b, max_fitness = select_best_2_model(train_ds, val_ds, test_ds, population_array, epochs=epochs, num_classes=num_classes)
         population_array = create_next_population(a, b, population=population, num_classes=num_classes)
         fitness_history.append(max_fitness)
