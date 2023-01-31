@@ -18,7 +18,7 @@ the output. It then applies a global average pooling layer and a dropout layer w
 it adds a dense layer with num_classes number of units and returns the model.'''
 
 
-def create_model(model_array, num_classes=2, input_shape=(128, 128, 3)):
+def create_model(model_array, num_classes=2, input_shape=(256, 256, 3)):
     inputs = layers.Input(shape=input_shape)
     x = layers.Rescaling(scale=1.0 / 255)(inputs)
     x = conv_block(x, kernel_size=2, filters=16, strides=2)

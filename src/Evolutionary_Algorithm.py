@@ -1,5 +1,6 @@
 import numpy as np
 
+
 from src.Create_Model import create_model, model_summary
 from src.Evaluate_Model import model_evaluation
 from src.Fitness_Function import calculate_fitness
@@ -54,8 +55,8 @@ def select_best_2_model(train_ds,
                         val_ds,
                         test_ds,
                         population_array,
-                        epochs=20,
-                        num_classes=2):
+                        epochs=30,
+                        num_classes=5):
     fitness_list = []
     # tflite_accuracies = []
     for i in range(population_array.shape[0]):
@@ -70,10 +71,11 @@ def select_best_2_model(train_ds,
         fitness = calculate_fitness(acc)
         fitness_list.append(fitness)
 
+    max_fitness = (fitness_list.sort())[-1]
     best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:2]
     best_models_array = [population_array[i] for i in best_models_indices]
 
-    return best_models_array[0], best_models_array[1]
+    return best_models_array[0], best_models_array[1], max_fitness
 
 
 # def crossover(parent_1_array, parent_2_array, probability_of_1=0.5):
@@ -143,7 +145,7 @@ It also uses the mutate_prob=0.01 as default value, which means it will flip 1% 
 
 
 # TODO: Optimize the code, do not use for loop
-def create_next_population(parent_1_array, parent_2_array, population=10, num_classes=2):
+def create_next_population(parent_1_array, parent_2_array, population=10, num_classes=5):
     next_population_array = np.random.randint(0, 2, (population, 9, 18))
 
     for i in range(population):
@@ -169,11 +171,14 @@ and creates a new population using the create_next_population function. The fina
 
 
 def start_evolution(train_ds, val_ds, test_ds, generations, population, num_classes, epochs, population_array=None):
+    fitness_history = []
     if population_array is None:
         population_array = create_first_population(population=population, num_classes=num_classes)
 
     for i in range(generations):
-        a, b = select_best_2_model(train_ds, val_ds, test_ds, population_array, epochs=epochs, num_classes=num_classes)
+        print('Generations: ' + generations)
+        a, b, max_fitness = select_best_2_model(train_ds, val_ds, test_ds, population_array, epochs=epochs, num_classes=num_classes)
         population_array = create_next_population(a, b, population=population, num_classes=num_classes)
+        fitness_history.append(max_fitness)
 
-    return population_array
+    return population_array, fitness_history, a, b

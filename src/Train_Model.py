@@ -26,7 +26,7 @@ def train_model(train_ds, val_ds,
                                                           save_weights_only=True)
 
     model.compile(optimizer=optimizer,
-                  loss=keras.losses.BinaryFocalCrossentropy(from_logits=True),
+                  loss=keras.losses.CategoricalCrossentropy(from_logits=True),
                   metrics=['accuracy'])
 
     # TODO: Find a solution to the problem of large transformer sequence.
