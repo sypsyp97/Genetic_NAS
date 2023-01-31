@@ -20,17 +20,20 @@ def train_model(train_ds, val_ds,
                                                    warmup_proportion=0.1,
                                                    min_lr=2e-6,
                                                    rectify=True)):
+
     checkpoint_callback = keras.callbacks.ModelCheckpoint(checkpoint_filepath,
                                                           monitor="val_accuracy",
                                                           save_best_only=True,
                                                           save_weights_only=True)
 
-    optimizer = tfa.optimizers.LazyAdam(learning_rate=0.002)
-    optimizer = tfa.optimizers.MovingAverage(optimizer)
-    optimizer = tfa.optimizers.Lookahead(optimizer)
+    loss_fn = keras.losses.CategoricalCrossentropy(label_smoothing=0.1)
 
-    model.compile(optimizer=optimizer,
-                  loss=keras.losses.CategoricalCrossentropy(label_smoothing=0.1),
+    opt = tfa.optimizers.LazyAdam(learning_rate=0.002)
+    opt = tfa.optimizers.MovingAverage(opt)
+    opt = tfa.optimizers.Lookahead(opt)
+
+    model.compile(optimizer=opt,
+                  loss=loss_fn,
                   metrics=['accuracy'])
 
     # TODO: Find a solution to the problem of large transformer sequence.
