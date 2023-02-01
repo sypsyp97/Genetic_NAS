@@ -71,11 +71,13 @@ def select_best_2_model(train_ds,
         fitness = calculate_fitness(acc)
         fitness_list.append(fitness)
 
-    max_fitness = (fitness_list.sort())[-1]
+    max_fitness = np.max(fitness_list)
+    average_fitness = np.average(fitness_list)
+
     best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:2]
     best_models_array = [population_array[i] for i in best_models_indices]
 
-    return best_models_array[0], best_models_array[1], max_fitness
+    return best_models_array[0], best_models_array[1], max_fitness, average_fitness
 
 
 # def crossover(parent_1_array, parent_2_array, probability_of_1=0.5):
@@ -171,14 +173,16 @@ and creates a new population using the create_next_population function. The fina
 
 
 def start_evolution(train_ds, val_ds, test_ds, generations, population, num_classes, epochs, population_array=None):
-    fitness_history = []
+    max_fitness_history = []
+    average_fitness_history = []
     if population_array is None:
         population_array = create_first_population(population=population, num_classes=num_classes)
 
     for i in range(generations):
         print('Generations: ', i)
-        a, b, max_fitness = select_best_2_model(train_ds, val_ds, test_ds, population_array, epochs=epochs, num_classes=num_classes)
+        a, b, max_fitness, average_fitness = select_best_2_model(train_ds, val_ds, test_ds, population_array, epochs=epochs, num_classes=num_classes)
         population_array = create_next_population(a, b, population=population, num_classes=num_classes)
-        fitness_history.append(max_fitness)
+        max_fitness_history.append(max_fitness)
+        average_fitness_history.append(average_fitness)
 
-    return population_array, fitness_history, a, b
+    return population_array, max_fitness_history, average_fitness_history, a, b
