@@ -16,6 +16,9 @@ from tensorflow.keras import mixed_precision
 policy = mixed_precision.Policy('mixed_float16')
 mixed_precision.set_global_policy(policy)
 
+tfds.core.utils.gcs_utils._is_gcs_disabled = True
+os.environ['NO_GCE_CHECK'] = 'true'
+
 image_size = 256
 batch_size = 64
 auto = tf.data.AUTOTUNE
