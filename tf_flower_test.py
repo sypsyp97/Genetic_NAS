@@ -13,11 +13,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow.keras import mixed_precision
 
-physical_devices = tf.config.list_physical_devices('GPU')
-try:
-    tf.config.experimental.set_memory_growth(physical_devices[0], True)
-except:
-    pass
+policy = mixed_precision.Policy('mixed_float16')
+mixed_precision.set_global_policy(policy)
 
 image_size = 256
 batch_size = 64
@@ -49,19 +46,22 @@ def prepare_dataset(dataset, is_training=True):
     return dataset.batch(batch_size).prefetch(auto)
 
 
-train_dataset, val_dataset = tfds.load(
-    "tf_flowers", split=["train[:90%]", "train[90%:]"], as_supervised=True
-)
-
-num_train = train_dataset.cardinality()
-num_val = val_dataset.cardinality()
-print(f"Number of training examples: {num_train}")
-print(f"Number of validation examples: {num_val}")
-
-train_dataset = prepare_dataset(train_dataset, is_training=True)
-val_dataset = prepare_dataset(val_dataset, is_training=False)
-
 if __name__ == '__main__':
+    physical_devices = tf.config.list_physical_devices('GPU')
+    try:
+        tf.config.experimental.set_memory_growth(physical_devices[0], True)
+    except:
+        pass
+
+    train_dataset, val_dataset = tfds.load("tf_flowers", split=["train[:90%]", "train[90%:]"], as_supervised=True)
+    num_train = train_dataset.cardinality()
+    num_val = val_dataset.cardinality()
+    train_dataset = prepare_dataset(train_dataset, is_training=True)
+    val_dataset = prepare_dataset(val_dataset, is_training=False)
+
+    print(f"Number of training examples: {num_train}")
+    print(f"Number of validation examples: {num_val}")
+
     population_array, max_fitness_history, average_fitness_history, a, b = start_evolution(train_ds=train_dataset,
                                                                                            val_ds=val_dataset,
                                                                                            test_ds=val_dataset,
@@ -69,4 +69,3 @@ if __name__ == '__main__':
                                                                                            population=10,
                                                                                            num_classes=5,
                                                                                            epochs=20)
-
