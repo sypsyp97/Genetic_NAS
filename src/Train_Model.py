@@ -14,12 +14,7 @@ the trained model and the history of the training process.'''
 
 def train_model(train_ds, val_ds,
                 model, epochs=20,
-                checkpoint_filepath="C:/Users/yd57yjac/PycharmProjects/Genetic_NAS/checkpoints/checkpoint",
-                optimizer=tfa.optimizers.AdaBelief(learning_rate=1e-3,
-                                                   total_steps=10000,
-                                                   warmup_proportion=0.1,
-                                                   min_lr=2e-6,
-                                                   rectify=True)):
+                checkpoint_filepath="checkpoints/checkpoint"):
 
     checkpoint_callback = keras.callbacks.ModelCheckpoint(checkpoint_filepath,
                                                           monitor="val_accuracy",
