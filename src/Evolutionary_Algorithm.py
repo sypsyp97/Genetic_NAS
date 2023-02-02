@@ -186,6 +186,7 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
         population_array = create_next_population(a, b, population=population, num_classes=num_classes)
         max_fitness_history.append(max_fitness)
         average_fitness_history.append(average_fitness)
+
     print("max_fitness_history: ", max_fitness_history, "\n", "average_fitness_history: ", average_fitness_history)
 
     return population_array, max_fitness_history, average_fitness_history, a, b
