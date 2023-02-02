@@ -77,6 +77,8 @@ def select_best_2_model(train_ds,
     best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:2]
     best_models_array = [population_array[i] for i in best_models_indices]
 
+    print("max_fitness: ", max_fitness, "\n", "average_fitness: ", average_fitness)
+
     return best_models_array[0], best_models_array[1], max_fitness, average_fitness
 
 
@@ -184,5 +186,6 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
         population_array = create_next_population(a, b, population=population, num_classes=num_classes)
         max_fitness_history.append(max_fitness)
         average_fitness_history.append(average_fitness)
+        print("max_fitness_history: ", max_fitness_history, "\n", "average_fitness_history: ", average_fitness_history)
 
     return population_array, max_fitness_history, average_fitness_history, a, b
