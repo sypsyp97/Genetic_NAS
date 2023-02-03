@@ -1,5 +1,5 @@
 from get_datasets.Get_Datasets import get_data_array, get_datasets
-from src.Train_Model import train_model
+from src.Create_Model import train_model
 from src.Create_Model import create_model
 from src.Evolutionary_Algorithm import create_next_population, create_first_population, select_best_2_model, \
     start_evolution

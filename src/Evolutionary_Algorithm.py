@@ -4,7 +4,7 @@ import numpy as np
 from src.Create_Model import create_model, model_summary
 from src.Evaluate_Model import model_evaluation
 from src.Fitness_Function import calculate_fitness
-from src.Train_Model import train_model
+from src.Create_Model import train_model
 from tools.Model_Checker import check_large_model
 
 '''This function creates the first population of models for a genetic algorithm, by default it creates 10 models. The 
