@@ -4,8 +4,8 @@
 #SBATCH --time=24:00:00
 #SBATCH --gres=gpu:a100:2
 #SBATCH --cpus-per-task=1
-#SBATCH -o /home/hpc/iwb3/iwb3005h/output/slurm-%j.out
-#SBATCH -e /home/hpc/iwb3/iwb3005h/output/slurm-%j.err
+#SBATCH -o /home/hpc/iwb3/iwb3005h/output/multigpu_genetic-%j.out
+#SBATCH -e /home/hpc/iwb3/iwb3005h/output/multigpu_genetic-%j.err
 #
 # do no export environment variables
 #SBATCH --export=NONE
