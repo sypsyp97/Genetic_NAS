@@ -14,10 +14,10 @@ import numpy as np
 from tensorflow.keras import mixed_precision
 
 
-if tf.config.list_physical_devices('GPU'):
-    strategy = tf.distribute.MirroredStrategy()
-else:  # Use the Default Strategy
-    strategy = tf.distribute.get_strategy()
+# if tf.config.list_physical_devices('GPU'):
+#     strategy = tf.distribute.MirroredStrategy()
+# else:  # Use the Default Strategy
+#     strategy = tf.distribute.get_strategy()
 
 
 policy = mixed_precision.Policy('mixed_float16')
