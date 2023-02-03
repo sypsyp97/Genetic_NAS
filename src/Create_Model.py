@@ -1,8 +1,15 @@
 from keras import layers
 from tensorflow import keras
+import tensorflow as tf
 
 from src.Decode_Block import decoded_block
 from src.Gene_Pool import conv_block
+
+
+if tf.config.list_physical_devices('GPU'):
+    strategy = tf.distribute.MirroredStrategy()
+else:  # Use the Default Strategy
+    strategy = tf.distribute.get_strategy()
 
 '''This function takes in 3 inputs, model_array, num_classes and input_shape. The function creates a keras model by defining the layers in it.
 
@@ -19,19 +26,21 @@ it adds a dense layer with num_classes number of units and returns the model.'''
 
 
 def create_model(model_array, num_classes=5, input_shape=(256, 256, 3)):
-    inputs = layers.Input(shape=input_shape)
-    x = layers.Rescaling(scale=1.0 / 255)(inputs)
-    x = conv_block(x, kernel_size=2, filters=16, strides=2)
+    with strategy.scope():
+        inputs = layers.Input(shape=input_shape)
+        x = layers.Rescaling(scale=1.0 / 255)(inputs)
+        x = conv_block(x, kernel_size=2, filters=16, strides=2)
 
-    for i in range(9):
-        x = decoded_block(x, model_array[i])
+        for i in range(9):
+            x = decoded_block(x, model_array[i])
 
-    x = conv_block(x, filters=320, kernel_size=1, strides=1)
-    x = layers.GlobalAvgPool2D()(x)
+        x = conv_block(x, filters=320, kernel_size=1, strides=1)
+        x = layers.GlobalAvgPool2D()(x)
 
-    outputs = layers.Dense(num_classes, activation="softmax")(x)
+        outputs = layers.Dense(num_classes, activation="softmax")(x)
+        model = keras.Model(inputs, outputs)
 
-    return keras.Model(inputs, outputs)
+    return model
 
 
 def model_summary(model):
