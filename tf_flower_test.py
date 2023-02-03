@@ -59,11 +59,11 @@ def prepare_dataset(dataset, is_training=True):
 
 
 if __name__ == '__main__':
-    # physical_devices = tf.config.list_physical_devices('GPU')
-    # try:
-    #     tf.config.experimental.set_memory_growth(physical_devices[0], True)
-    # except:
-    #     pass
+    physical_devices = tf.config.list_physical_devices('GPU')
+    try:
+        tf.config.experimental.set_memory_growth(physical_devices[0], True)
+    except:
+        pass
 
     train_dataset, val_dataset = tfds.load("tf_flowers", split=["train[:90%]", "train[90%:]"], download=False, as_supervised=True)
     num_train = train_dataset.cardinality()
@@ -77,7 +77,7 @@ if __name__ == '__main__':
     population_array, max_fitness_history, average_fitness_history, a, b = start_evolution(train_ds=train_dataset,
                                                                                            val_ds=val_dataset,
                                                                                            test_ds=val_dataset,
-                                                                                           generations=5,
-                                                                                           population=10,
+                                                                                           generations=20,
+                                                                                           population=16,
                                                                                            num_classes=5,
-                                                                                           epochs=20)
+                                                                                           epochs=30)
