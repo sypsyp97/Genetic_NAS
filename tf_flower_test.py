@@ -55,7 +55,7 @@ def prepare_dataset(dataset, is_training=True):
     if is_training:
         dataset = dataset.shuffle(batch_size * 10)
     dataset = dataset.map(preprocess_dataset(is_training), num_parallel_calls=auto)
-    return dataset.batch(batch_size).prefetch(auto)
+    return dataset.cache().batch(batch_size).prefetch(auto)
 
 
 if __name__ == '__main__':
