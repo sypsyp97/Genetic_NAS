@@ -77,7 +77,7 @@ if __name__ == '__main__':
     population_array, max_fitness_history, average_fitness_history, a, b = start_evolution(train_ds=train_dataset,
                                                                                            val_ds=val_dataset,
                                                                                            test_ds=val_dataset,
-                                                                                           generations=20,
-                                                                                           population=16,
+                                                                                           generations=15,
+                                                                                           population=15,
                                                                                            num_classes=5,
                                                                                            epochs=30)
