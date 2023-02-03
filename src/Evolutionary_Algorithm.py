@@ -119,7 +119,7 @@ in genetic algorithms. The percentage of elements flipped is determined by the m
 0.01 by default.'''
 
 
-def mutate(model_array, mutate_prob=0.01):
+def mutate(model_array, mutate_prob=0.05):
     prob = np.random.uniform(size=(9, 18))
     mutated_array = np.where(prob < mutate_prob, np.logical_not(model_array), model_array)
 

@@ -57,7 +57,7 @@ if __name__ == '__main__':
     except:
         pass
 
-    train_dataset, val_dataset = tfds.load("tf_flowers", split=["train[:90%]", "train[90%:]"], as_supervised=True)
+    train_dataset, val_dataset = tfds.load("tf_flowers", split=["train[:90%]", "train[90%:]"], download=False, as_supervised=True)
     num_train = train_dataset.cardinality()
     num_val = val_dataset.cardinality()
     train_dataset = prepare_dataset(train_dataset, is_training=True)
