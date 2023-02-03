@@ -28,8 +28,9 @@ tfds.core.utils.gcs_utils._is_gcs_disabled = True
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['NO_GCE_CHECK'] = 'true'
 
+num_of_gpu = 2
 image_size = 256
-batch_size = 64
+batch_size = 64 * num_of_gpu
 auto = tf.data.AUTOTUNE
 resize_bigger = 280
 num_classes = 5
