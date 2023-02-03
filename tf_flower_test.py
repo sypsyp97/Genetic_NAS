@@ -53,7 +53,7 @@ def preprocess_dataset(is_training=True):
 
 def prepare_dataset(dataset, is_training=True):
     if is_training:
-        dataset = dataset.shuffle(batch_size * 10)
+        dataset = dataset.shuffle(batch_size * 100)
     dataset = dataset.map(preprocess_dataset(is_training), num_parallel_calls=auto)
     return dataset.cache().batch(batch_size).prefetch(auto)
 
