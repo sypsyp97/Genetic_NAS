@@ -2,10 +2,7 @@ import tensorflow_addons as tfa
 from tensorflow import keras
 import tensorflow as tf
 
-if tf.config.list_physical_devices('GPU'):
-    strategy = tf.distribute.MirroredStrategy()
-else:  # Use the Default Strategy
-    strategy = tf.distribute.get_strategy()
+strategy = tf.distribute.get_strategy()
 
 '''This function is used for training a model using the TensorFlow Keras API. It takes in a training dataset (
 train_ds), a validation dataset (val_ds), the model to be trained, the number of training epochs, and a filepath to 
