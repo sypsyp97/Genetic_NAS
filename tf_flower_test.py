@@ -13,6 +13,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow.keras import mixed_precision
 
+
+if tf.config.list_physical_devices('GPU'):
+    strategy = tf.distribute.MirroredStrategy()
+else:  # Use the Default Strategy
+    strategy = tf.distribute.get_strategy()
+
+
 policy = mixed_precision.Policy('mixed_float16')
 mixed_precision.set_global_policy(policy)
 
@@ -51,11 +58,11 @@ def prepare_dataset(dataset, is_training=True):
 
 
 if __name__ == '__main__':
-    physical_devices = tf.config.list_physical_devices('GPU')
-    try:
-        tf.config.experimental.set_memory_growth(physical_devices[0], True)
-    except:
-        pass
+    # physical_devices = tf.config.list_physical_devices('GPU')
+    # try:
+    #     tf.config.experimental.set_memory_growth(physical_devices[0], True)
+    # except:
+    #     pass
 
     train_dataset, val_dataset = tfds.load("tf_flowers", split=["train[:90%]", "train[90%:]"], download=False, as_supervised=True)
     num_train = train_dataset.cardinality()
@@ -69,7 +76,7 @@ if __name__ == '__main__':
     population_array, max_fitness_history, average_fitness_history, a, b = start_evolution(train_ds=train_dataset,
                                                                                            val_ds=val_dataset,
                                                                                            test_ds=val_dataset,
-                                                                                           generations=10,
+                                                                                           generations=5,
                                                                                            population=10,
                                                                                            num_classes=5,
                                                                                            epochs=20)
