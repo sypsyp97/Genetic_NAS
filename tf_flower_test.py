@@ -3,11 +3,13 @@ import tensorflow_datasets as tfds
 
 from tensorflow.keras import mixed_precision
 
-if tf.config.list_physical_devices('GPU'):
-    strategy = tf.distribute.MirroredStrategy()
-else:  # Use the Default Strategy
-    strategy = tf.distribute.get_strategy()
+# if tf.config.list_physical_devices('GPU'):
+#     strategy = tf.distribute.MirroredStrategy()
+# else:  # Use the Default Strategy
+#     strategy = tf.distribute.get_strategy()
 
+
+strategy = tf.distribute.MirroredStrategy(["GPU:0", "GPU:1"])
 policy = mixed_precision.Policy('mixed_float16')
 mixed_precision.set_global_policy(policy)
 
@@ -48,18 +50,14 @@ def prepare_dataset(dataset, is_training=True):
 
 
 if __name__ == '__main__':
-
-
-
-
-
     # physical_devices = tf.config.list_physical_devices('GPU')
     # try:
     #     tf.config.experimental.set_memory_growth(physical_devices[0], True)
     # except:
     #     pass
 
-    train_dataset, val_dataset = tfds.load("tf_flowers", split=["train[:90%]", "train[90%:]"], download=False, as_supervised=True)
+    train_dataset, val_dataset = tfds.load("tf_flowers", split=["train[:90%]", "train[90%:]"], download=False,
+                                           as_supervised=True)
     num_train = train_dataset.cardinality()
     num_val = val_dataset.cardinality()
     train_dataset = prepare_dataset(train_dataset, is_training=True)
