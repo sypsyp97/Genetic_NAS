@@ -48,4 +48,3 @@ def evaluate_tflite_model(tflite_model, x_test, y_test, tfl_int8=True):
 
     return float(tflite_accuracy.result())
 
-# TODO: Implement the fitness function
