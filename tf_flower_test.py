@@ -8,8 +8,8 @@ from tensorflow.keras import mixed_precision
 # else:  # Use the Default Strategy
 #     strategy = tf.distribute.get_strategy()
 
-
 strategy = tf.distribute.MirroredStrategy(["GPU:0", "GPU:1"])
+
 policy = mixed_precision.Policy('mixed_float16')
 mixed_precision.set_global_policy(policy)
 
