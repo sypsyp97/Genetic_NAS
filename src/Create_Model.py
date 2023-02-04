@@ -6,10 +6,6 @@ import tensorflow as tf
 from src.Decode_Block import decoded_block
 from src.Gene_Pool import conv_block
 
-if tf.config.list_physical_devices('GPU'):
-    strategy = tf.distribute.MirroredStrategy()
-else:  # Use the Default Strategy
-    strategy = tf.distribute.get_strategy()
 
 '''This function takes in 3 inputs, model_array, num_classes and input_shape. The function creates a keras model by defining the layers in it.
 
@@ -26,6 +22,11 @@ it adds a dense layer with num_classes number of units and returns the model.'''
 
 
 def create_model(model_array, num_classes=5, input_shape=(256, 256, 3)):
+    if tf.config.list_physical_devices('GPU'):
+        strategy = tf.distribute.MirroredStrategy()
+    else:  # Use the Default Strategy
+        strategy = tf.distribute.get_strategy()
+
     with strategy.scope():
         inputs = layers.Input(shape=input_shape)
         x = layers.Rescaling(scale=1.0 / 255)(inputs)
@@ -52,6 +53,11 @@ def model_summary(model):
 def train_model(train_ds, val_ds,
                 model, epochs=20,
                 checkpoint_filepath="checkpoints/checkpoint"):
+
+    if tf.config.list_physical_devices('GPU'):
+        strategy = tf.distribute.MirroredStrategy()
+    else:  # Use the Default Strategy
+        strategy = tf.distribute.get_strategy()
 
     with strategy.scope():
         checkpoint_callback = keras.callbacks.ModelCheckpoint(checkpoint_filepath,
