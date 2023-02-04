@@ -1,6 +1,5 @@
 import numpy as np
 
-
 from src.Create_Model import create_model, model_summary
 from src.Evaluate_Model import model_evaluation
 from src.Fitness_Function import calculate_fitness
@@ -68,7 +67,8 @@ def select_best_2_model(train_ds,
         # TODO: Calculate the memory_footprint_edge and inference_time
         #       Need a Linux
 
-        fitness = calculate_fitness(acc)
+        # fitness = calculate_fitness(acc)
+        fitness = acc
         fitness_list.append(fitness)
 
     max_fitness = np.max(fitness_list)
@@ -182,7 +182,8 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
 
     for i in range(generations):
         print('Generations: ', i)
-        a, b, max_fitness, average_fitness = select_best_2_model(train_ds, val_ds, test_ds, population_array, epochs=epochs, num_classes=num_classes)
+        a, b, max_fitness, average_fitness = select_best_2_model(train_ds, val_ds, test_ds, population_array,
+                                                                 epochs=epochs, num_classes=num_classes)
         population_array = create_next_population(a, b, population=population, num_classes=num_classes)
         max_fitness_history.append(max_fitness)
         average_fitness_history.append(average_fitness)
