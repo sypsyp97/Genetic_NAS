@@ -84,4 +84,4 @@ if __name__ == '__main__':
                                                                                            generations=16,
                                                                                            population=16,
                                                                                            num_classes=5,
-                                                                                           epochs=24)
+                                                                                           epochs=25)
