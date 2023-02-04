@@ -22,10 +22,11 @@ it adds a dense layer with num_classes number of units and returns the model.'''
 
 
 def create_model(model_array, num_classes=5, input_shape=(256, 256, 3)):
-    if tf.config.list_physical_devices('GPU'):
-        strategy = tf.distribute.MirroredStrategy()
-    else:  # Use the Default Strategy
-        strategy = tf.distribute.get_strategy()
+    # if tf.config.list_physical_devices('GPU'):
+    #     strategy = tf.distribute.MirroredStrategy()
+    # else:  # Use the Default Strategy
+    #     strategy = tf.distribute.get_strategy()
+    strategy = tf.distribute.get_strategy()
 
     with strategy.scope():
         inputs = layers.Input(shape=input_shape)
@@ -54,10 +55,12 @@ def train_model(train_ds, val_ds,
                 model, epochs=20,
                 checkpoint_filepath="checkpoints/checkpoint"):
 
-    if tf.config.list_physical_devices('GPU'):
-        strategy = tf.distribute.MirroredStrategy()
-    else:  # Use the Default Strategy
-        strategy = tf.distribute.get_strategy()
+    # if tf.config.list_physical_devices('GPU'):
+    #     strategy = tf.distribute.MirroredStrategy()
+    # else:  # Use the Default Strategy
+    #     strategy = tf.distribute.get_strategy()
+
+    strategy = tf.distribute.get_strategy()
 
     with strategy.scope():
         checkpoint_callback = keras.callbacks.ModelCheckpoint(checkpoint_filepath,
