@@ -52,6 +52,7 @@ def model_summary(model):
 def train_model(train_ds, val_ds,
                 model, epochs=20,
                 checkpoint_filepath="checkpoints/checkpoint"):
+
     with strategy.scope():
         checkpoint_callback = keras.callbacks.ModelCheckpoint(checkpoint_filepath,
                                                               monitor="val_accuracy",
