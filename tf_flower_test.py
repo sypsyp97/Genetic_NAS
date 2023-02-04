@@ -8,10 +8,10 @@ if tf.config.list_physical_devices('GPU'):
 else:  # Use the Default Strategy
     strategy = tf.distribute.get_strategy()
 
-from get_datasets.Get_Datasets import get_data_array, get_datasets
-from src.Create_Model import train_model
-from src.Create_Model import create_model
-from src.Evolutionary_Algorithm import create_next_population, create_first_population, select_best_2_model, start_evolution
+policy = mixed_precision.Policy('mixed_float16')
+mixed_precision.set_global_policy(policy)
+
+from src.Evolutionary_Algorithm import start_evolution
 
 # tfds.core.utils.gcs_utils._is_gcs_disabled = True
 # os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -49,8 +49,7 @@ def prepare_dataset(dataset, is_training=True):
 
 if __name__ == '__main__':
 
-    policy = mixed_precision.Policy('mixed_float16')
-    mixed_precision.set_global_policy(policy)
+
 
 
 
