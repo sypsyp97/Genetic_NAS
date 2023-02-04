@@ -2,6 +2,11 @@ import numpy as np
 import tensorflow as tf
 from tqdm.notebook import tqdm
 
+if tf.config.list_physical_devices('GPU'):
+    strategy = tf.distribute.MirroredStrategy()
+else:  # Use the Default Strategy
+    strategy = tf.distribute.get_strategy()
+
 
 def model_evaluation(trained_model, test_ds):
     _, raw_model_accuracy = trained_model.evaluate(test_ds)
