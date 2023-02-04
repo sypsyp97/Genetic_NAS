@@ -1,8 +1,7 @@
 from get_datasets.Get_Datasets import get_data_array, get_datasets
 from src.Create_Model import train_model
 from src.Create_Model import create_model
-from src.Evolutionary_Algorithm import create_next_population, create_first_population, select_best_2_model, \
-    start_evolution
+from src.Evolutionary_Algorithm import create_next_population, create_first_population, select_best_2_model, start_evolution
 
 import os
 import random
@@ -24,13 +23,12 @@ policy = mixed_precision.Policy('mixed_float16')
 mixed_precision.set_global_policy(policy)
 
 
-tfds.core.utils.gcs_utils._is_gcs_disabled = True
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-os.environ['NO_GCE_CHECK'] = 'true'
+# tfds.core.utils.gcs_utils._is_gcs_disabled = True
+# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+# os.environ['NO_GCE_CHECK'] = 'true'
 
-num_of_gpu = 2
 image_size = 256
-batch_size = 64 * num_of_gpu
+batch_size = 64
 auto = tf.data.AUTOTUNE
 resize_bigger = 280
 num_classes = 5
