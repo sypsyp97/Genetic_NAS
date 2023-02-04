@@ -7,10 +7,10 @@ from src.Fitness_Function import calculate_fitness
 from src.Create_Model import train_model
 from tools.Model_Checker import check_large_model
 
-if tf.config.list_physical_devices('GPU'):
-    strategy = tf.distribute.MirroredStrategy()
-else:  # Use the Default Strategy
-    strategy = tf.distribute.get_strategy()
+# if tf.config.list_physical_devices('GPU'):
+#     strategy = tf.distribute.MirroredStrategy()
+# else:  # Use the Default Strategy
+#     strategy = tf.distribute.get_strategy()
 
 '''This function creates the first population of models for a genetic algorithm, by default it creates 10 models. The 
 function takes two inputs, population and num_classes. population is the number of models to be created and 
