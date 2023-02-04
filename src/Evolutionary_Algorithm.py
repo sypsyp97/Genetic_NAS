@@ -57,6 +57,7 @@ def select_best_2_model(train_ds,
                         population_array,
                         epochs=30,
                         num_classes=5):
+
     fitness_list = []
     # tflite_accuracies = []
     for i in range(population_array.shape[0]):
