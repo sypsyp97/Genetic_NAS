@@ -12,10 +12,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow.keras import mixed_precision
 
-policy = mixed_precision.Policy('mixed_float16')
-mixed_precision.set_global_policy(policy)
-
-
 # tfds.core.utils.gcs_utils._is_gcs_disabled = True
 # os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # os.environ['NO_GCE_CHECK'] = 'true'
@@ -51,6 +47,15 @@ def prepare_dataset(dataset, is_training=True):
 
 
 if __name__ == '__main__':
+
+    policy = mixed_precision.Policy('mixed_float16')
+    mixed_precision.set_global_policy(policy)
+
+    if tf.config.list_physical_devices('GPU'):
+        strategy = tf.distribute.MirroredStrategy()
+    else:  # Use the Default Strategy
+        strategy = tf.distribute.get_strategy()
+
     # physical_devices = tf.config.list_physical_devices('GPU')
     # try:
     #     tf.config.experimental.set_memory_growth(physical_devices[0], True)
