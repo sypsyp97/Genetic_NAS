@@ -100,8 +100,8 @@ parent_2_array, simulating the crossover operation in genetic algorithms.'''
 
 
 def crossover(parent_1_array, parent_2_array):
-    # mask = np.random.binomial(1, 0.5, size=(9, 18)).astype(np.bool_)
-    mask = np.random.randint(0, 2, size=(9, 18), dtype=np.bool_)
+    mask = np.random.binomial(1, 0.5, size=(9, 18)).astype(np.bool_)
+    # mask = np.random.randint(0, 2, size=(9, 18), dtype=np.bool_)
     child_array = np.where(mask, parent_1_array, parent_2_array)
 
     return child_array
