@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow.keras import mixed_precision
 
-tf.config.optimizer.set_jit(True)
+# tf.config.optimizer.set_jit(True)
 
 
 # if tf.config.list_physical_devices('GPU'):
