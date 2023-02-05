@@ -82,6 +82,6 @@ if __name__ == '__main__':
                                                                                            val_ds=val_dataset,
                                                                                            test_ds=val_dataset,
                                                                                            generations=16,
-                                                                                           population=16,
+                                                                                           population=14,
                                                                                            num_classes=5,
-                                                                                           epochs=25)
+                                                                                           epochs=30)
