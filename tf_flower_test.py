@@ -28,6 +28,7 @@ mixed_precision.set_global_policy(policy)
 tfds.core.utils.gcs_utils._is_gcs_disabled = True
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['NO_GCE_CHECK'] = 'true'
+tf.random.set_seed(666)
 
 image_size = 256
 batch_size = 64
