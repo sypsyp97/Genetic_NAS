@@ -76,7 +76,8 @@ def select_best_2_model(train_ds,
 
     best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:2]
     best_models_array = [population_array[i] for i in best_models_indices]
-
+    print(best_models_array[0])
+    print(best_models_array[1])
     print("max_fitness: ", max_fitness, "\n", "average_fitness: ", average_fitness)
 
     return best_models_array[0], best_models_array[1], max_fitness, average_fitness
