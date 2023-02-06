@@ -67,7 +67,7 @@ if __name__ == '__main__':
     except:
         pass
 
-    train_dataset, val_dataset, test_dataset = tfds.load("tf_flowers",
+    train_dataset, val_dataset, test_dataset = tfds.load("tf_flowers", shuffle_files=True,
                                                          split=["train[:80%]", "train[80%:90%]", "train[90%:]"],
                                                          download=False, as_supervised=True)
 
