@@ -105,7 +105,7 @@ def crossover(parent_1_array, parent_2_array):
     return child_array
 
 
-def mutate(model_array, mutate_prob=0.05):
+def mutate(model_array, mutate_prob=0.025):
     prob = np.random.uniform(size=(9, 18))
     mutated_array = np.where(prob < mutate_prob, np.logical_not(model_array), model_array)
 
@@ -118,13 +118,13 @@ def create_next_population(parent_1_array, parent_2_array, population=10, num_cl
 
     for i in range(population):
         next_population_array[i] = crossover(parent_1_array, parent_2_array)
-        next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.05)
+        next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.025)
 
     for i in range(population):
         model = create_model(next_population_array[i], num_classes=num_classes)
         while check_large_model(model):
             next_population_array[i] = crossover(parent_1_array, parent_2_array)
-            next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.05)
+            next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.025)
             model = create_model(next_population_array[i], num_classes=num_classes)
 
     return next_population_array
