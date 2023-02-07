@@ -57,8 +57,6 @@ def select_best_2_model(train_ds,
     # Select the two best individuals using Roulette Wheel Selection
     best_models_indices = [roulette_wheel_selection(fitness_list) for _ in range(2)]
     best_models_array = [population_array[i] for i in best_models_indices]
-    print(best_models_array[0])
-    print(best_models_array[1])
     print("max_fitness: ", max_fitness, "\n", "average_fitness: ", average_fitness)
 
     return best_models_array[0], best_models_array[1], max_fitness, average_fitness
