@@ -67,7 +67,7 @@ def select_best_2_model(train_ds,
     # tflite_accuracies = []
     for i in range(population_array.shape[0]):
         model = create_model(population_array[i], num_classes=num_classes)
-        # model_summary(model)
+        model_summary(model)
         trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
         acc = model_evaluation(trained_model, test_ds)
 
