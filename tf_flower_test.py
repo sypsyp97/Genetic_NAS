@@ -1,16 +1,7 @@
-from get_datasets.Get_Datasets import get_data_array, get_datasets
-from src.Create_Model import train_model
-from src.Create_Model import create_model
-from src.Evolutionary_Algorithm import create_next_population, create_first_population, select_best_2_model, \
-    start_evolution
-
 import os
-import random
+
 import tensorflow as tf
 import tensorflow_datasets as tfds
-
-import matplotlib.pyplot as plt
-import numpy as np
 from tensorflow.keras import mixed_precision
 
 if tf.config.list_physical_devices('GPU'):
