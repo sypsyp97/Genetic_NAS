@@ -78,8 +78,6 @@ def train_model(train_ds, val_ds,
         model.compile(optimizer=opt,
                       loss=loss_fn,
                       metrics=['accuracy'])
-
-
         try:
             history = model.fit(train_ds,
                                 epochs=epochs,
