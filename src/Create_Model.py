@@ -79,11 +79,17 @@ def train_model(train_ds, val_ds,
                       loss=loss_fn,
                       metrics=['accuracy'])
 
-        history = model.fit(train_ds,
-                            epochs=epochs,
-                            validation_data=val_ds,
-                            callbacks=[checkpoint_callback])
 
-        model.load_weights(checkpoint_filepath)
+        try:
+            history = model.fit(train_ds,
+                                epochs=epochs,
+                                validation_data=val_ds,
+                                callbacks=[checkpoint_callback])
+
+            model.load_weights(checkpoint_filepath)
+        except Exception as e:
+            print(e)
+            model.save("results/bad_model.h5")
+            history = None
 
     return model, history
