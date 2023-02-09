@@ -74,7 +74,8 @@ def select_best_2_model(train_ds,
         # TODO: Calculate the memory_footprint_edge and inference_time
         #       Need a Linux
 
-        fitness = calculate_fitness(acc)
+        # fitness = calculate_fitness(acc)
+        fitness = acc
         fitness_list.append(fitness)
 
     max_fitness = np.max(fitness_list)
