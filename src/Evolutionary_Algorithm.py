@@ -84,15 +84,11 @@ def select_best_2_model(train_ds,
     best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:2]
     best_models_array = [population_array[i] for i in best_models_indices]
 
+    print("fitness_list:", fitness_list)
     print("max_fitness: ", max_fitness, "\n", "average_fitness: ", average_fitness)
 
     return best_models_array[0], best_models_array[1], max_fitness, average_fitness
 
-
-# def crossover(parent_1_array, parent_2_array, probability_of_1=0.5):
-#     mask = np.random.binomial(1, probability_of_1, size=(9, 18)).astype(np.bool_)
-#     child_array = np.where(mask, parent_1_array, parent_2_array)
-#     return child_array
 
 '''This function takes in two inputs, parent_1_array and parent_2_array. The function performs a crossover operation 
 on these two arrays, creating a new child array.
