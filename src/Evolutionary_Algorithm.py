@@ -105,6 +105,7 @@ def select_best_2_model(train_ds,
     # tflite_accuracies = []
     for i in range(population_array.shape[0]):
         acc = model_evaluation(results[i][0], test_ds)
+        # fitness = calculate_fitness(acc)
         fitness = acc
         fitness_list.append(fitness)
 
