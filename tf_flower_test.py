@@ -51,26 +51,32 @@ def prepare_dataset(dataset, is_training=True):
 
 
 if __name__ == '__main__':
-    # physical_devices = tf.config.list_physical_devices('GPU')
-    # try:
-    #     tf.config.experimental.set_memory_growth(physical_devices[0], True)
-    # except:
-    #     pass
+    physical_devices = tf.config.list_physical_devices('GPU')
+    try:
+        tf.config.experimental.set_memory_growth(physical_devices[0], True)
+    except:
+        pass
 
-    train_dataset, val_dataset = tfds.load("tf_flowers", split=["train[:90%]", "train[90%:]"], download=False,
-                                           as_supervised=True)
+    train_dataset, val_dataset, test_dataset = tfds.load("tf_flowers", shuffle_files=True,
+                                                         split=["train[:80%]", "train[80%:90%]", "train[90%:]"],
+                                                         download=False, as_supervised=True)
+
     num_train = train_dataset.cardinality()
     num_val = val_dataset.cardinality()
+    num_test = test_dataset.cardinality()
     train_dataset = prepare_dataset(train_dataset, is_training=True)
     val_dataset = prepare_dataset(val_dataset, is_training=False)
+    test_dataset = prepare_dataset(test_dataset, is_training=False)
 
     print(f"Number of training examples: {num_train}")
     print(f"Number of validation examples: {num_val}")
+    print(f"Number of test examples: {num_test}")
 
     population_array, max_fitness_history, average_fitness_history, a, b = start_evolution(train_ds=train_dataset,
                                                                                            val_ds=val_dataset,
-                                                                                           test_ds=val_dataset,
-                                                                                           generations=10,
-                                                                                           population=10,
+                                                                                           test_ds=test_dataset,
+                                                                                           generations=16,
+                                                                                           population=16,
                                                                                            num_classes=5,
-                                                                                           epochs=20)
+                                                                                           epochs=24)
+
