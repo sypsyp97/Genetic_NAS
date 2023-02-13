@@ -4,12 +4,12 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 from tensorflow.keras import mixed_precision
 
-if tf.config.list_physical_devices('GPU'):
-    strategy = tf.distribute.MirroredStrategy()
-else:  # Use the Default Strategy
-    strategy = tf.distribute.get_strategy()
+# if tf.config.list_physical_devices('GPU'):
+#     strategy = tf.distribute.MirroredStrategy()
+# else:  # Use the Default Strategy
+#     strategy = tf.distribute.get_strategy()
 
-strategy = tf.distribute.MirroredStrategy(["GPU:0", "GPU:1"])
+# strategy = tf.distribute.MirroredStrategy(["GPU:0", "GPU:1"])
 
 policy = mixed_precision.Policy('mixed_float16')
 mixed_precision.set_global_policy(policy)
