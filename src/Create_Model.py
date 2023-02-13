@@ -28,21 +28,35 @@ def create_model(model_array, num_classes=5, input_shape=(256, 256, 3)):
     # else:  # Use the Default Strategy
     #     strategy = tf.distribute.get_strategy()
     # strategy = tf.distribute.get_strategy()
+    #
+    # with strategy.scope():
+    #     inputs = layers.Input(shape=input_shape)
+    #     x = layers.Rescaling(scale=1.0 / 255)(inputs)
+    #     x = conv_block(x, kernel_size=2, filters=16, strides=2)
+    #
+    #     for i in range(9):
+    #         x = decoded_block(x, model_array[i])
+    #
+    #     x = conv_block(x, filters=320, kernel_size=1, strides=1)
+    #     x = layers.GlobalAvgPool2D()(x)
+    #
+    #     outputs = layers.Dense(num_classes, activation="softmax")(x)
+    #
+    #     model = keras.Model(inputs, outputs)
 
-    with strategy.scope():
-        inputs = layers.Input(shape=input_shape)
-        x = layers.Rescaling(scale=1.0 / 255)(inputs)
-        x = conv_block(x, kernel_size=2, filters=16, strides=2)
+    inputs = layers.Input(shape=input_shape)
+    x = layers.Rescaling(scale=1.0 / 255)(inputs)
+    x = conv_block(x, kernel_size=2, filters=16, strides=2)
 
-        for i in range(9):
-            x = decoded_block(x, model_array[i])
+    for i in range(9):
+        x = decoded_block(x, model_array[i])
 
-        x = conv_block(x, filters=320, kernel_size=1, strides=1)
-        x = layers.GlobalAvgPool2D()(x)
+    x = conv_block(x, filters=320, kernel_size=1, strides=1)
+    x = layers.GlobalAvgPool2D()(x)
 
-        outputs = layers.Dense(num_classes, activation="softmax")(x)
+    outputs = layers.Dense(num_classes, activation="softmax")(x)
 
-        model = keras.Model(inputs, outputs)
+    model = keras.Model(inputs, outputs)
 
     return model
 
@@ -52,8 +66,49 @@ def model_summary(model):
     print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
 
+# def train_model(train_ds, val_ds,
+#                 model, epochs=20,
+#                 checkpoint_filepath="checkpoints/checkpoint"):
+#
+#     # if tf.config.list_physical_devices('GPU'):
+#     #     strategy = tf.distribute.MirroredStrategy()
+#     # else:  # Use the Default Strategy
+#     #     strategy = tf.distribute.get_strategy()
+#
+#     # strategy = tf.distribute.get_strategy()
+#
+#     with strategy.scope():
+#         checkpoint_callback = keras.callbacks.ModelCheckpoint(checkpoint_filepath,
+#                                                               monitor="val_accuracy",
+#                                                               save_best_only=True,
+#                                                               save_weights_only=True)
+#
+#         loss_fn = keras.losses.CategoricalCrossentropy(label_smoothing=0.1)
+#
+#         opt = tfa.optimizers.LazyAdam(learning_rate=0.002)
+#         opt = tfa.optimizers.MovingAverage(opt)
+#         opt = tfa.optimizers.Lookahead(opt)
+#
+#         model.compile(optimizer=opt,
+#                       loss=loss_fn,
+#                       metrics=['accuracy'])
+#         try:
+#             history = model.fit(train_ds,
+#                                 epochs=epochs,
+#                                 validation_data=val_ds,
+#                                 callbacks=[checkpoint_callback])
+#
+#             model.load_weights(checkpoint_filepath)
+#         except Exception as e:
+#             print(e)
+#             model.save("results/bad_model.h5")
+#             history = None
+#
+#     return model, history
+
+
 def train_model(train_ds, val_ds,
-                model, epochs=20,
+                model, gpu_id, epochs=20,
                 checkpoint_filepath="checkpoints/checkpoint"):
 
     # if tf.config.list_physical_devices('GPU'):
@@ -63,7 +118,7 @@ def train_model(train_ds, val_ds,
 
     # strategy = tf.distribute.get_strategy()
 
-    with strategy.scope():
+    with tf.device(f"/GPU:{gpu_id}"):
         checkpoint_callback = keras.callbacks.ModelCheckpoint(checkpoint_filepath,
                                                               monitor="val_accuracy",
                                                               save_best_only=True,

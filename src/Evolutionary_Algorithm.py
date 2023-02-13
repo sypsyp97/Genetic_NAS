@@ -56,25 +56,55 @@ values by sorting the fitness_list in descending order and taking the first two 
 the two best models using these indices and returns this array.'''
 
 
+# def select_best_2_model(train_ds,
+#                         val_ds,
+#                         test_ds,
+#                         population_array,
+#                         epochs=30,
+#                         num_classes=5):
+#
+#     fitness_list = []
+#     # tflite_accuracies = []
+#     for i in range(population_array.shape[0]):
+#         model = create_model(population_array[i], num_classes=num_classes)
+#         model_summary(model)
+#         trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
+#         acc = model_evaluation(trained_model, test_ds)
+#
+#         # TODO: Calculate the memory_footprint_edge and inference_time
+#         #       Need a Linux
+#
+#         # fitness = calculate_fitness(acc)
+#         fitness = acc
+#         fitness_list.append(fitness)
+#
+#     max_fitness = np.max(fitness_list)
+#     average_fitness = np.average(fitness_list)
+#
+#     best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:2]
+#     best_models_array = [population_array[i] for i in best_models_indices]
+#
+#     print("fitness_list:", fitness_list)
+#     print("max_fitness: ", max_fitness, "\n", "average_fitness: ", average_fitness)
+#
+#     return best_models_array[0], best_models_array[1], max_fitness, average_fitness
+
+
 def select_best_2_model(train_ds,
                         val_ds,
                         test_ds,
                         population_array,
                         epochs=30,
-                        num_classes=5):
-
+                        num_classes=5,
+                        num_gpus=2):
     fitness_list = []
+    models = [create_model(population_array[i], num_classes=num_classes) for i in range(population_array.shape[0])]
+    checkpoint_filepaths = [f"checkpoints/checkpoint_{i}" for i in range(population_array.shape[0])]
+    results = [train_model(train_ds, val_ds, models[i], i % num_gpus, epochs, checkpoint_filepath=checkpoint_filepaths[i]) for i in range(population_array.shape[0])]
+
     # tflite_accuracies = []
     for i in range(population_array.shape[0]):
-        model = create_model(population_array[i], num_classes=num_classes)
-        model_summary(model)
-        trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
-        acc = model_evaluation(trained_model, test_ds)
-
-        # TODO: Calculate the memory_footprint_edge and inference_time
-        #       Need a Linux
-
-        # fitness = calculate_fitness(acc)
+        acc = model_evaluation(results[i][0], test_ds)
         fitness = acc
         fitness_list.append(fitness)
 
@@ -83,8 +113,8 @@ def select_best_2_model(train_ds,
 
     best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:2]
     best_models_array = [population_array[i] for i in best_models_indices]
-
-    print("fitness_list:", fitness_list)
+    print(best_models_array[0])
+    print(best_models_array[1])
     print("max_fitness: ", max_fitness, "\n", "average_fitness: ", average_fitness)
 
     return best_models_array[0], best_models_array[1], max_fitness, average_fitness
@@ -184,7 +214,8 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
         population_array = create_first_population(population=population, num_classes=num_classes)
 
     for i in range(generations):
-        a, b, max_fitness, average_fitness = select_best_2_model(train_ds, val_ds, test_ds, population_array, epochs=epochs, num_classes=num_classes)
+        a, b, max_fitness, average_fitness = select_best_2_model(train_ds, val_ds, test_ds, population_array,
+                                                                 epochs=epochs, num_classes=num_classes)
         population_array = create_next_population(a, b, population=population, num_classes=num_classes)
         max_fitness_history.append(max_fitness)
         average_fitness_history.append(average_fitness)
