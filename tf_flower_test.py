@@ -76,7 +76,7 @@ if __name__ == '__main__':
                                                                                            val_ds=val_dataset,
                                                                                            test_ds=test_dataset,
                                                                                            generations=5,
-                                                                                           population=5,
+                                                                                           population=6,
                                                                                            num_classes=5,
                                                                                            epochs=20)
 
