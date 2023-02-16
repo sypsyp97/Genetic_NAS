@@ -62,12 +62,12 @@ def create_first_population(population=10, num_classes=5):
 #     return best_models_array[0], best_models_array[1], best_models_array[2], max_fitness, average_fitness
 
 
-def select_best_2_model(train_ds,
-                        val_ds,
-                        test_ds,
-                        population_array,
-                        epochs=30,
-                        num_classes=5):
+def select_models(train_ds,
+                  val_ds,
+                  test_ds,
+                  population_array,
+                  epochs=30,
+                  num_classes=5):
     fitness_list = []
     # tflite_accuracies = []
     for i in range(population_array.shape[0]):
@@ -136,8 +136,8 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
         population_array = create_first_population(population=population, num_classes=num_classes)
 
     for i in range(generations):
-        a, b, c, max_fitness, average_fitness = select_best_2_model(train_ds, val_ds, test_ds, population_array,
-                                                                    epochs=epochs, num_classes=num_classes)
+        a, b, c, max_fitness, average_fitness = select_models(train_ds, val_ds, test_ds, population_array,
+                                                              epochs=epochs, num_classes=num_classes)
         population_array = create_next_population(a, b, c, population=population, num_classes=num_classes)
         max_fitness_history.append(max_fitness)
         average_fitness_history.append(average_fitness)

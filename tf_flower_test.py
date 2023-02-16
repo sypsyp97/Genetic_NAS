@@ -1,7 +1,7 @@
 from get_datasets.Get_Datasets import get_data_array, get_datasets
 from src.Create_Model import train_model
 from src.Create_Model import create_model
-from src.Evolutionary_Algorithm import create_next_population, create_first_population, select_best_2_model, \
+from src.Evolutionary_Algorithm import create_next_population, create_first_population, select_models, \
     start_evolution
 
 import os
@@ -86,6 +86,6 @@ if __name__ == '__main__':
                                                                                            val_ds=val_dataset,
                                                                                            test_ds=test_dataset,
                                                                                            generations=20,
-                                                                                           population=16,
+                                                                                           population=25,
                                                                                            num_classes=5,
-                                                                                           epochs=24)
+                                                                                           epochs=30)
