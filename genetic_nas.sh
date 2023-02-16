@@ -1,9 +1,10 @@
 #!/bin/bash -l
 #SBATCH --partition=a100
 #SBATCH --job-name=genetic_nas
-#SBATCH --time=24:00:00
+#SBATCH --time=72:00:00
 #SBATCH --gres=gpu:a100:1
 #SBATCH --cpus-per-task=1
+#SBATCH --qos=a100_aibe
 #SBATCH -o /home/hpc/iwb3/iwb3005h/output/genetic_nas-%j.out
 #SBATCH -e /home/hpc/iwb3/iwb3005h/output/genetic_nas-%j.err
 #
