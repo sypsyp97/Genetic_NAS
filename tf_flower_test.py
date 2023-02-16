@@ -82,10 +82,11 @@ if __name__ == '__main__':
     print(f"Number of validation examples: {num_val}")
     print(f"Number of test examples: {num_test}")
 
-    population_array, max_fitness_history, average_fitness_history, a, b = start_evolution(train_ds=train_dataset,
-                                                                                           val_ds=val_dataset,
-                                                                                           test_ds=test_dataset,
-                                                                                           generations=20,
-                                                                                           population=25,
-                                                                                           num_classes=5,
-                                                                                           epochs=30)
+    population_array, max_fitness_history, average_fitness_history, best_models_arrays = start_evolution(
+        train_ds=train_dataset,
+        val_ds=val_dataset,
+        test_ds=test_dataset,
+        generations=20,
+        population=25,
+        num_classes=5,
+        epochs=30)
