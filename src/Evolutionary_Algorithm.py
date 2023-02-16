@@ -86,20 +86,20 @@ def select_models(train_ds,
     max_fitness = np.max(fitness_list)
     average_fitness = np.average(fitness_list)
 
-    best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:5]
-    best_models_arrays = [population_array[i] for i in best_models_indices]
-    print("best_parents_1: ", best_models_arrays[0])
-    print("best_parents_1: ", best_models_arrays[1])
-    print("best_parents_1: ", best_models_arrays[2])
-    print("best_parents_1: ", best_models_arrays[3])
-    print("best_parents_1: ", best_models_arrays[4])
+    best_models_indices = sorted(range(len(fitness_list)), key=lambda j: fitness_list[j], reverse=True)[:5]
+    best_models_arrays = [population_array[k] for k in best_models_indices]
+    print("best_parent_1: ", best_models_arrays[0])
+    print("best_parent_2: ", best_models_arrays[1])
+    print("best_parent_3: ", best_models_arrays[2])
+    print("best_parent_4: ", best_models_arrays[3])
+    print("best_parent_5: ", best_models_arrays[4])
     print("max_fitness: ", max_fitness, "\n", "average_fitness: ", average_fitness)
 
     return best_models_arrays, max_fitness, average_fitness
 
 
 def crossover(parent_arrays):
-    parent_indices = np.random.randint(0, 3, size=parent_arrays[0].shape)
+    parent_indices = np.random.randint(0, 5, size=parent_arrays[0].shape)
     child_array = np.choose(parent_indices, parent_arrays)
     return child_array
 
@@ -143,6 +143,5 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
         max_fitness_history.append(max_fitness)
         average_fitness_history.append(average_fitness)
         print("max_fitness_history: ", max_fitness_history, "\n", "average_fitness_history: ", average_fitness_history)
-        print("Next population: ", population_array)
 
     return population_array, max_fitness_history, average_fitness_history, best_models_arrays
