@@ -3,7 +3,7 @@ layers, kernel size, stride, filters, expansion factor, residual connections, no
 number of transformer layers, and number of heads in a transformer block. These values can be used to perform a grid
 search or random search over the hyperparameters to find the best configuration for a given task."""
 
-layer_type_space = ['None', 'conv_block', 'inverted_residual_block', 'mobilevit_block']
+layer_type_space = ['mobilevit_block', 'inverted_residual_block', 'conv_block', 'None']
 kernel_size_space = [1, 3, 5, 7]
 stride_space = [1, 2]
 filters_space = [16, 24, 32, 48, 64, 96, 128, 192]
