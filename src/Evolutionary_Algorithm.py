@@ -86,20 +86,20 @@ def select_models(train_ds,
     max_fitness = np.max(fitness_list)
     average_fitness = np.average(fitness_list)
 
-    best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:3]
-    best_models_array = [population_array[i] for i in best_models_indices]
-    print(best_models_array[0])
-    print(best_models_array[1])
-    print(best_models_array[2])
+    best_models_indices = sorted(range(len(fitness_list)), key=lambda i: fitness_list[i], reverse=True)[:5]
+    best_models_arrays = [population_array[i] for i in best_models_indices]
+    print("best_parents_1: ", best_models_arrays[0])
+    print("best_parents_1: ", best_models_arrays[1])
+    print("best_parents_1: ", best_models_arrays[2])
+    print("best_parents_1: ", best_models_arrays[3])
+    print("best_parents_1: ", best_models_arrays[4])
     print("max_fitness: ", max_fitness, "\n", "average_fitness: ", average_fitness)
 
-    return best_models_array[0], best_models_array[1], best_models_array[2], max_fitness, average_fitness
+    return best_models_arrays, max_fitness, average_fitness
 
 
-def crossover(parent_1_array, parent_2_array, parent_3_array):
-
-    parent_arrays = [parent_1_array, parent_2_array, parent_3_array]
-    parent_indices = np.random.randint(0, 3, size=parent_1_array.shape)
+def crossover(parent_arrays):
+    parent_indices = np.random.randint(0, 3, size=parent_arrays[0].shape)
     child_array = np.choose(parent_indices, parent_arrays)
     return child_array
 
@@ -112,17 +112,17 @@ def mutate(model_array, mutate_prob=0.025):
 
 
 # TODO: Optimize the code, do not use for loop
-def create_next_population(parent_1_array, parent_2_array, parent_3_array, population=10, num_classes=5):
+def create_next_population(parent_arrays, population=10, num_classes=5):
     next_population_array = np.random.randint(0, 2, (population, 9, 18))
 
     for i in range(population):
-        next_population_array[i] = crossover(parent_1_array, parent_2_array, parent_3_array)
+        next_population_array[i] = crossover(parent_arrays)
         next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.025)
 
     for i in range(population):
         model = create_model(next_population_array[i], num_classes=num_classes)
         while check_large_model(model):
-            next_population_array[i] = crossover(parent_1_array, parent_2_array, parent_3_array)
+            next_population_array[i] = crossover(parent_arrays)
             next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.025)
             model = create_model(next_population_array[i], num_classes=num_classes)
 
@@ -136,16 +136,13 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
         population_array = create_first_population(population=population, num_classes=num_classes)
 
     for i in range(generations):
-        a, b, c, max_fitness, average_fitness = select_models(train_ds, val_ds, test_ds, population_array,
-                                                              epochs=epochs, num_classes=num_classes)
-        population_array = create_next_population(a, b, c, population=population, num_classes=num_classes)
+        print('Generations: ', i)
+        best_models_arrays, max_fitness, average_fitness = select_models(train_ds, val_ds, test_ds, population_array,
+                                                                         epochs=epochs, num_classes=num_classes)
+        population_array = create_next_population(parent_arrays=best_models_arrays, population=population, num_classes=num_classes)
         max_fitness_history.append(max_fitness)
         average_fitness_history.append(average_fitness)
-        print('Generations: ', i)
         print("max_fitness_history: ", max_fitness_history, "\n", "average_fitness_history: ", average_fitness_history)
-        print("best_parents_1: ", a)
-        print("best_parents_2: ", b)
-        print("best_parents_3: ", c)
         print("Next population: ", population_array)
 
-    return population_array, max_fitness_history, average_fitness_history, a, b, c
+    return population_array, max_fitness_history, average_fitness_history, best_models_arrays
