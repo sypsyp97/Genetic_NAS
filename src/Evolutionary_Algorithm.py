@@ -83,6 +83,7 @@ def select_models(train_ds,
         fitness = acc
         fitness_list.append(fitness)
 
+    print("Fitness in Generation: ", fitness_list)
     max_fitness = np.max(fitness_list)
     average_fitness = np.average(fitness_list)
 
