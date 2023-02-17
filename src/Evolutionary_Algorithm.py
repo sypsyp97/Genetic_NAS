@@ -83,7 +83,6 @@ def select_models(train_ds,
         fitness = acc
         fitness_list.append(fitness)
 
-    print("Fitness in Generation: ", fitness_list)
     max_fitness = np.max(fitness_list)
     average_fitness = np.average(fitness_list)
 
@@ -94,6 +93,7 @@ def select_models(train_ds,
     print("best_parent_3: ", best_models_arrays[2])
     print("best_parent_4: ", best_models_arrays[3])
     print("best_parent_5: ", best_models_arrays[4])
+    print("Fitness in Generation: ", fitness_list)
     print("max_fitness: ", max_fitness, "\n", "average_fitness: ", average_fitness)
 
     return best_models_arrays, max_fitness, average_fitness
