@@ -136,12 +136,12 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
         population_array = create_first_population(population=population, num_classes=num_classes)
 
     for i in range(generations):
-        print('Generations: ', i)
         best_models_arrays, max_fitness, average_fitness = select_models(train_ds, val_ds, test_ds, population_array,
                                                                          epochs=epochs, num_classes=num_classes)
         population_array = create_next_population(parent_arrays=best_models_arrays, population=population, num_classes=num_classes)
         max_fitness_history.append(max_fitness)
         average_fitness_history.append(average_fitness)
+        print('Generations: ', i)
         print("max_fitness_history: ", max_fitness_history, "\n", "average_fitness_history: ", average_fitness_history)
 
     return population_array, max_fitness_history, average_fitness_history, best_models_arrays
