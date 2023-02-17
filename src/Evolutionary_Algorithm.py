@@ -55,11 +55,11 @@ def create_first_population(population=10, num_classes=5):
 #     average_fitness = np.average(fitness_list)
 #
 #     # Select the two best individuals using Roulette Wheel Selection
-#     best_models_indices = [roulette_wheel_selection(fitness_list) for _ in range(3)]
-#     best_models_array = [population_array[i] for i in best_models_indices]
+#     best_models_indices = [roulette_wheel_selection(fitness_list) for _ in range(5)]
+#     best_models_arrays = [population_array[i] for i in best_models_indices]
 #     print("max_fitness: ", max_fitness, "\n", "average_fitness: ", average_fitness)
 #
-#     return best_models_array[0], best_models_array[1], best_models_array[2], max_fitness, average_fitness
+#     return best_models_arrays, max_fitness, average_fitness
 
 
 def select_models(train_ds,
