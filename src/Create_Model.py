@@ -81,7 +81,7 @@ def model_summary(model):
 def train_model(train_ds, val_ds,
                 model, epochs=20,
                 checkpoint_filepath="checkpoints/checkpoint",
-                early_stopping_patience=20):
+                early_stopping_patience=15):
     checkpoint_callback = keras.callbacks.ModelCheckpoint(checkpoint_filepath,
                                                           monitor="val_accuracy",
                                                           save_best_only=True,
