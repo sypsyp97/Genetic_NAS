@@ -6,7 +6,7 @@ dimension. If it's greater than 1024, it returns True. Otherwise, it continues t
 find any such layer, it returns False."""
 
 
-def check_large_model(model):
+def check_model(model):
     for layer in model.layers:
         # Check if the layer is a MultiHeadAttention layer
         if 'multi_head_attention' in str(layer):

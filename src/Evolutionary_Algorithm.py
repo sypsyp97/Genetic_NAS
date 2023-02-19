@@ -4,7 +4,7 @@ from src.Create_Model import create_model, model_summary
 from src.Evaluate_Model import model_evaluation
 from src.Fitness_Function import calculate_fitness
 from src.Create_Model import train_model
-from tools.Model_Checker import check_large_model
+from tools.Model_Checker import check_model
 
 
 def create_first_population(population=10, num_classes=5):
@@ -12,7 +12,7 @@ def create_first_population(population=10, num_classes=5):
 
     for i in range(population):
         model = create_model(first_population_array[i], num_classes=num_classes)
-        while check_large_model(model):
+        while check_model(model):
             first_population_array[i] = np.random.randint(0, 2, (9, 18))
             model = create_model(first_population_array[i], num_classes=num_classes)
 
@@ -122,7 +122,7 @@ def create_next_population(parent_arrays, population=10, num_classes=5):
 
     for i in range(population):
         model = create_model(next_population_array[i], num_classes=num_classes)
-        while check_large_model(model):
+        while check_model(model):
             next_population_array[i] = crossover(parent_arrays)
             next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.025)
             model = create_model(next_population_array[i], num_classes=num_classes)
