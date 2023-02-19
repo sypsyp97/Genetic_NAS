@@ -92,7 +92,10 @@ def inverted_residual_block(x, expansion_factor, output_channels, strides=1, ker
         print(f"{normalization} not found in the list of normalization layers.")
         m = m
 
-    if tf.math.equal(x.shape[-1], output_channels) and strides == 1:
+    if strides == 1 and residual == 'Concatenate':
+        m = layers.Concatenate(axis=-1)([m, x])
+
+    elif tf.math.equal(x.shape[-1], output_channels) and strides == 1:
 
         if residual == 'Concatenate':
             m = layers.Concatenate(axis=-1)([m, x])
@@ -102,6 +105,10 @@ def inverted_residual_block(x, expansion_factor, output_channels, strides=1, ker
             m = layers.Add()([m, x])
         else:
             m = m
+
+    elif strides == 2 and residual == 'Concatenate':
+        x = layers.Conv2D(output_channels, kernel_size=(2, 2), strides=2, padding="same")(x)
+        m = layers.Concatenate(axis=-1)([m, x])
 
     elif tf.math.equal(x.shape[-1], output_channels) and strides == 2:
         x = layers.Conv2D(output_channels, kernel_size=(2, 2), strides=2, padding="same")(x)
