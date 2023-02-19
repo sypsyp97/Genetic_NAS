@@ -18,7 +18,6 @@ def check_model(model):
                 return True
             else:
                 return False
-
         else:
             return True
 
