@@ -5,8 +5,8 @@
 #SBATCH --gres=gpu:a100:1
 #SBATCH --cpus-per-task=1
 #SBATCH --qos=a100_aibe
-#SBATCH -o /home/hpc/iwb3/iwb3005h/output/genetic_nas-%j.out
-#SBATCH -e /home/hpc/iwb3/iwb3005h/output/genetic_nas-%j.err
+#SBATCH -o /home/hpc/iwb3/iwb3005h/output/transformer_nas-%j.out
+#SBATCH -e /home/hpc/iwb3/iwb3005h/output/transformer_nas-%j.err
 #
 # do no export environment variables
 #SBATCH --export=NONE
