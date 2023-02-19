@@ -16,4 +16,9 @@ def check_model(model):
             size = output_shape[1]
             if size > 1024:
                 return True
-    return False
+            else:
+                return False
+
+        else:
+            return True
+
