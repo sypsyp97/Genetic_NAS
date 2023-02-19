@@ -34,15 +34,14 @@ def decoded_block(x, layer_array):
     head_index = int(str(layer_array[16]) + str(layer_array[17]), 2)
 
     layer_type_dict = {
-        0: lambda x: x,
 
-        1: lambda x: conv_block(x, filters=filters_space[filters_index],
+        0: lambda x: conv_block(x, filters=filters_space[filters_index],
                                 kernel_size=kernel_size_space[kernel_size_index],
                                 strides=stride_space[stride_index],
                                 normalization=normalization_space[normalization_index],
                                 activation=activation_space[activation_index]),
 
-        2: lambda x: inverted_residual_block(x, expansion_factor=expansion_factor_space[expansion_factor_index],
+        1: lambda x: inverted_residual_block(x, expansion_factor=expansion_factor_space[expansion_factor_index],
                                              kernel_size=kernel_size_space[kernel_size_index],
                                              output_channels=filters_space[filters_index],
                                              strides=stride_space[stride_index],
@@ -50,13 +49,15 @@ def decoded_block(x, layer_array):
                                              activation=activation_space[activation_index],
                                              residual=residual_space[residual_index]),
 
-        3: lambda x: mobilevit_block(x, num_blocks=transformer_space[transformer_index],
+        2: lambda x: mobilevit_block(x, num_blocks=transformer_space[transformer_index],
                                      projection_dim=filters_space[filters_index],
                                      strides=stride_space[stride_index],
                                      normalization=normalization_space[normalization_index],
                                      kernel_size=kernel_size_space[kernel_size_index],
                                      num_heads=head_space[head_index],
                                      activation=activation_space[activation_index],
-                                     residual=residual_space[residual_index])
+                                     residual=residual_space[residual_index]),
+
+        3: lambda x: x
     }
     return layer_type_dict[layer_type_index](x)
