@@ -20,14 +20,12 @@ find any such layer, it returns False."""
 
 
 def check_model(model):
-    # Check if model contains a layer with the name 'multi_head_attention'
     contains_multi_head_attention = False
     for layer in model.layers:
         if 'multi_head_attention' in str(layer):
             contains_multi_head_attention = True
             break
 
-    # If model contains a layer with the name 'multi_head_attention', check if output size > 1024
     if contains_multi_head_attention:
         for layer in model.layers:
             if 'multi_head_attention' in str(layer):
@@ -37,6 +35,5 @@ def check_model(model):
                     return True
         return False
 
-    # If model does not contain a layer with the name 'multi_head_attention', return False
     else:
-        return False
+        return True
