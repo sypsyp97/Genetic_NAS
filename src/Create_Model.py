@@ -48,7 +48,6 @@ def model_summary(model):
     print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
 
-
 def train_model(train_ds, val_ds,
                 model, epochs=20,
                 checkpoint_filepath="checkpoints/checkpoint",
