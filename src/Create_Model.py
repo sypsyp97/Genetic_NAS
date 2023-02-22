@@ -48,35 +48,6 @@ def model_summary(model):
     print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
 
-# def train_model(train_ds, val_ds,
-#                 model, epochs=20,
-#                 checkpoint_filepath="checkpoints/checkpoint"):
-#     checkpoint_callback = keras.callbacks.ModelCheckpoint(checkpoint_filepath,
-#                                                           monitor="val_accuracy",
-#                                                           save_best_only=True,
-#                                                           save_weights_only=True)
-#
-#     loss_fn = keras.losses.CategoricalCrossentropy(label_smoothing=0.1)
-#
-#     opt = tfa.optimizers.LazyAdam(learning_rate=0.002)
-#     opt = tfa.optimizers.MovingAverage(opt)
-#     opt = tfa.optimizers.Lookahead(opt)
-#
-#     model.compile(optimizer=opt,
-#                   loss=loss_fn,
-#                   metrics=['accuracy'])
-#
-#     try:
-#         history = model.fit(train_ds,
-#                             epochs=epochs,
-#                             validation_data=val_ds,
-#                             callbacks=[checkpoint_callback])
-#
-#         model.load_weights(checkpoint_filepath)
-#     except Exception as e:
-#         history = None
-#         print(e)
-#     return model, history
 
 def train_model(train_ds, val_ds,
                 model, epochs=20,
