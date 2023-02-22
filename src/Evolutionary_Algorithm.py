@@ -7,7 +7,7 @@ from src.Create_Model import train_model
 from tools.Model_Checker import check_model
 
 
-def create_first_population(population=10, num_classes=5):
+def create_first_population(population=100, num_classes=5):
     first_population_array = np.random.randint(0, 2, (population, 9, 18))
 
     for i in range(population):
