@@ -1,5 +1,9 @@
 # calculate the fitness
-def calculate_fitness(acc, inference_time=1, memory_footprint_tflite=1):
-    fitness = acc
+import numpy as np
+from math import pi
+
+
+def calculate_fitness(accuracy, inference_time=1, memory_footprint_tflite=1):
+    fitness = (1 - np.arctan(inference_time/100) / (pi / 2)) * accuracy
 
     return fitness
