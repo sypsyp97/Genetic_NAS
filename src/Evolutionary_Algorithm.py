@@ -1,10 +1,14 @@
 import numpy as np
 
 from tools.Create_Model import create_model, model_summary
-from tools.Evaluate_Model import model_evaluation
+from tools.Evaluate_Model import evaluate_tflite_model
 from tools.Create_Model import train_model
 from tools.Model_Checker import check_model
 from tools.TFLITE_Converter import convert_to_tflite
+from tools.Compile_Edge_TPU import compile_edgetpu
+from tools.Inference_Speed_TPU import inference_time_tpu
+from src.Fitness_Function import calculate_fitness
+
 
 
 def create_first_population(population=100, num_classes=5):
@@ -27,22 +31,29 @@ def select_models(train_ds,
                   epochs=30,
                   num_classes=5):
     fitness_list = []
+    tflite_accuracy_list = []
+    tpu_time_list = []
     # tflite_accuracies = []
     for i in range(population_array.shape[0]):
         model = create_model(population_array[i], num_classes=num_classes)
-        model_summary(model)
         trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
-        tflite_model, tflite_name= convert_to_tflite(keras_model=trained_model, generation=generation, i=i)
+        try:
+            tflite_model, tflite_name= convert_to_tflite(keras_model=trained_model, generation=generation, i=i)
+            tflite_accuracy = evaluate_tflite_model(tflite_model=tflite_model, tfl_int8=True)
+        except:
+            tflite_accuracy = 0
 
+        try:
+            edgetpu_name = compile_edgetpu(tflite_name)
+            tpu_time = inference_time_tpu(edgetpu_model_name=edgetpu_name)
+        except:
+            tpu_time = 9999
 
-        acc = model_evaluation(trained_model, test_ds)
+        fitness = calculate_fitness(tflite_accuracy, tpu_time)
 
-        # TODO: Calculate the memory_footprint_edge and inference_time
-        #       Need a Linux
-
-        # fitness = calculate_fitness(acc)
-        fitness = acc
+        tflite_accuracy_list.append(tflite_accuracy)
         fitness_list.append(fitness)
+        tpu_time_list.append(tpu_time)
 
     max_fitness = np.max(fitness_list)
     average_fitness = np.average(fitness_list)
@@ -55,6 +66,9 @@ def select_models(train_ds,
     print("best_parent_4: ", best_models_arrays[3])
     print("best_parent_5: ", best_models_arrays[4])
     print("Fitness in Generation: ", fitness_list)
+    print("Accuracy in Generation: ", tflite_accuracy_list)
+    print("Inference Time in Generation: ", tpu_time_list)
+
     print("max_fitness: ", max_fitness, "\n", "average_fitness: ", average_fitness)
 
     return best_models_arrays, max_fitness, average_fitness
