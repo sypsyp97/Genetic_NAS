@@ -33,7 +33,8 @@ def select_models(train_ds,
         model = create_model(population_array[i], num_classes=num_classes)
         model_summary(model)
         trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
-        tf_model = convert_to_tflite()
+        tf_model, tf_name= convert_to_tflite(keras_model=trained_model, generation=generation, i=i)
+
         acc = model_evaluation(trained_model, test_ds)
 
         # TODO: Calculate the memory_footprint_edge and inference_time
@@ -98,7 +99,7 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
 
     for i in range(generations):
         best_models_arrays, max_fitness, average_fitness = select_models(train_ds, val_ds, test_ds, population_array,
-                                                                         epochs=epochs, num_classes=num_classes)
+                                                                         generation=i, epochs=epochs, num_classes=num_classes)
         population_array = create_next_population(parent_arrays=best_models_arrays, population=population, num_classes=num_classes)
         max_fitness_history.append(max_fitness)
         average_fitness_history.append(average_fitness)

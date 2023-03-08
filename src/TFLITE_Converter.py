@@ -20,12 +20,15 @@ Then it calls the convert() method on the converter object which returns the TFL
 The tflite_model is returned by the function, which can be written to a file or used in other ways as needed.'''
 
 import tensorflow as tf
+from get_datasets.Data_for_TFLITE import x_test
 
 
-def convert_to_tflite(x_test, keras_model, generation, i):
-    def representative_data_gen():
-        for data in tf.data.Dataset.from_tensor_slices(x_test).batch(1).take(100):
-            yield [(tf.dtypes.cast(data, tf.float32))]
+def representative_data_gen():
+    for data in tf.data.Dataset.from_tensor_slices(x_test).batch(1).take(100):
+        yield [(tf.dtypes.cast(data, tf.float32))]
+
+
+def convert_to_tflite(keras_model, generation, i):
 
     converter = tf.lite.TFLiteConverter.from_keras_model(keras_model)
 
@@ -53,4 +56,4 @@ def convert_to_tflite(x_test, keras_model, generation, i):
     with open(path, 'wb') as f:
         f.write(tflite_model)
 
-    return tflite_model
+    return tflite_model, path
