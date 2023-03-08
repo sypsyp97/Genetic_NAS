@@ -10,7 +10,6 @@ from tools.Inference_Speed_TPU import inference_time_tpu
 from src.Fitness_Function import calculate_fitness
 
 
-
 def create_first_population(population=100, num_classes=5):
     first_population_array = np.random.randint(0, 2, (population, 9, 18))
 
