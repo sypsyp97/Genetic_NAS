@@ -1,6 +1,6 @@
 import numpy as np
 import tensorflow as tf
-from tqdm.notebook import tqdm
+
 
 
 def model_evaluation(trained_model, test_ds):
@@ -22,7 +22,7 @@ def evaluate_tflite_model(tflite_model, x_test, y_test, tfl_int8=True):
     prediction_labels = []
     test_labels = []
 
-    for i in tqdm(range(x_test.shape[0])):
+    for i in range(x_test.shape[0]):
         if tfl_int8:
             test_image = x_test[i] / scale_in + zero_point_in
             test_image = np.expand_dims(test_image, axis=0).astype(np.uint8)
