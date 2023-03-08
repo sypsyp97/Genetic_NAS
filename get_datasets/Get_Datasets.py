@@ -3,7 +3,6 @@ from os.path import join
 
 from imgaug import augmenters as iaa
 from sklearn.model_selection import train_test_split
-from tqdm.notebook import tqdm
 
 from concurrent.futures import ProcessPoolExecutor
 from functools import partial
