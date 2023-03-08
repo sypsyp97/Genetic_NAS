@@ -58,7 +58,7 @@ if __name__ == '__main__':
 
     train_dataset, val_dataset, test_dataset = tfds.load("tf_flowers", shuffle_files=True,
                                                          split=["train[:80%]", "train[80%:90%]", "train[90%:]"],
-                                                         download=False, as_supervised=True)
+                                                         download=True, as_supervised=True)
 
     num_train = train_dataset.cardinality()
     num_val = val_dataset.cardinality()
