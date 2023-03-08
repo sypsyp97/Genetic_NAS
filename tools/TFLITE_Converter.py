@@ -28,8 +28,7 @@ def representative_data_gen():
         yield [(tf.dtypes.cast(data, tf.float32))]
 
 
-def convert_to_tflite(keras_model, generation, i):
-
+def convert_to_tflite(keras_model, generation, i, time):
     converter = tf.lite.TFLiteConverter.from_keras_model(keras_model)
 
     # This enables quantization
@@ -51,7 +50,7 @@ def convert_to_tflite(keras_model, generation, i):
 
     tflite_model = converter.convert()
     # tf.lite.experimental.Analyzer.analyze(model_content=tflite_model, gpu_compatibility=True)
-    path = f"results/generation_{generation}/model_{i}.tflite"
+    path = f"model_{i}_gen_{generation}_time_{time}.tflite"
 
     with open(path, 'wb') as f:
         f.write(tflite_model)

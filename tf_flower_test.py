@@ -5,6 +5,7 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 import numpy as np
 from tensorflow.keras import mixed_precision
+from datetime import datetime
 
 
 policy = mixed_precision.Policy('mixed_float16')
@@ -46,6 +47,10 @@ def prepare_dataset(dataset, is_training=True):
 
 
 if __name__ == '__main__':
+
+    now = datetime.now()
+    formatted_date = now.strftime("%d/%m/%Y %H:%M:%S")
+
     physical_devices = tf.config.list_physical_devices('GPU')
     try:
         tf.config.experimental.set_memory_growth(physical_devices[0], True)
@@ -70,4 +75,4 @@ if __name__ == '__main__':
         generations=20,
         population=20,
         num_classes=5,
-        epochs=30)
+        epochs=30, time=formatted_date)

@@ -25,10 +25,11 @@ def create_first_population(population=100, num_classes=5):
 def select_models(train_ds,
                   val_ds,
                   test_ds,
+                  time,
                   population_array,
                   generation,
                   epochs=30,
-                  num_classes=5):
+                  num_classes=5,):
 
     fitness_list = []
     tflite_accuracy_list = []
@@ -38,7 +39,7 @@ def select_models(train_ds,
         model = create_model(population_array[i], num_classes=num_classes)
         trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
         try:
-            tflite_model, tflite_name= convert_to_tflite(keras_model=trained_model, generation=generation, i=i)
+            tflite_model, tflite_name= convert_to_tflite(keras_model=trained_model, generation=generation, i=i, time=time)
             tflite_accuracy = evaluate_tflite_model(tflite_model=tflite_model, tfl_int8=True)
         except:
             tflite_accuracy = 0
@@ -105,7 +106,7 @@ def create_next_population(parent_arrays, population=10, num_classes=5):
     return next_population_array
 
 
-def start_evolution(train_ds, val_ds, test_ds, generations, population, num_classes, epochs, population_array=None):
+def start_evolution(train_ds, val_ds, test_ds, generations, population, num_classes, epochs, population_array=None, time=None):
     max_fitness_history = []
     average_fitness_history = []
     if population_array is None:
@@ -113,7 +114,7 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
 
     for i in range(generations):
         best_models_arrays, max_fitness, average_fitness = select_models(train_ds, val_ds, test_ds, population_array,
-                                                                         generation=i, epochs=epochs, num_classes=num_classes)
+                                                                         generation=i, epochs=epochs, num_classes=num_classes, time=time)
         population_array = create_next_population(parent_arrays=best_models_arrays, population=population, num_classes=num_classes)
         max_fitness_history.append(max_fitness)
         average_fitness_history.append(average_fitness)
