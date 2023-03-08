@@ -55,4 +55,6 @@ def convert_to_tflite(keras_model, generation, i, time):
     with open(path, 'wb') as f:
         f.write(tflite_model)
 
+    del converter
+
     return tflite_model, path
