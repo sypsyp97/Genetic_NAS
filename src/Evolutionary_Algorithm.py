@@ -17,8 +17,11 @@ def create_first_population(population=100, num_classes=5):
     for i in range(population):
         model = create_model(first_population_array[i], num_classes=num_classes)
         while check_model(model):
+            del model
             first_population_array[i] = np.random.randint(0, 2, (9, 18))
             model = create_model(first_population_array[i], num_classes=num_classes)
+
+        del model
 
     return first_population_array
 
@@ -39,9 +42,11 @@ def select_models(train_ds,
     for i in range(population_array.shape[0]):
         model = create_model(population_array[i], num_classes=num_classes)
         trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
+        del model
         try:
             tflite_model, tflite_name = convert_to_tflite(keras_model=trained_model, generation=generation, i=i, time=time)
             tflite_accuracy = evaluate_tflite_model(tflite_model=tflite_model, tfl_int8=True)
+            del tflite_model
             edgetpu_name = compile_edgetpu(tflite_name)
             tpu_time = inference_time_tpu(edgetpu_model_name=edgetpu_name)
         except:
@@ -96,9 +101,11 @@ def create_next_population(parent_arrays, population=10, num_classes=5):
     for individual in range(population):
         model = create_model(next_population_array[individual], num_classes=num_classes)
         while check_model(model):
+            del model
             next_population_array[individual] = crossover(parent_arrays)
             next_population_array[individual] = mutate(next_population_array[individual], mutate_prob=0.025)
             model = create_model(next_population_array[individual], num_classes=num_classes)
+        del model
 
     return next_population_array
 
