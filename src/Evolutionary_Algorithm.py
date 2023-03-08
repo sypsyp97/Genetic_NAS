@@ -1,6 +1,6 @@
 import numpy as np
 
-from tools.Create_Model import create_model, model_summary
+from tools.Create_Model import create_model
 from tools.Evaluate_Model import evaluate_tflite_model
 from tools.Create_Model import train_model
 from tools.Model_Checker import check_model
