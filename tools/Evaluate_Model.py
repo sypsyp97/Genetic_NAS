@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow as tf
+from get_datasets.Data_for_TFLITE import x_test, y_test
 
 
 def model_evaluation(trained_model, test_ds):
@@ -8,7 +9,7 @@ def model_evaluation(trained_model, test_ds):
     return raw_model_accuracy
 
 
-def evaluate_tflite_model(tflite_model, x_test, y_test, tfl_int8=True):
+def evaluate_tflite_model(tflite_model, tfl_int8=True):
     interpreter = tf.lite.Interpreter(model_content=tflite_model)
     interpreter.allocate_tensors()
     input_details = interpreter.get_input_details()

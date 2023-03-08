@@ -51,7 +51,7 @@ def convert_to_tflite(keras_model, generation, i):
 
     tflite_model = converter.convert()
     # tf.lite.experimental.Analyzer.analyze(model_content=tflite_model, gpu_compatibility=True)
-    path = f"generation_{generation}/model_{i}.tflite"
+    path = f"results/generation_{generation}/model_{i}.tflite"
 
     with open(path, 'wb') as f:
         f.write(tflite_model)

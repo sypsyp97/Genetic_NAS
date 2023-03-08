@@ -1,11 +1,10 @@
 import numpy as np
 
-from src.Create_Model import create_model, model_summary
-from src.Evaluate_Model import model_evaluation
-from src.Fitness_Function import calculate_fitness
-from src.Create_Model import train_model
+from tools.Create_Model import create_model, model_summary
+from tools.Evaluate_Model import model_evaluation
+from tools.Create_Model import train_model
 from tools.Model_Checker import check_model
-from src.TFLITE_Converter import convert_to_tflite
+from tools.TFLITE_Converter import convert_to_tflite
 
 
 def create_first_population(population=100, num_classes=5):
@@ -33,7 +32,8 @@ def select_models(train_ds,
         model = create_model(population_array[i], num_classes=num_classes)
         model_summary(model)
         trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
-        tf_model, tf_name= convert_to_tflite(keras_model=trained_model, generation=generation, i=i)
+        tflite_model, tflite_name= convert_to_tflite(keras_model=trained_model, generation=generation, i=i)
+
 
         acc = model_evaluation(trained_model, test_ds)
 
