@@ -30,10 +30,11 @@ def select_models(train_ds,
                   generation,
                   epochs=30,
                   num_classes=5):
+
     fitness_list = []
     tflite_accuracy_list = []
     tpu_time_list = []
-    # tflite_accuracies = []
+
     for i in range(population_array.shape[0]):
         model = create_model(population_array[i], num_classes=num_classes)
         trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
