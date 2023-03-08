@@ -89,16 +89,16 @@ def mutate(model_array, mutate_prob=0.025):
 def create_next_population(parent_arrays, population=10, num_classes=5):
     next_population_array = np.random.randint(0, 2, (population, 9, 18))
 
-    for i in range(population):
-        next_population_array[i] = crossover(parent_arrays)
-        next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.025)
+    for individual in range(population):
+        next_population_array[individual] = crossover(parent_arrays)
+        next_population_array[individual] = mutate(next_population_array[individual], mutate_prob=0.025)
 
-    for i in range(population):
-        model = create_model(next_population_array[i], num_classes=num_classes)
+    for individual in range(population):
+        model = create_model(next_population_array[individual], num_classes=num_classes)
         while check_model(model):
-            next_population_array[i] = crossover(parent_arrays)
-            next_population_array[i] = mutate(next_population_array[i], mutate_prob=0.025)
-            model = create_model(next_population_array[i], num_classes=num_classes)
+            next_population_array[individual] = crossover(parent_arrays)
+            next_population_array[individual] = mutate(next_population_array[individual], mutate_prob=0.025)
+            model = create_model(next_population_array[individual], num_classes=num_classes)
 
     return next_population_array
 
@@ -111,10 +111,10 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
     if population_array is None:
         population_array = create_first_population(population=population, num_classes=num_classes)
 
-    for i in range(generations):
+    for generation in range(generations):
         best_models_arrays, max_fitness, average_fitness = select_models(train_ds=train_ds, val_ds=val_ds, test_ds=test_ds, time=time,
                                                                          population_array=population_array,
-                                                                         generation=i, epochs=epochs,
+                                                                         generation=generation, epochs=epochs,
                                                                          num_classes=num_classes)
         population_array = create_next_population(parent_arrays=best_models_arrays, population=population,
                                                   num_classes=num_classes)
