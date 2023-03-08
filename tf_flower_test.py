@@ -1,25 +1,10 @@
-from get_datasets.Get_Datasets import get_data_array, get_datasets
-from src.Create_Model import train_model
-from src.Create_Model import create_model
-from src.Evolutionary_Algorithm import create_next_population, create_first_population, select_models, \
-    start_evolution
+from src.Evolutionary_Algorithm import start_evolution
 
 import os
-import random
 import tensorflow as tf
 import tensorflow_datasets as tfds
-
-import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow.keras import mixed_precision
-
-# tf.config.optimizer.set_jit(True)
-
-
-# if tf.config.list_physical_devices('GPU'):
-#     strategy = tf.distribute.MirroredStrategy()
-# else:  # Use the Default Strategy
-#     strategy = tf.distribute.get_strategy()
 
 
 policy = mixed_precision.Policy('mixed_float16')
@@ -64,8 +49,8 @@ if __name__ == '__main__':
     physical_devices = tf.config.list_physical_devices('GPU')
     try:
         tf.config.experimental.set_memory_growth(physical_devices[0], True)
-    except:
-        pass
+    except Exception as e:
+        print(e)
 
     train_dataset, val_dataset, test_dataset = tfds.load("tf_flowers", shuffle_files=True,
                                                          split=["train[:80%]", "train[80%:90%]", "train[90%:]"],
@@ -77,10 +62,6 @@ if __name__ == '__main__':
     train_dataset = prepare_dataset(train_dataset, is_training=True)
     val_dataset = prepare_dataset(val_dataset, is_training=False)
     test_dataset = prepare_dataset(test_dataset, is_training=False)
-
-    print(f"Number of training examples: {num_train}")
-    print(f"Number of validation examples: {num_val}")
-    print(f"Number of test examples: {num_test}")
 
     population_array, max_fitness_history, average_fitness_history, best_models_arrays = start_evolution(
         train_ds=train_dataset,

@@ -5,6 +5,7 @@ from src.Evaluate_Model import model_evaluation
 from src.Fitness_Function import calculate_fitness
 from src.Create_Model import train_model
 from tools.Model_Checker import check_model
+from src.TFLITE_Converter import convert_to_tflite
 
 
 def create_first_population(population=100, num_classes=5):
@@ -19,53 +20,11 @@ def create_first_population(population=100, num_classes=5):
     return first_population_array
 
 
-# def roulette_wheel_selection(fitness_list):
-#     # Normalize the fitness values to obtain probabilities
-#     fitness_sum = np.sum(fitness_list)
-#     probabilities = [fitness / fitness_sum for fitness in fitness_list]
-#
-#     # Generate a random number between 0 and 1
-#     rand_num = np.random.rand()
-#
-#     # Select the individual based on the roulette wheel
-#     prob_sum = 0
-#     for i, prob in enumerate(probabilities):
-#         prob_sum += prob
-#         if rand_num <= prob_sum:
-#             return i
-#
-#
-# def select_best_2_model(train_ds,
-#                         val_ds,
-#                         test_ds,
-#                         population_array,
-#                         epochs=30,
-#                         num_classes=5):
-#     fitness_list = []
-#     for i in range(population_array.shape[0]):
-#         model = create_model(population_array[i], num_classes=num_classes)
-#         model_summary(model)
-#         trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
-#         acc = model_evaluation(trained_model, test_ds)
-#         # fitness = calculate_fitness(acc)
-#         fitness = acc
-#         fitness_list.append(fitness)
-#
-#     max_fitness = np.max(fitness_list)
-#     average_fitness = np.average(fitness_list)
-#
-#     # Select the two best individuals using Roulette Wheel Selection
-#     best_models_indices = [roulette_wheel_selection(fitness_list) for _ in range(5)]
-#     best_models_arrays = [population_array[i] for i in best_models_indices]
-#     print("max_fitness: ", max_fitness, "\n", "average_fitness: ", average_fitness)
-#
-#     return best_models_arrays, max_fitness, average_fitness
-
-
 def select_models(train_ds,
                   val_ds,
                   test_ds,
                   population_array,
+                  generation,
                   epochs=30,
                   num_classes=5):
     fitness_list = []
@@ -74,6 +33,7 @@ def select_models(train_ds,
         model = create_model(population_array[i], num_classes=num_classes)
         model_summary(model)
         trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
+        tf_model = convert_to_tflite()
         acc = model_evaluation(trained_model, test_ds)
 
         # TODO: Calculate the memory_footprint_edge and inference_time

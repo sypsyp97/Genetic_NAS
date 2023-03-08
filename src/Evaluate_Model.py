@@ -2,7 +2,6 @@ import numpy as np
 import tensorflow as tf
 
 
-
 def model_evaluation(trained_model, test_ds):
     _, raw_model_accuracy = trained_model.evaluate(test_ds)
 
@@ -47,4 +46,3 @@ def evaluate_tflite_model(tflite_model, x_test, y_test, tfl_int8=True):
     print("Quant TF Lite accuracy: {:.3%}".format(tflite_accuracy.result()))
 
     return float(tflite_accuracy.result())
-

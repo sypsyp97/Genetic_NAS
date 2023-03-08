@@ -1,5 +1,3 @@
-import tensorflow as tf
-
 '''The convert_to_tflite function takes in two arguments: x_test and keras_model.
 x_test is a test dataset that is used to generate representative data for the quantization process.
 keras_model is the model that you want to convert to TFLite format.
@@ -21,8 +19,10 @@ Then it calls the convert() method on the converter object which returns the TFL
 
 The tflite_model is returned by the function, which can be written to a file or used in other ways as needed.'''
 
+import tensorflow as tf
 
-def convert_to_tflite(x_test, keras_model):
+
+def convert_to_tflite(x_test, keras_model, generation, i):
     def representative_data_gen():
         for data in tf.data.Dataset.from_tensor_slices(x_test).batch(1).take(100):
             yield [(tf.dtypes.cast(data, tf.float32))]
@@ -48,8 +48,9 @@ def convert_to_tflite(x_test, keras_model):
 
     tflite_model = converter.convert()
     # tf.lite.experimental.Analyzer.analyze(model_content=tflite_model, gpu_compatibility=True)
+    path = f"generation_{generation}/model_{i}.tflite"
 
-    # with open('test.tflite', 'wb') as f:
-    #     f.write(tflite_model)
+    with open(path, 'wb') as f:
+        f.write(tflite_model)
 
     return tflite_model
