@@ -44,6 +44,9 @@ def evaluate_tflite_model(tflite_model, tfl_int8=True):
     test_labels = np.array(test_labels)
     tflite_accuracy = tf.keras.metrics.Accuracy()
     tflite_accuracy(prediction_labels, test_labels)
-    print("Quant TF Lite accuracy: {:.3%}".format(tflite_accuracy.result()))
+
+    del interpreter
+    del input_details
+    del output_details
 
     return float(tflite_accuracy.result())
