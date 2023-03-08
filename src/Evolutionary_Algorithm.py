@@ -8,6 +8,7 @@ from tools.TFLITE_Converter import convert_to_tflite
 from tools.Compile_Edge_TPU import compile_edgetpu
 from tools.Inference_Speed_TPU import inference_time_tpu
 from src.Fitness_Function import calculate_fitness
+import pickle
 
 
 def create_first_population(population=100, num_classes=5):
@@ -29,7 +30,7 @@ def select_models(train_ds,
                   population_array,
                   generation,
                   epochs=30,
-                  num_classes=5,):
+                  num_classes=5):
 
     fitness_list = []
     tflite_accuracy_list = []
@@ -39,15 +40,12 @@ def select_models(train_ds,
         model = create_model(population_array[i], num_classes=num_classes)
         trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
         try:
-            tflite_model, tflite_name= convert_to_tflite(keras_model=trained_model, generation=generation, i=i, time=time)
+            tflite_model, tflite_name = convert_to_tflite(keras_model=trained_model, generation=generation, i=i, time=time)
             tflite_accuracy = evaluate_tflite_model(tflite_model=tflite_model, tfl_int8=True)
-        except:
-            tflite_accuracy = 0
-
-        try:
             edgetpu_name = compile_edgetpu(tflite_name)
             tpu_time = inference_time_tpu(edgetpu_model_name=edgetpu_name)
         except:
+            tflite_accuracy = 0
             tpu_time = 9999
 
         fitness = calculate_fitness(tflite_accuracy, tpu_time)
@@ -61,16 +59,15 @@ def select_models(train_ds,
 
     best_models_indices = sorted(range(len(fitness_list)), key=lambda j: fitness_list[j], reverse=True)[:5]
     best_models_arrays = [population_array[k] for k in best_models_indices]
-    print("best_parent_1: ", best_models_arrays[0])
-    print("best_parent_2: ", best_models_arrays[1])
-    print("best_parent_3: ", best_models_arrays[2])
-    print("best_parent_4: ", best_models_arrays[3])
-    print("best_parent_5: ", best_models_arrays[4])
-    print("Fitness in Generation: ", fitness_list)
-    print("Accuracy in Generation: ", tflite_accuracy_list)
-    print("Inference Time in Generation: ", tpu_time_list)
 
-    print("max_fitness: ", max_fitness, "\n", "average_fitness: ", average_fitness)
+    with open(f'results_{time}/generation_{generation}/best_model_arrays.pkl', 'wb') as f:
+        pickle.dump(best_models_arrays, f)
+    with open(f'results_{time}/generation_{generation}/fitness_list.pkl', 'wb') as f:
+        pickle.dump(fitness_list, f)
+    with open(f'results_{time}/generation_{generation}/tflite_accuracy_list.pkl', 'wb') as f:
+        pickle.dump(tflite_accuracy_list, f)
+    with open(f'results_{time}/generation_{generation}/tpu_time_list.pkl', 'wb') as f:
+        pickle.dump(tpu_time_list, f)
 
     return best_models_arrays, max_fitness, average_fitness
 
@@ -106,19 +103,31 @@ def create_next_population(parent_arrays, population=10, num_classes=5):
     return next_population_array
 
 
-def start_evolution(train_ds, val_ds, test_ds, generations, population, num_classes, epochs, population_array=None, time=None):
+def start_evolution(train_ds, val_ds, test_ds, generations, population, num_classes, epochs, population_array=None,
+                    time=None):
+
     max_fitness_history = []
     average_fitness_history = []
     if population_array is None:
         population_array = create_first_population(population=population, num_classes=num_classes)
 
     for i in range(generations):
-        best_models_arrays, max_fitness, average_fitness = select_models(train_ds, val_ds, test_ds, population_array,
-                                                                         generation=i, epochs=epochs, num_classes=num_classes, time=time)
-        population_array = create_next_population(parent_arrays=best_models_arrays, population=population, num_classes=num_classes)
+        best_models_arrays, max_fitness, average_fitness = select_models(train_ds=train_ds, val_ds=val_ds, test_ds=test_ds, time=time,
+                                                                         population_array=population_array,
+                                                                         generation=i, epochs=epochs,
+                                                                         num_classes=num_classes)
+        population_array = create_next_population(parent_arrays=best_models_arrays, population=population,
+                                                  num_classes=num_classes)
         max_fitness_history.append(max_fitness)
         average_fitness_history.append(average_fitness)
-        print('Generations: ', i)
-        print("max_fitness_history: ", max_fitness_history, "\n", "average_fitness_history: ", average_fitness_history)
+
+    with open(f'results_{time}/next_population_array.pkl', 'wb') as f:
+        pickle.dump(population_array, f)
+    with open(f'results_{time}/max_fitness_history.pkl', 'wb') as f:
+        pickle.dump(max_fitness_history, f)
+    with open(f'results_{time}/average_fitness_history.pkl', 'wb') as f:
+        pickle.dump(average_fitness_history, f)
+    with open(f'results_{time}//best_model_arrays.pkl', 'wb') as f:
+        pickle.dump(best_models_arrays, f)
 
     return population_array, max_fitness_history, average_fitness_history, best_models_arrays

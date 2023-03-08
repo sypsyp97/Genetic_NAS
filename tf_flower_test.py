@@ -75,4 +75,5 @@ if __name__ == '__main__':
         generations=20,
         population=20,
         num_classes=5,
-        epochs=30, time=formatted_date)
+        epochs=30,
+        time=formatted_date)
