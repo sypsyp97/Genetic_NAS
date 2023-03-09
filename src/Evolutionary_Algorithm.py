@@ -90,7 +90,6 @@ def mutate(model_array, mutate_prob=0.05):
     return mutated_array
 
 
-# TODO: Optimize the code, do not use for loop
 def create_next_population(parent_arrays, population=10, num_classes=5):
     next_population_array = np.random.randint(0, 2, (population, 9, 18))
 
