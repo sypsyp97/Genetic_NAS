@@ -41,17 +41,19 @@ def select_models(train_ds,
 
     for i in range(population_array.shape[0]):
         model = create_model(population_array[i], num_classes=num_classes)
-        trained_model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
-        del model
+        model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
+
         try:
-            tflite_model, tflite_name = convert_to_tflite(keras_model=trained_model, generation=generation, i=i, time=time)
+            tflite_model, tflite_name = convert_to_tflite(keras_model=model, generation=generation, i=i, time=time)
             tflite_accuracy = evaluate_tflite_model(tflite_model=tflite_model, tfl_int8=True)
-            del tflite_model
             edgetpu_name = compile_edgetpu(tflite_name)
             tpu_time = inference_time_tpu(edgetpu_model_name=edgetpu_name)
         except:
             tflite_accuracy = 0
             tpu_time = 9999
+        finally:
+            del tflite_model
+            del model
 
         fitness = calculate_fitness(tflite_accuracy, tpu_time)
 
