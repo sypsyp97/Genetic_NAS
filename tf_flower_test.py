@@ -41,8 +41,8 @@ if __name__ == '__main__':
     now = datetime.now()
     formatted_date = now.strftime("%d/%m/%Y %H:%M:%S")
 
-    train_dataset, val_dataset, test_dataset = tfds.load("tf_flowers", shuffle_files=True,
-                                                         split=["train[:80%]", "train[80%:90%]", "train[90%:]"],
+    train_dataset, val_dataset, test_dataset = tfds.load("tf_flowers", shuffle_files=False,
+                                                         split=["train[:85%]", "train[85%:95%]", "train[95%:]"],
                                                          download=True, as_supervised=True)
 
     num_train = train_dataset.cardinality()
