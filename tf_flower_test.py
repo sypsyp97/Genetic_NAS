@@ -10,9 +10,9 @@ from datetime import datetime
 # policy = mixed_precision.Policy('mixed_float16')
 # mixed_precision.set_global_policy(policy)
 
-tfds.core.utils.gcs_utils._is_gcs_disabled = True
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-os.environ['NO_GCE_CHECK'] = 'true'
+# tfds.core.utils.gcs_utils._is_gcs_disabled = True
+# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+# os.environ['NO_GCE_CHECK'] = 'true'
 tf.random.set_seed(123)
 
 image_size = 256
