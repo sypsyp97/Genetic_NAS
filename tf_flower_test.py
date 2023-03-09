@@ -7,8 +7,8 @@ from tensorflow.keras import mixed_precision
 from datetime import datetime
 
 
-policy = mixed_precision.Policy('mixed_float16')
-mixed_precision.set_global_policy(policy)
+# policy = mixed_precision.Policy('mixed_float16')
+# mixed_precision.set_global_policy(policy)
 
 tfds.core.utils.gcs_utils._is_gcs_disabled = True
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
