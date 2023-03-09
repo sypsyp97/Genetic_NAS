@@ -6,10 +6,6 @@ import tensorflow as tf
 from src.Decode_Block import decoded_block
 from src.Gene_Pool import conv_block
 
-# if tf.config.list_physical_devices('GPU'):
-#     strategy = tf.distribute.MirroredStrategy()
-# else:  # Use the Default Strategy
-#     strategy = tf.distribute.get_strategy()
 
 '''This function takes in 3 inputs, model_array, num_classes and input_shape. The function creates a keras model by defining the layers in it.
 

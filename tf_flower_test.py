@@ -2,16 +2,8 @@ from src.Evolutionary_Algorithm import start_evolution
 
 import tensorflow as tf
 import tensorflow_datasets as tfds
-# from tensorflow.keras import mixed_precision
+
 from datetime import datetime
-
-
-# policy = mixed_precision.Policy('mixed_float16')
-# mixed_precision.set_global_policy(policy)
-
-# tfds.core.utils.gcs_utils._is_gcs_disabled = True
-# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-# os.environ['NO_GCE_CHECK'] = 'true'
 tf.random.set_seed(123)
 
 image_size = 256
@@ -48,12 +40,6 @@ if __name__ == '__main__':
 
     now = datetime.now()
     formatted_date = now.strftime("%d/%m/%Y %H:%M:%S")
-
-    # physical_devices = tf.config.list_physical_devices('GPU')
-    # try:
-    #     tf.config.experimental.set_memory_growth(physical_devices[0], True)
-    # except Exception as e:
-    #     print(e)
 
     train_dataset, val_dataset, test_dataset = tfds.load("tf_flowers", shuffle_files=True,
                                                          split=["train[:80%]", "train[80%:90%]", "train[90%:]"],
