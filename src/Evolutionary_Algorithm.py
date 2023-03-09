@@ -96,14 +96,14 @@ def create_next_population(parent_arrays, population=10, num_classes=5):
 
     for individual in range(population):
         next_population_array[individual] = crossover(parent_arrays)
-        next_population_array[individual] = mutate(next_population_array[individual], mutate_prob=0.025)
+        next_population_array[individual] = mutate(next_population_array[individual], mutate_prob=0.03)
 
     for individual in range(population):
         model = create_model(next_population_array[individual], num_classes=num_classes)
         while check_model(model):
             del model
             next_population_array[individual] = crossover(parent_arrays)
-            next_population_array[individual] = mutate(next_population_array[individual], mutate_prob=0.025)
+            next_population_array[individual] = mutate(next_population_array[individual], mutate_prob=0.03)
             model = create_model(next_population_array[individual], num_classes=num_classes)
         del model
 
