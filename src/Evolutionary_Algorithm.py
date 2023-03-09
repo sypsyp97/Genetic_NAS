@@ -83,7 +83,7 @@ def crossover(parent_arrays):
     return child_array
 
 
-def mutate(model_array, mutate_prob=0.025):
+def mutate(model_array, mutate_prob=0.05):
     prob = np.random.uniform(size=(9, 18))
     mutated_array = np.where(prob < mutate_prob, np.logical_not(model_array), model_array)
 
