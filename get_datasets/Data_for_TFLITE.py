@@ -32,8 +32,8 @@ def prepare_dataset(dataset, is_training=True):
     return dataset.cache().batch(batch_size).prefetch(auto)
 
 
-train_dataset, val_dataset, test_dataset = tfds.load("tf_flowers", shuffle_files=True,
-                                                     split=["train[:80%]", "train[80%:90%]", "train[90%:]"],
+train_dataset, val_dataset, test_dataset = tfds.load("tf_flowers", shuffle_files=False,
+                                                     split=["train[:85%]", "train[85%:95%]", "train[95%:]"],
                                                      download=True, as_supervised=True)
 
 test_dataset = prepare_dataset(test_dataset, is_training=False)
