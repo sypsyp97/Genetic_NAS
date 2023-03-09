@@ -1,6 +1,5 @@
 from src.Evolutionary_Algorithm import start_evolution
 
-import os
 import tensorflow as tf
 import tensorflow_datasets as tfds
 # from tensorflow.keras import mixed_precision
