@@ -3,10 +3,20 @@ import numpy as np
 from PIL import Image
 import time
 
-
 image_file = 'test.jpg'
 image = Image.open(image_file).convert('RGB')
 image = np.array(image)
+
+"""Function Signature:
+def inference_time_tpu(edgetpu_model_name: str) -> float
+
+Parameters:
+edgetpu_model_name: A string representing the name of the TensorFlow Lite model compiled for the Edge TPU.
+Returns:
+
+A float representing the inference time of the model on the Edge TPU in milliseconds. Description: The 
+"inference_time_tpu" function measures the inference time of a TensorFlow Lite model running on an Edge TPU device. 
+The function returns the inference time of the model on the Edge TPU device in milliseconds."""
 
 
 def inference_time_tpu(edgetpu_model_name):
