@@ -51,9 +51,6 @@ def select_models(train_ds,
         except:
             tflite_accuracy = 0
             tpu_time = 9999
-        finally:
-            del tflite_model
-            del model
 
         fitness = calculate_fitness(tflite_accuracy, tpu_time)
 
