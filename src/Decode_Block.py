@@ -2,6 +2,18 @@ from src.Gene_Pool import conv_block, inverted_residual_block, mobilevit_block
 from src.Search_Space import kernel_size_space, stride_space, filters_space, \
     expansion_factor_space, residual_space, normalization_space, activation_space, transformer_space, head_space
 
+"""Function Signature:
+def decoded_block(x: tf.Tensor, layer_array: np.ndarray) -> tf.Tensor
+
+Parameters:
+x: A tensor representing the input to the block of layers.
+layer_array: A binary array representing the sequence of layers to be applied.
+
+Returns:
+A tensor representing the output after applying the layer operations. Description: The "decoded_block" function 
+decodes a binary array representing a sequence of layers and applies the corresponding layer operations to an input 
+tensor "x". The function returns the tensor "x" after applying the layer operations."""
+
 
 def decoded_block(x, layer_array):
     layer_type_index = int(str(layer_array[0]) + str(layer_array[1]), 2)
