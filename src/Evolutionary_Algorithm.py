@@ -10,6 +10,28 @@ from tools.Inference_Speed_TPU import inference_time_tpu
 from src.Fitness_Function import calculate_fitness
 import pickle
 
+"""Function Signature:
+def create_first_population(population: int = 100, num_classes: int = 5) -> np.ndarray
+
+Parameters:
+population: An integer representing the number of models in the initial population. Defaults to 100.
+num_classes: An integer representing the number of classes in the classification task. Defaults to 5.
+
+Returns:
+A NumPy array of shape (population, 9, 18) representing the initial population of models.
+
+
+Description: The "create_first_population" function creates an initial population of "population" models, where each 
+model is represented as a binary array of shape (9, 18). Each element of the binary array represents a parameter for 
+a specific layer operation.
+The function first generates a random binary array of shape (9, 18) for each model in the initial population. It then 
+creates a model from each binary array and checks if it satisfies certain constraints using the "check_model" 
+function. If the model does not satisfy the constraints, the function generates a new random binary array for the 
+model and tries again until a valid model is found.
+
+The function returns a NumPy array representing the initial population of models.
+"""
+
 
 def create_first_population(population=100, num_classes=5):
     first_population_array = np.random.randint(0, 2, (population, 9, 18))
@@ -34,7 +56,6 @@ def select_models(train_ds,
                   generation,
                   epochs=30,
                   num_classes=5):
-
     fitness_list = []
     tflite_accuracy_list = []
     tpu_time_list = []
@@ -110,14 +131,14 @@ def create_next_population(parent_arrays, population=10, num_classes=5):
 
 def start_evolution(train_ds, val_ds, test_ds, generations, population, num_classes, epochs, population_array=None,
                     time=None):
-
     max_fitness_history = []
     average_fitness_history = []
     if population_array is None:
         population_array = create_first_population(population=population, num_classes=num_classes)
 
     for generation in range(generations):
-        best_models_arrays, max_fitness, average_fitness = select_models(train_ds=train_ds, val_ds=val_ds, test_ds=test_ds, time=time,
+        best_models_arrays, max_fitness, average_fitness = select_models(train_ds=train_ds, val_ds=val_ds,
+                                                                         test_ds=test_ds, time=time,
                                                                          population_array=population_array,
                                                                          generation=generation, epochs=epochs,
                                                                          num_classes=num_classes)
