@@ -3,12 +3,6 @@ import tensorflow_addons as tfa
 
 from keras import layers
 
-'''This function defines a convolutional block, which applies a 2D convolution operation with the specified filters 
-and kernel size, followed by normalization and activation layers. The normalization and activation layers used are 
-determined by the 'normalization' and 'activation' arguments, respectively. If the specified normalization or 
-activation is not found in the list of available options, the function will print a message and use the input without 
-normalization or activation. The function returns the output of the convolutional block.'''
-
 
 def conv_block(x, filters=16, kernel_size=3, strides=2, normalization='BatchNormalization', activation='silu6'):
     x = layers.Conv2D(filters, kernel_size, strides=strides, padding="same")(x)
@@ -34,18 +28,6 @@ def conv_block(x, filters=16, kernel_size=3, strides=2, normalization='BatchNorm
         x = x
 
     return x
-
-
-'''This function defines an inverted residual block, which is a type of block commonly used in mobile networks such 
-as MobileNet. The block applies a series of convolutional layers, normalization and activation layers, and a residual 
-connection. The input x is first passed through a 1x1 convolutional layer with expansion factor * output_channels 
-filters, followed by normalization and activation layers. Then, it goes through a depthwise convolutional layer with 
-kernel_size, strides and padding set to "same". This is followed by normalization and activation layers. Then it goes 
-through another 1x1 convolutional layer with output_channels filters. This is followed by normalization and 
-activation layers. Finally, the output of this block is added to the input x using a residual connection. The type of 
-residual connection used is determined by the 'residual' argument. If the specified normalization or activation is 
-not found in the list of available options, the function will print a message and use the input without normalization 
-or activation. The function returns the output of the inverted residual block.'''
 
 
 def inverted_residual_block(x, expansion_factor, output_channels, strides=1, kernel_size=3,
@@ -136,16 +118,6 @@ def inverted_residual_block(x, expansion_factor, output_channels, strides=1, ker
     return m
 
 
-'''This function defines a feed-forward neural network (FFN) block, which is a type of block commonly used in 
-transformer architectures such as BERT. The block applies a series of convolutional layers, normalization and 
-activation layers and dropout. The input x is first reshaped to a 4D tensor and then passed through a series of 1x1 
-convolutional layers with filters equal to the specified hidden units. Each convolutional layer is followed by a 
-LayerNormalization layer, an activation function silu6 which is min(silu(x), 6) and a dropout layer with the 
-specified dropout rate. The use_bias argument is used to specify whether to use bias or not in the convolutional 
-layer. Finally, the output is reshaped back to its original shape. The function returns the output of the 
-feed-forward neural network block.'''
-
-
 def ffn(x, hidden_units, dropout_rate, use_bias=False):
     a = tf.reshape(x, (-1, 1, x.shape[1], x.shape[-1]))
 
@@ -158,16 +130,6 @@ def ffn(x, hidden_units, dropout_rate, use_bias=False):
     x = tf.reshape(a, (-1, x.shape[1], x.shape[-1]))
 
     return x
-
-
-'''This function defines a transformer block, which is a type of block commonly used in transformer architectures 
-such as BERT. The block applies a series of multi-head attention layers, normalization layers, and skip connections. 
-The input encoded_patches is passed through a specified number of transformer_layers, each of which consists of a 
-LayerNormalization layer, a MultiHeadAttention layer with the specified number of num_heads and projection_dim, 
-a Skip connection using StochasticDepth, another LayerNormalization layer, and a feed-forward neural network block 
-with hidden_units=[projection_dim * 2, projection_dim], dropout_rate=0.1. The output of each transformer layer is 
-then added to the input encoded_patches using another skip connection. Finally, the output is passed through a final 
-LayerNormalization layer. The function returns the output of the transformer block.'''
 
 
 def transformer_block(encoded_patches, transformer_layers, projection_dim, num_heads=2):

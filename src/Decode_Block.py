@@ -2,24 +2,6 @@ from src.Gene_Pool import conv_block, inverted_residual_block, mobilevit_block
 from src.Search_Space import kernel_size_space, stride_space, filters_space, \
     expansion_factor_space, residual_space, normalization_space, activation_space, transformer_space, head_space
 
-'''This is a function that takes in an input tensor x and a binary encoded array layer_array as input, and it returns 
-the output of a decoded block. The layer_array is a binary encoded array that represents the hyperparameters of the 
-layer.
-
-The function starts by decoding the layer_array and extracting the values of the hyperparameters using bitwise 
-operations and indexing the corresponding values from the predefined hyperparameter spaces.
-
-Then it creates a dictionary of lambda functions, one for each possible type of layer, and the key of this dictionary 
-is the decoded layer_type_index. Each lambda function takes the input tensor x as input and applies the corresponding 
-layer with the decoded hyperparameters.
-
-Finally, the function applies the lambda function corresponding to the decoded layer_type_index and returns the 
-output tensor.
-
-It is important to note that this function assumes that the values of the hyperparameters are defined in the global 
-scope and that the other functions used in this function (conv_block, inverted_residual_block, mobilevit_block) are 
-defined before this function.'''
-
 
 def decoded_block(x, layer_array):
     layer_type_index = int(str(layer_array[0]) + str(layer_array[1]), 2)
