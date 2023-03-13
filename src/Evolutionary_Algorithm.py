@@ -48,6 +48,46 @@ def create_first_population(population=100, num_classes=5):
     return first_population_array
 
 
+"""Function Signature:
+def select_models(train_ds: tf.data.Dataset,
+val_ds: tf.data.Dataset,
+test_ds: tf.data.Dataset,
+time: str,
+population_array: np.ndarray,
+generation: int,
+epochs: int = 30,
+num_classes: int = 5) -> Tuple[List[np.ndarray], float, float]
+
+Parameters:
+train_ds: A TensorFlow dataset representing the training data.
+val_ds: A TensorFlow dataset representing the validation data.
+test_ds: A TensorFlow dataset representing the test data.
+time: A string representing the current time.
+population_array: A NumPy array of shape (population, 9, 18) representing the initial population of models.
+generation: An integer representing the current generation.
+epochs: An integer representing the number of epochs to train each model. Defaults to 30.
+num_classes: An integer representing the number of classes in the classification task. Defaults to 5.
+
+Returns:
+A tuple containing: A list of NumPy arrays representing the binary arrays of the top 5 models with the highest 
+fitness values in the current generation. A float representing the highest fitness value in the current generation. A 
+float representing the average fitness value in the current generation. 
+
+Description: The "select_models" function trains the models in the current population, evaluates their fitness 
+values, and selects the top 5 models with the highest fitness values to pass on to the next generation. For each 
+model in the population, the function creates a Keras model from the binary array representation, trains the model on 
+the training and validation datasets, converts the model to a TensorFlow Lite model, evaluates the accuracy of the 
+model on the test dataset using the "evaluate_tflite_model" function, and measures the inference time of the model on 
+the Edge TPU using the "inference_time_tpu" function. The fitness value of the model is then calculated using the 
+"calculate_fitness" function.
+
+The function returns a tuple containing:
+
+A list of the top 5 models with the highest fitness values in the current generation. Each model is represented as a 
+binary array of shape (9, 18). The highest fitness value in the current generation. The average fitness value in the 
+current generation."""
+
+
 def select_models(train_ds,
                   val_ds,
                   test_ds,
@@ -97,10 +137,43 @@ def select_models(train_ds,
     return best_models_arrays, max_fitness, average_fitness
 
 
+"""Function Signature:
+def crossover(parent_arrays: List[np.ndarray]) -> np.ndarray
+
+Parameters:
+parent_arrays: A list of NumPy arrays representing the binary arrays of the parents.
+
+Returns:
+A NumPy array representing the binary array of the child resulting from the crossover operation. 
+
+Description: The "crossover" function takes a list of binary arrays representing the parents and performs a crossover 
+operation to create a new binary array representing the child. The crossover operation is performed by randomly 
+selecting one of the binary values from each parent for each layer in the child's binary array.
+
+The function returns a NumPy array representing the binary array of the child resulting from the crossover operation."""
+
+
 def crossover(parent_arrays):
     parent_indices = np.random.randint(0, 5, size=parent_arrays[0].shape)
     child_array = np.choose(parent_indices, parent_arrays)
     return child_array
+
+
+"""Function Signature:
+def mutate(model_array: np.ndarray, mutate_prob: float = 0.05) -> np.ndarray
+
+Parameters:
+model_array: A NumPy array representing the binary array of the model to mutate.
+mutate_prob: A float value representing the probability of a gene being mutated. Default is 0.05.
+
+Returns:
+A NumPy array representing the binary array of the mutated model.
+
+Description: The "mutate" function takes a NumPy array representing the binary array of the model and performs a 
+mutation operation with a given probability. The mutation operation randomly selects genes and inverts them (from 0 
+to 1 or from 1 to 0) with the given probability.
+
+The function returns a NumPy array representing the binary array of the mutated model."""
 
 
 def mutate(model_array, mutate_prob=0.05):
@@ -108,6 +181,26 @@ def mutate(model_array, mutate_prob=0.05):
     mutated_array = np.where(prob < mutate_prob, np.logical_not(model_array), model_array)
 
     return mutated_array
+
+
+"""Function Signature:
+def create_next_population(parent_arrays: List[np.ndarray], population: int = 10, num_classes: int = 5) -> np.ndarray
+
+Parameters:
+parent_arrays: A list of NumPy arrays representing the binary arrays of the parents.
+population: An integer value representing the size of the next population to create. Default is 10.
+num_classes: An integer value representing the number of classes in the classification task. Default is 5.
+
+Returns: A NumPy array representing the binary arrays of the individuals in the next population. 
+
+Description: The "create_next_population" function takes a list of binary arrays representing the parents and 
+performs crossover and mutation operations to create a new population of binary arrays representing individuals. The 
+function first creates a new empty population array with the given size. Then, for each individual in the population, 
+the function performs the crossover and mutation operations on the parent arrays to create a new binary array for the 
+individual. The function also checks the validity of the new binary array by calling the "check_model" function and 
+generates a new binary array if it is invalid.
+
+The function returns a NumPy array representing the binary arrays of the individuals in the next population."""
 
 
 def create_next_population(parent_arrays, population=10, num_classes=5):
@@ -153,7 +246,7 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
         pickle.dump(max_fitness_history, f)
     with open(f'results_{time}/average_fitness_history.pkl', 'wb') as f:
         pickle.dump(average_fitness_history, f)
-    with open(f'results_{time}//best_model_arrays.pkl', 'wb') as f:
+    with open(f'results_{time}/best_model_arrays.pkl', 'wb') as f:
         pickle.dump(best_models_arrays, f)
 
     return population_array, max_fitness_history, average_fitness_history, best_models_arrays
