@@ -9,6 +9,22 @@ def model_evaluation(trained_model, test_ds):
     return raw_model_accuracy
 
 
+"""Function Signature:
+def evaluate_tflite_model(tflite_model: bytes, tfl_int8: bool = True) -> float
+
+Parameters:
+tflite_model: TensorFlow Lite model object to be evaluated.
+tfl_int8: A boolean value indicating whether the model was quantized to int8 or not. Defaults to True.
+
+Returns: A float representing the accuracy of the TensorFlow Lite model. 
+
+Description: The "evaluate_tflite_model" 
+function evaluates a TensorFlow Lite model by comparing its predictions to the ground truth labels of a test dataset. 
+The function returns the accuracy of the model.
+
+"""
+
+
 def evaluate_tflite_model(tflite_model, tfl_int8=True):
     interpreter = tf.lite.Interpreter(model_content=tflite_model)
     interpreter.allocate_tensors()

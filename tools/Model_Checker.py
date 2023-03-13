@@ -1,9 +1,16 @@
-"""This function takes a model as an input and checks if the model has any MultiHeadAttention layers with an output
-size greater than 1024. If it finds such a layer, it returns True, otherwise it returns False. It does this by
-iterating through all the layers of the model, checking if the string 'multi_head_attention' is present in the string
-representation of the layer. If it is, it gets the output shape of the layer and checks the size of the second
-dimension. If it's greater than 1024, it returns True. Otherwise, it continues to check the next layer. If it doesn't
-find any such layer, it returns False."""
+"""
+Function Signature:
+def check_model(model: keras.Model) -> bool
+
+Parameters:
+model: A Keras model object to be checked.
+
+Returns:
+A boolean value, True if the model does not contain a multi-head attention layer or if the output shape of the layer
+is less than or equal to 1024, False otherwise. Description: The "check_model" function checks if a Keras model
+contains a layer of type "multi_head_attention" and if the output shape of the layer is greater than 1024. The
+function returns True if the model does not contain a multi-head attention layer or if the output shape of the layer
+is less than or equal to 1024, otherwise it returns False."""
 
 
 def check_model(model):
