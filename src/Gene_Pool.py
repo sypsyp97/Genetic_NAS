@@ -153,17 +153,6 @@ def transformer_block(encoded_patches, transformer_layers, projection_dim, num_h
     return encoded_patches
 
 
-'''This function defines a mobilevit block, which is a type of block that combines the features of convolutional 
-neural networks and transformer networks. The block applies a series of convolutional layers, normalization layers, 
-transformer layers and skip connections. The input x is passed through a convolutional block to extract local 
-features, then another convolutional block to further extract local features. These local features are then reshaped 
-and passed through a transformer block to extract global features. The global features are then reshaped and passed 
-through another convolutional block to produce folded features. Finally, the folded features are concatenated or 
-added to the input x using a skip connection with the specified residual. The output is passed through another 
-convolutional block with filter size of projection_dim and kernel size of 1. The function returns the output of the 
-mobilevit block.'''
-
-
 def mobilevit_block(x, num_blocks, projection_dim, strides=1, kernel_size=3, num_heads=2,
                     residual='Concatenate', activation='silu6', normalization='BatchNormalization'):
     local_features = conv_block(x, filters=projection_dim, kernel_size=kernel_size,
