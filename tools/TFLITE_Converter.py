@@ -46,6 +46,19 @@ def convert_to_tflite(keras_model, generation, i, time):
 
     tflite_model = converter.convert()
     # tf.lite.experimental.Analyzer.analyze(model_content=tflite_model, gpu_compatibility=True)
+
+    # result_dir = f'results_{time}'
+    # generation_dir = result_dir + f'/generation_{generation}'
+    # if not os.path.exists(result_dir):
+    #     os.makedirs(result_dir)
+    # if not os.path.exists(generation_dir):
+    #     os.makedirs(generation_dir)
+    #
+    # path = generation_dir + f"/model_{i}.tflite"
+
+    # with open(path, 'wb') as f:
+    #     f.write(tflite_model)
+
     path = f"model_{i}_gen_{generation}_time_{time}.tflite"
 
     with open(path, 'wb') as f:

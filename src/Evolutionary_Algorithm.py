@@ -9,6 +9,7 @@ from tools.Compile_Edge_TPU import compile_edgetpu
 from tools.Inference_Speed_TPU import inference_time_tpu
 from src.Fitness_Function import calculate_fitness
 import pickle
+import os
 
 """Function Signature:
 def create_first_population(population: int = 100, num_classes: int = 5) -> np.ndarray
@@ -33,7 +34,7 @@ The function returns a NumPy array representing the initial population of models
 """
 
 
-def create_first_population(population=100, num_classes=5):
+def create_first_population(population=10, num_classes=5):
     first_population_array = np.random.randint(0, 2, (population, 9, 18))
 
     for i in range(population):
@@ -124,14 +125,24 @@ def select_models(train_ds,
 
     best_models_indices = sorted(range(len(fitness_list)), key=lambda j: fitness_list[j], reverse=True)[:5]
     best_models_arrays = [population_array[k] for k in best_models_indices]
+    result_dir = f'results_{time}'
+    generation_dir = result_dir + f'/generation_{generation}'
+    best_models_arrays_dir = generation_dir + '/best_model_arrays.pkl'
+    fitness_list_dir = generation_dir + '/fitness_list.pkl'
+    tflite_accuracy_list_dir = generation_dir + '/tflite_accuracy_list.pkl'
+    tpu_time_list_dir = generation_dir + '/tpu_time_list.pkl'
+    if not os.path.exists(result_dir):
+        os.makedirs(result_dir)
+    if not os.path.exists(generation_dir):
+        os.makedirs(generation_dir)
 
-    with open(f'results_{time}/generation_{generation}/best_model_arrays.pkl', 'wb') as f:
+    with open(best_models_arrays_dir, 'wb') as f:
         pickle.dump(best_models_arrays, f)
-    with open(f'results_{time}/generation_{generation}/fitness_list.pkl', 'wb') as f:
+    with open(fitness_list_dir, 'wb') as f:
         pickle.dump(fitness_list, f)
-    with open(f'results_{time}/generation_{generation}/tflite_accuracy_list.pkl', 'wb') as f:
+    with open(tflite_accuracy_list_dir, 'wb') as f:
         pickle.dump(tflite_accuracy_list, f)
-    with open(f'results_{time}/generation_{generation}/tpu_time_list.pkl', 'wb') as f:
+    with open(tpu_time_list_dir, 'wb') as f:
         pickle.dump(tpu_time_list, f)
 
     return best_models_arrays, max_fitness, average_fitness
@@ -229,6 +240,10 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
     if population_array is None:
         population_array = create_first_population(population=population, num_classes=num_classes)
 
+    result_dir = f'results_{time}'
+    if not os.path.exists(result_dir):
+        os.makedirs(result_dir)
+
     for generation in range(generations):
         best_models_arrays, max_fitness, average_fitness = select_models(train_ds=train_ds, val_ds=val_ds,
                                                                          test_ds=test_ds, time=time,
@@ -240,13 +255,20 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
         max_fitness_history.append(max_fitness)
         average_fitness_history.append(average_fitness)
 
-    with open(f'results_{time}/next_population_array.pkl', 'wb') as f:
-        pickle.dump(population_array, f)
-    with open(f'results_{time}/max_fitness_history.pkl', 'wb') as f:
-        pickle.dump(max_fitness_history, f)
-    with open(f'results_{time}/average_fitness_history.pkl', 'wb') as f:
-        pickle.dump(average_fitness_history, f)
-    with open(f'results_{time}/best_model_arrays.pkl', 'wb') as f:
-        pickle.dump(best_models_arrays, f)
+
+
+        next_population_array_dir = result_dir + '/next_population_array.pkl'
+        max_fitness_history_dir = result_dir + '/max_fitness_history.pkl'
+        average_fitness_history_dir = result_dir + '/average_fitness_history.pkl'
+        best_model_arrays_dir = result_dir + '/best_model_arrays.pkl'
+
+        with open(next_population_array_dir, 'wb') as f:
+            pickle.dump(population_array, f)
+        with open(max_fitness_history_dir, 'wb') as f:
+            pickle.dump(max_fitness_history, f)
+        with open(average_fitness_history_dir, 'wb') as f:
+            pickle.dump(average_fitness_history, f)
+        with open(best_model_arrays_dir, 'wb') as f:
+            pickle.dump(best_models_arrays, f)
 
     return population_array, max_fitness_history, average_fitness_history, best_models_arrays

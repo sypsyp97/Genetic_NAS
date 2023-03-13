@@ -39,7 +39,7 @@ def prepare_dataset(dataset, is_training=True):
 if __name__ == '__main__':
 
     now = datetime.now()
-    formatted_date = now.strftime("%d/%m/%Y %H:%M:%S")
+    formatted_date = now.strftime("%d%m%Y%H%M%S")
 
     train_dataset, val_dataset, test_dataset = tfds.load("tf_flowers", shuffle_files=False,
                                                          split=["train[:85%]", "train[85%:95%]", "train[95%:]"],
@@ -56,8 +56,8 @@ if __name__ == '__main__':
         train_ds=train_dataset,
         val_ds=val_dataset,
         test_ds=test_dataset,
-        generations=2,
-        population=5,
+        generations=20,
+        population=25,
         num_classes=5,
-        epochs=1,
+        epochs=30,
         time=formatted_date)
