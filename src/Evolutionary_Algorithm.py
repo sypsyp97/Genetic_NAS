@@ -101,6 +101,17 @@ def select_models(train_ds,
     tflite_accuracy_list = []
     tpu_time_list = []
 
+    result_dir = f'results_{time}'
+    generation_dir = result_dir + f'/generation_{generation}'
+    best_models_arrays_dir = generation_dir + '/best_model_arrays.pkl'
+    fitness_list_dir = generation_dir + '/fitness_list.pkl'
+    tflite_accuracy_list_dir = generation_dir + '/tflite_accuracy_list.pkl'
+    tpu_time_list_dir = generation_dir + '/tpu_time_list.pkl'
+    if not os.path.exists(result_dir):
+        os.makedirs(result_dir)
+    if not os.path.exists(generation_dir):
+        os.makedirs(generation_dir)
+
     for i in range(population_array.shape[0]):
         model = create_model(population_array[i], num_classes=num_classes)
         model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
@@ -120,30 +131,21 @@ def select_models(train_ds,
         fitness_list.append(fitness)
         tpu_time_list.append(tpu_time)
 
+        with open(fitness_list_dir, 'wb') as f:
+            pickle.dump(fitness_list, f)
+        with open(tflite_accuracy_list_dir, 'wb') as f:
+            pickle.dump(tflite_accuracy_list, f)
+        with open(tpu_time_list_dir, 'wb') as f:
+            pickle.dump(tpu_time_list, f)
+
     max_fitness = np.max(fitness_list)
     average_fitness = np.average(fitness_list)
 
     best_models_indices = sorted(range(len(fitness_list)), key=lambda j: fitness_list[j], reverse=True)[:5]
     best_models_arrays = [population_array[k] for k in best_models_indices]
-    result_dir = f'results_{time}'
-    generation_dir = result_dir + f'/generation_{generation}'
-    best_models_arrays_dir = generation_dir + '/best_model_arrays.pkl'
-    fitness_list_dir = generation_dir + '/fitness_list.pkl'
-    tflite_accuracy_list_dir = generation_dir + '/tflite_accuracy_list.pkl'
-    tpu_time_list_dir = generation_dir + '/tpu_time_list.pkl'
-    if not os.path.exists(result_dir):
-        os.makedirs(result_dir)
-    if not os.path.exists(generation_dir):
-        os.makedirs(generation_dir)
 
     with open(best_models_arrays_dir, 'wb') as f:
         pickle.dump(best_models_arrays, f)
-    with open(fitness_list_dir, 'wb') as f:
-        pickle.dump(fitness_list, f)
-    with open(tflite_accuracy_list_dir, 'wb') as f:
-        pickle.dump(tflite_accuracy_list, f)
-    with open(tpu_time_list_dir, 'wb') as f:
-        pickle.dump(tpu_time_list, f)
 
     return best_models_arrays, max_fitness, average_fitness
 
