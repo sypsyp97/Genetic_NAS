@@ -59,7 +59,7 @@ if __name__ == '__main__':
         val_ds=val_dataset,
         test_ds=test_dataset,
         generations=20,
-        population=25,
+        population=20,
         num_classes=5,
         epochs=30,
         time=formatted_date)
