@@ -2,6 +2,7 @@ from src.Evolutionary_Algorithm import start_evolution
 
 import tensorflow as tf
 import tensorflow_datasets as tfds
+import gc
 
 from datetime import datetime
 tf.random.set_seed(123)
@@ -37,6 +38,7 @@ def prepare_dataset(dataset, is_training=True):
 
 
 if __name__ == '__main__':
+    gc.enable()
 
     now = datetime.now()
     formatted_date = now.strftime("%d%m%Y%H%M%S")
