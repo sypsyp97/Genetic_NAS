@@ -262,8 +262,6 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
         max_fitness_history.append(max_fitness)
         average_fitness_history.append(average_fitness)
 
-
-
         next_population_array_dir = result_dir + '/next_population_array.pkl'
         max_fitness_history_dir = result_dir + '/max_fitness_history.pkl'
         average_fitness_history_dir = result_dir + '/average_fitness_history.pkl'
