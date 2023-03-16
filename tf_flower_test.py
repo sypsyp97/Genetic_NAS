@@ -3,8 +3,10 @@ from src.Evolutionary_Algorithm import start_evolution
 import tensorflow as tf
 import tensorflow_datasets as tfds
 import gc
+import pickle
 
 from datetime import datetime
+
 tf.random.set_seed(123)
 
 image_size = 256
@@ -12,6 +14,10 @@ batch_size = 64
 auto = tf.data.AUTOTUNE
 resize_bigger = 280
 num_classes = 5
+
+with open('results_14032023164450/next_population_array.pkl', 'rb') as f:
+    data = pickle.load(f)
+    f.close()
 
 
 def preprocess_dataset(is_training=True):
@@ -58,8 +64,9 @@ if __name__ == '__main__':
         train_ds=train_dataset,
         val_ds=val_dataset,
         test_ds=test_dataset,
-        generations=20,
+        generations=7,
         population=20,
         num_classes=5,
         epochs=30,
+        population_array=data,
         time=formatted_date)
