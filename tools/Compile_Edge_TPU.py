@@ -5,7 +5,7 @@ specialized hardware for machine learning inference. This function takes a file 
 the compiled TFLite model for Edge TPU.
 
 Function Signature:
-def compile_edgetpu(path: str) -> Optional[str]
+def compile_edgetpu(path: str) -> edgetpu_model_name[str]
 
 Parameters：
 path: A string representing the path of the TFLite model to be compiled for Edge TPU.
