@@ -127,9 +127,6 @@ def select_models(train_ds,
             tflite_accuracy = 0
             tpu_time = 9999
 
-
-
-
         fitness = calculate_fitness(tflite_accuracy, tpu_time)
 
         tflite_accuracy_list.append(tflite_accuracy)
