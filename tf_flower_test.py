@@ -53,9 +53,6 @@ if __name__ == '__main__':
                                                          split=["train[:85%]", "train[85%:95%]", "train[95%:]"],
                                                          download=True, as_supervised=True)
 
-    num_train = train_dataset.cardinality()
-    num_val = val_dataset.cardinality()
-    num_test = test_dataset.cardinality()
     train_dataset = prepare_dataset(train_dataset, is_training=True)
     val_dataset = prepare_dataset(val_dataset, is_training=False)
     test_dataset = prepare_dataset(test_dataset, is_training=False)
