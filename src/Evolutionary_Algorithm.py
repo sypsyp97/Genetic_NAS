@@ -218,7 +218,7 @@ generates a new binary array if it is invalid.
 The function returns a NumPy array representing the binary arrays of the individuals in the next population."""
 
 
-def create_next_population(parent_arrays, population=10, num_classes=5):
+def create_next_population(parent_arrays, population=20, num_classes=5):
     next_population_array = np.random.randint(0, 2, (population, 9, 18))
 
     for individual in range(population):

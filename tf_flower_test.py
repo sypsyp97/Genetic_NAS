@@ -1,4 +1,4 @@
-from src.Evolutionary_Algorithm import start_evolution
+from src.Evolutionary_Algorithm import start_evolution, create_next_population
 
 import tensorflow as tf
 import tensorflow_datasets as tfds
@@ -15,9 +15,11 @@ auto = tf.data.AUTOTUNE
 resize_bigger = 280
 num_classes = 5
 
-with open('results_14032023164450/next_population_array.pkl', 'rb') as f:
+with open('results_14032023164450/generation_11/best_model_arrays.pkl', 'rb') as f:
     data = pickle.load(f)
     f.close()
+
+next = create_next_population(parent_arrays=data, population=20, num_classes=5)
 
 
 def preprocess_dataset(is_training=True):
@@ -65,5 +67,5 @@ if __name__ == '__main__':
         population=20,
         num_classes=5,
         epochs=30,
-        population_array=data,
+        population_array=next,
         time=formatted_date)
