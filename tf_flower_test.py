@@ -28,11 +28,11 @@ auto = tf.data.AUTOTUNE
 resize_bigger = 280
 num_classes = 5
 
-with open('results_14032023164450/generation_11/best_model_arrays.pkl', 'rb') as f:
-    data = pickle.load(f)
-    f.close()
-
-next = create_next_population(parent_arrays=data, population=20, num_classes=5)
+# with open('results_14032023164450/generation_11/best_model_arrays.pkl', 'rb') as f:
+#     data = pickle.load(f)
+#     f.close()
+#
+# next = create_next_population(parent_arrays=data, population=20, num_classes=5)
 
 
 def preprocess_dataset(is_training=True):
