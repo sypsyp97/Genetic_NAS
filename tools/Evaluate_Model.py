@@ -2,6 +2,7 @@ import numpy as np
 import tensorflow as tf
 from get_datasets.Data_for_TFLITE import x_test, y_test
 import tflite_runtime.interpreter as tflite
+import time
 
 
 def model_evaluation(trained_model, test_ds):
@@ -38,6 +39,7 @@ def evaluate_tflite_model(tflite_model, tfl_int8=True):
 
     prediction_labels = []
     test_labels = []
+    times = []
 
     for i in range(x_test.shape[0]):
         if tfl_int8:
@@ -47,7 +49,10 @@ def evaluate_tflite_model(tflite_model, tfl_int8=True):
             test_image = np.expand_dims(x_test[i], axis=0).astype(np.float32)
 
         interpreter.set_tensor(input_index, test_image)
+        start_time = time.monotonic()
         interpreter.invoke()
+        tpu_inference_time = (time.monotonic() - start_time) * 1000
+        times.append(tpu_inference_time)
 
         output = interpreter.get_tensor(output_index)
         if tfl_int8:
@@ -66,4 +71,4 @@ def evaluate_tflite_model(tflite_model, tfl_int8=True):
     del input_details
     del output_details
 
-    return float(tflite_accuracy.result())
+    return float(tflite_accuracy.result()), np.average(times)

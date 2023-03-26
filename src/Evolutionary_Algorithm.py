@@ -8,7 +8,7 @@ from tools.Create_Model import train_model
 from tools.Model_Checker import model_has_problem
 from tools.TFLITE_Converter import convert_to_tflite
 from tools.Compile_Edge_TPU import compile_edgetpu
-from tools.Inference_Speed_TPU import inference_time_tpu
+# from tools.Inference_Speed_TPU import inference_time_tpu
 from src.Fitness_Function import calculate_fitness
 import pickle
 import os
@@ -121,8 +121,8 @@ def select_models(train_ds,
         try:
             _, tflite_name = convert_to_tflite(keras_model=model, generation=generation, i=i, time=time)
             edgetpu_name = compile_edgetpu(tflite_name)
-            tflite_accuracy = evaluate_tflite_model(tflite_model=edgetpu_name, tfl_int8=True)
-            tpu_time = inference_time_tpu(edgetpu_model_name=edgetpu_name)
+            tflite_accuracy, tpu_time = evaluate_tflite_model(tflite_model=edgetpu_name, tfl_int8=True)
+            # tpu_time = inference_time_tpu(edgetpu_model_name=edgetpu_name)
         except:
             tflite_accuracy = 0
             tpu_time = 9999
