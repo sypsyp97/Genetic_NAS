@@ -84,8 +84,6 @@ def model_has_attention(model):
         return False
 
 
-#
-#
 def model_has_problem(model):
     if model_has_attention(model):
         if is_edge_tpu_compatible(model):
