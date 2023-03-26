@@ -24,7 +24,7 @@ the saved model file. The saved model file name includes the generation number, 
 """
 
 
-def convert_to_tflite(keras_model, generation, i, time):
+def convert_to_tflite(keras_model, generation=0, i=0, time=0):
     converter = tf.lite.TFLiteConverter.from_keras_model(keras_model)
 
     # This enables quantization
