@@ -72,7 +72,12 @@ def model_has_problem(model):
         output_shape = layer.output.shape
         size = output_shape[1]
 
-        if size > 1024 or not is_edge_tpu_compatible(model):
+        if size > 1024:
             return True
+        else:
+            if is_edge_tpu_compatible(model):
+                return False
+            else:
+                return True
 
     return False
