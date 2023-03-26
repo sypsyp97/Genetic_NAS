@@ -5,7 +5,7 @@ import numpy as np
 from tools.Create_Model import create_model
 from tools.Evaluate_Model import evaluate_tflite_model
 from tools.Create_Model import train_model
-from tools.Model_Checker import check_model
+from tools.Model_Checker import model_has_problem
 from tools.TFLITE_Converter import convert_to_tflite
 from tools.Compile_Edge_TPU import compile_edgetpu
 from tools.Inference_Speed_TPU import inference_time_tpu
@@ -41,7 +41,7 @@ def create_first_population(population, num_classes=5):
 
     for i in range(population):
         model = create_model(first_population_array[i], num_classes=num_classes)
-        while check_model(model):
+        while model_has_problem(model):
             del model
             first_population_array[i] = np.random.randint(0, 2, (9, 18))
             model = create_model(first_population_array[i], num_classes=num_classes)
@@ -227,7 +227,7 @@ def create_next_population(parent_arrays, population=20, num_classes=5):
 
     for individual in range(population):
         model = create_model(next_population_array[individual], num_classes=num_classes)
-        while check_model(model):
+        while model_has_problem(model):
             del model
             next_population_array[individual] = crossover(parent_arrays)
             next_population_array[individual] = mutate(next_population_array[individual], mutate_prob=0.03)
@@ -242,7 +242,7 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
     max_fitness_history = []
     average_fitness_history = []
     if population_array is None:
-        population_array = create_first_population(population=100, num_classes=num_classes)
+        population_array = create_first_population(population=50, num_classes=num_classes)
 
     result_dir = f'results_{time}'
     if not os.path.exists(result_dir):
