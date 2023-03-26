@@ -1,13 +1,26 @@
 from src.Evolutionary_Algorithm import start_evolution, create_next_population
-
-import tensorflow as tf
 import tensorflow_datasets as tfds
 import gc
 import pickle
 
 from datetime import datetime
 
-tf.random.set_seed(123)
+import random
+import numpy as np
+import tensorflow as tf
+
+seed_value = 123  # You can choose any number as your fixed seed value
+
+# Set seed for Python's built-in random module
+random.seed(seed_value)
+
+# Set seed for NumPy
+np.random.seed(seed_value)
+
+# Set seed for TensorFlow
+tf.random.set_seed(seed_value)
+
+
 
 image_size = 256
 batch_size = 64
@@ -67,5 +80,5 @@ if __name__ == '__main__':
         population=5,
         num_classes=5,
         epochs=1,
-        # population_array=next,
+        population_array=next,
         time=formatted_date)
