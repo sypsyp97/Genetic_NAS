@@ -76,9 +76,9 @@ if __name__ == '__main__':
         train_ds=train_dataset,
         val_ds=val_dataset,
         test_ds=test_dataset,
-        generations=2,
-        population=5,
+        generations=16,
+        population=24,
         num_classes=5,
-        epochs=1,
-        population_array=next,
+        epochs=30,
+        # population_array=next,
         time=formatted_date)

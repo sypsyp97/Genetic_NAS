@@ -242,7 +242,7 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
     max_fitness_history = []
     average_fitness_history = []
     if population_array is None:
-        population_array = create_first_population(population=25, num_classes=num_classes)
+        population_array = create_first_population(population=32, num_classes=num_classes)
 
     result_dir = f'results_{time}'
     if not os.path.exists(result_dir):
