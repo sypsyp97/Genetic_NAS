@@ -119,9 +119,9 @@ def select_models(train_ds,
         model, _ = train_model(train_ds, val_ds, model=model, epochs=epochs)
 
         try:
-            tflite_model, tflite_name = convert_to_tflite(keras_model=model, generation=generation, i=i, time=time)
-            tflite_accuracy = evaluate_tflite_model(tflite_model=tflite_model, tfl_int8=True)
+            _, tflite_name = convert_to_tflite(keras_model=model, generation=generation, i=i, time=time)
             edgetpu_name = compile_edgetpu(tflite_name)
+            tflite_accuracy = evaluate_tflite_model(tflite_model=edgetpu_name, tfl_int8=True)
             tpu_time = inference_time_tpu(edgetpu_model_name=edgetpu_name)
         except:
             tflite_accuracy = 0
@@ -242,7 +242,7 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
     max_fitness_history = []
     average_fitness_history = []
     if population_array is None:
-        population_array = create_first_population(population=50, num_classes=num_classes)
+        population_array = create_first_population(population=5, num_classes=num_classes)
 
     result_dir = f'results_{time}'
     if not os.path.exists(result_dir):
