@@ -67,5 +67,5 @@ if __name__ == '__main__':
         population=20,
         num_classes=5,
         epochs=30,
-        population_array=next,
+        # population_array=next,
         time=formatted_date)
