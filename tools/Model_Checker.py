@@ -42,7 +42,7 @@ import os
 def is_edge_tpu_compatible(keras_model):
     try:
         # Convert the Keras model to a TFLite model
-        _, tflite_path = convert_to_tflite(keras_model, "compatibility_check", 0, "compatibility_check")
+        _, tflite_path = convert_to_tflite(keras_model)
 
         # Try to compile the TFLite model for the Edge TPU
         edgetpu_model_name = compile_edgetpu(tflite_path)
