@@ -9,7 +9,7 @@ import random
 import numpy as np
 import tensorflow as tf
 
-seed_value = 123  # You can choose any number as your fixed seed value
+seed_value = 666  # You can choose any number as your fixed seed value
 
 # Set seed for Python's built-in random module
 random.seed(seed_value)
