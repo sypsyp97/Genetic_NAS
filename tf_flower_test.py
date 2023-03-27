@@ -1,10 +1,9 @@
 from src.Evolutionary_Algorithm import start_evolution, create_next_population
 import tensorflow_datasets as tfds
 import gc
-import pickle
 
 from datetime import datetime
-
+from get_datasets.Data_for_TFLITE import prepare_dataset
 import random
 import numpy as np
 import tensorflow as tf
@@ -20,8 +19,6 @@ np.random.seed(seed_value)
 # Set seed for TensorFlow
 tf.random.set_seed(seed_value)
 
-
-
 image_size = 256
 batch_size = 64
 auto = tf.data.AUTOTUNE
@@ -33,29 +30,6 @@ num_classes = 5
 #     f.close()
 #
 # next = create_next_population(parent_arrays=data, population=20, num_classes=5)
-
-
-def preprocess_dataset(is_training=True):
-    def _pp(image, label):
-        if is_training:
-            # Resize to a bigger spatial resolution and take the random
-            # crops.
-            image = tf.image.resize(image, (resize_bigger, resize_bigger))
-            image = tf.image.random_crop(image, (image_size, image_size, 3))
-            image = tf.image.random_flip_left_right(image)
-        else:
-            image = tf.image.resize(image, (image_size, image_size))
-        label = tf.one_hot(label, depth=num_classes)
-        return image, label
-
-    return _pp
-
-
-def prepare_dataset(dataset, is_training=True):
-    if is_training:
-        dataset = dataset.shuffle(batch_size * 10)
-    dataset = dataset.map(preprocess_dataset(is_training), num_parallel_calls=auto)
-    return dataset.cache().batch(batch_size).prefetch(auto)
 
 
 if __name__ == '__main__':
