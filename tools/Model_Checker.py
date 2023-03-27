@@ -76,7 +76,7 @@ def model_has_attention(model):
             if 'multi_head_attention' in str(layer):
                 output_shape = layer.output.shape
                 size = output_shape[1]
-                if size > 1024:
+                if size > 256:
                     return False
         return True
 
