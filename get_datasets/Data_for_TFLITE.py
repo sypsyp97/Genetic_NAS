@@ -1,12 +1,24 @@
 import tensorflow as tf
 import tensorflow_datasets as tfds
 import numpy as np
+import random
 
 image_size = 256
 batch_size = 1
 auto = tf.data.AUTOTUNE
 resize_bigger = 280
 num_classes = 5
+
+seed_value = 666  # You can choose any number as your fixed seed value
+
+# Set seed for Python's built-in random module
+random.seed(seed_value)
+
+# Set seed for NumPy
+np.random.seed(seed_value)
+
+# Set seed for TensorFlow
+tf.random.set_seed(seed_value)
 
 
 def preprocess_dataset(is_training=True):
