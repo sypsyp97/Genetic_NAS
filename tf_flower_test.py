@@ -10,13 +10,8 @@ import tensorflow as tf
 
 seed_value = 666  # You can choose any number as your fixed seed value
 
-# Set seed for Python's built-in random module
 random.seed(seed_value)
-
-# Set seed for NumPy
 np.random.seed(seed_value)
-
-# Set seed for TensorFlow
 tf.random.set_seed(seed_value)
 
 image_size = 256
