@@ -19,7 +19,6 @@ def disconnect_device(device):
         usb.util.dispose_resources(device)
         print("TPU disconnected")
 
-
 def reconnect_device(vendor_id, product_id):
     device = find_device(vendor_id, product_id)
     if device is not None:
