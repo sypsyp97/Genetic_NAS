@@ -17,14 +17,14 @@ def find_device(vendor_id, product_id):
 def disconnect_device(device):
     if device is not None:
         usb.util.dispose_resources(device)
-        print("Device disconnected")
+        print("TPU disconnected")
 
 
 def reconnect_device(vendor_id, product_id):
     device = find_device(vendor_id, product_id)
     if device is not None:
         return device
-    print("Device not found")
+    print("TPU not found")
 
 
 def handle_error():
@@ -34,9 +34,9 @@ def handle_error():
         time.sleep(1)  # Adjust this delay if necessary
         device = reconnect_device(VENDOR_ID, PRODUCT_ID)
         if device is not None:
-            print("Device reconnected")
+            print("TPU reconnected")
     else:
-        print("Device not found")
+        print("TPU not found")
 
 
 def model_evaluation(trained_model, test_ds):
