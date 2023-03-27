@@ -37,13 +37,13 @@ The function returns a NumPy array representing the initial population of models
 
 
 def create_first_population(population, num_classes=5):
-    first_population_array = np.random.randint(0, 2, (population, 8, 18))
+    first_population_array = np.random.randint(0, 2, (population, 9, 18))
 
     for i in range(population):
         model = create_model(first_population_array[i], num_classes=num_classes)
         while model_has_problem(model):
             del model
-            first_population_array[i] = np.random.randint(0, 2, (8, 18))
+            first_population_array[i] = np.random.randint(0, 2, (9, 18))
             model = create_model(first_population_array[i], num_classes=num_classes)
 
         del model
@@ -192,7 +192,7 @@ The function returns a NumPy array representing the binary array of the mutated 
 
 
 def mutate(model_array, mutate_prob=0.05):
-    prob = np.random.uniform(size=(8, 18))
+    prob = np.random.uniform(size=(9, 18))
     mutated_array = np.where(prob < mutate_prob, np.logical_not(model_array), model_array)
 
     return mutated_array
@@ -219,7 +219,7 @@ The function returns a NumPy array representing the binary arrays of the individ
 
 
 def create_next_population(parent_arrays, population=20, num_classes=5):
-    next_population_array = np.random.randint(0, 2, (population, 8, 18))
+    next_population_array = np.random.randint(0, 2, (population, 9, 18))
 
     for individual in range(population):
         next_population_array[individual] = crossover(parent_arrays)
