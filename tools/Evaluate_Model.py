@@ -1,8 +1,42 @@
+from get_datasets.Data_for_TFLITE import x_test, y_test
+import time
 import numpy as np
 import tensorflow as tf
-from get_datasets.Data_for_TFLITE import x_test, y_test
 import tflite_runtime.interpreter as tflite
-import time
+import usb.core
+import usb.util
+
+VENDOR_ID = 0x1a6e  # Global Unichip Corp.
+PRODUCT_ID = 0x089a  # Edge TPU USB Accelerator
+
+
+def find_device(vendor_id, product_id):
+    return usb.core.find(idVendor=vendor_id, idProduct=product_id)
+
+
+def disconnect_device(device):
+    if device is not None:
+        usb.util.dispose_resources(device)
+        print("Device disconnected")
+
+
+def reconnect_device(vendor_id, product_id):
+    device = find_device(vendor_id, product_id)
+    if device is not None:
+        return device
+    print("Device not found")
+
+
+def handle_error():
+    device = find_device(VENDOR_ID, PRODUCT_ID)
+    if device is not None:
+        disconnect_device(device)
+        time.sleep(1)  # Adjust this delay if necessary
+        device = reconnect_device(VENDOR_ID, PRODUCT_ID)
+        if device is not None:
+            print("Device reconnected")
+    else:
+        print("Device not found")
 
 
 def model_evaluation(trained_model, test_ds):
@@ -29,7 +63,8 @@ The function returns the accuracy of the model.
 
 def evaluate_tflite_model(tflite_model, tfl_int8=True):
     try:
-        interpreter = tflite.Interpreter(model_path=tflite_model, experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
+        interpreter = tflite.Interpreter(model_path=tflite_model,
+                                         experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
         interpreter.allocate_tensors()
         input_details = interpreter.get_input_details()
         output_details = interpreter.get_output_details()
@@ -75,7 +110,7 @@ def evaluate_tflite_model(tflite_model, tfl_int8=True):
     except Exception as e:
         tflite_accuracy = tf.keras.metrics.Accuracy()
         inference_speeds = 9999
-
         print(e)
+        handle_error()
 
     return float(tflite_accuracy.result()), np.average(inference_speeds)
