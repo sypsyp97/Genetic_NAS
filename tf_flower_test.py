@@ -1,6 +1,7 @@
 from src.Evolutionary_Algorithm import start_evolution, create_next_population
 import tensorflow_datasets as tfds
 import gc
+import pickle
 
 from datetime import datetime
 from get_datasets.Data_for_TFLITE import prepare_dataset
@@ -20,11 +21,11 @@ auto = tf.data.AUTOTUNE
 resize_bigger = 280
 num_classes = 5
 
-# with open('results_14032023164450/generation_11/best_model_arrays.pkl', 'rb') as f:
-#     data = pickle.load(f)
-#     f.close()
-#
-# next = create_next_population(parent_arrays=data, population=20, num_classes=5)
+with open('results_14032023164450/generation_11/best_model_arrays.pkl', 'rb') as f:
+    data = pickle.load(f)
+    f.close()
+
+next = create_next_population(parent_arrays=data, population=20, num_classes=5)
 
 
 if __name__ == '__main__':
@@ -45,9 +46,9 @@ if __name__ == '__main__':
         train_ds=train_dataset,
         val_ds=val_dataset,
         test_ds=test_dataset,
-        generations=16,
-        population=24,
+        generations=7,
+        population=25,
         num_classes=5,
         epochs=30,
-        # population_array=next,
+        population_array=next,
         time=formatted_date)
