@@ -112,6 +112,6 @@ def evaluate_tflite_model(tflite_model, tfl_int8=True):
         tflite_accuracy.update_state([[1], [2], [3], [4]], [[5], [6], [7], [8]])
         inference_speeds = 9999
         print(e)
-        handle_error()
+        # handle_error()
 
     return float(tflite_accuracy.result()), np.average(inference_speeds)
