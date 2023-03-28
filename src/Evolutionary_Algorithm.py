@@ -192,7 +192,7 @@ The function returns a NumPy array representing the binary array of the mutated 
 
 
 def mutate(model_array, mutate_prob=0.05):
-    prob = np.random.uniform(size=(8, 18))
+    prob = np.random.uniform(size=(9, 18))
     mutated_array = np.where(prob < mutate_prob, np.logical_not(model_array), model_array)
 
     return mutated_array
