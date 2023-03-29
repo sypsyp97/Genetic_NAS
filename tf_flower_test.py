@@ -15,7 +15,7 @@ auto = tf.data.AUTOTUNE
 resize_bigger = 280
 num_classes = 5
 
-with open('results_14032023164450/generation_11/best_model_arrays.pkl', 'rb') as f:
+with open('results_28032023195907/generation_2/best_model_arrays.pkl', 'rb') as f:
     data = pickle.load(f)
     f.close()
 
@@ -63,7 +63,7 @@ if __name__ == '__main__':
         train_ds=train_dataset,
         val_ds=val_dataset,
         test_ds=test_dataset,
-        generations=7,
+        generations=4,
         population=20,
         num_classes=5,
         epochs=30,
