@@ -14,7 +14,7 @@ def create_model(model_array, num_classes=5, input_shape=(256, 256, 3)):
     x = layers.Rescaling(scale=1.0 / 255)(inputs)
     x = conv_block(x, kernel_size=2, filters=16, strides=2)
 
-    for i in range(8):
+    for i in range(9):
         x = decoded_block(x, model_array[i])
 
     x = conv_block(x, filters=320, kernel_size=1, strides=1)
