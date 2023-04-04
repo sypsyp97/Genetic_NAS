@@ -29,7 +29,12 @@ def is_edge_tpu_compatible(model):
 
         # Check if the compilation was successful
         if os.path.exists(edgetpu_model_name):
-            compatible = True
+            model_size = os.path.getsize(edgetpu_model_name)
+            print(f"Model size: {model_size / 1024 / 1024} mb")
+            if model_size > 8 * 1024 * 1024:
+                compatible = False
+            else:
+                compatible = True
         else:
             compatible = False
 
