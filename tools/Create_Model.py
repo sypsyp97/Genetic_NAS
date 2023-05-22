@@ -11,7 +11,7 @@ def create_model(model_array, num_classes=5, input_shape=(256, 256, 3)):
     """
     Parameters
     ----------
-    model_array : list
+    model_array : np.ndarray
         List containing the parameters for each layer in the network.
     num_classes : int, default=5
         The number of output classes in the classification problem.
