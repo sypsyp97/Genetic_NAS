@@ -7,50 +7,59 @@ def representative_data_gen():
         yield [(tf.dtypes.cast(data, tf.float32))]
 
 
-"""Function Signature:
-def convert_to_tflite(keras_model: keras.Model, generation: int, i: int, time: str) -> Tuple[bytes, str]
-
-Parameters:
-keras_model: A Keras model object representing the TensorFlow model to be converted to TensorFlow Lite.
-generation: An integer representing the generation number of the model.
-i: An integer representing the index number of the model within the generation.
-time: A string representing the timestamp of the conversion.
-
-Returns:
-A tuple containing the converted TensorFlow Lite model as a byte string and the path to the saved model file. 
-Description: The "convert_to_tflite" function converts the input Keras model to a TensorFlow Lite model with 
-quantization enabled. The function returns a tuple containing the converted model as a byte string and the path to 
-the saved model file. The saved model file name includes the generation number, index number, and timestamp.
-"""
-
-
 def convert_to_tflite(keras_model, generation=0, i=0, time=0):
+    """
+    Convert a TensorFlow Keras model to TensorFlow Lite format and save it to a file. This function also applies
+    optimization and quantization to the model during the conversion process.
+
+    Parameters:
+    keras_model : keras.Model
+        The TensorFlow Keras model to be converted.
+    generation : int, optional
+        The generation number of the model, used in the filename of the saved file.
+    i : int, optional
+        An index used in the filename of the saved file.
+    time : datetime or str, optional
+        A timestamp used in the filename of the saved file.
+
+    Returns:
+    tuple
+        A tuple containing the converted TensorFlow Lite model and the path of the saved file.
+    """
+    # Create a TFLiteConverter object from the Keras model
     converter = tf.lite.TFLiteConverter.from_keras_model(keras_model)
 
-    # This enables quantization
+    # Enable model optimization
     converter.optimizations = [tf.lite.Optimize.DEFAULT]
 
-    # This sets the representative dataset for quantization
+    # Set the representative dataset for quantization
     converter.representative_dataset = representative_data_gen
 
-    # For full integer quantization, though supported types defaults to int8 only, we explicitly declare it for clarity.
+    # Set the target specification for full integer quantization
     converter.target_spec.supported_types = [tf.int8]
 
-    # These set the input and output tensors to uint8 (added in r2.3)
+    # Set the input and output tensors to uint8
     converter.inference_input_type = tf.uint8
     converter.inference_output_type = tf.uint8
 
+    # Allow custom operations in the model
     converter.allow_custom_ops = True
+
+    # Use the experimental new converter and quantizer
     converter.experimental_new_converter = True
     converter.experimental_new_quantizer = True
 
+    # Convert the Keras model to TFLite format
     tflite_model = converter.convert()
 
+    # Define the path of the saved file
     path = f"model_{i}_gen_{generation}_time_{time}.tflite"
 
+    # Save the TFLite model to the file
     with open(path, 'wb') as f:
         f.write(tflite_model)
 
+    # Delete the converter to free up memory
     del converter
 
     return tflite_model, path

@@ -1,28 +1,29 @@
 import os
 
-"""Overview: The "compile_edgetpu" function compiles a TensorFlow Lite (TFLite) model for Edge TPU, a type of 
-specialized hardware for machine learning inference. This function takes a file path as input and returns the name of 
-the compiled TFLite model for Edge TPU.
-
-Function Signature:
-def compile_edgetpu(path: str) -> edgetpu_model_name[str]
-
-Parameters：
-path: A string representing the path of the TFLite model to be compiled for Edge TPU.
-Returns:
-edgetpu_model_name: A string representing the name of the compiled TFLite model for Edge TPU. 
-
-Returns:
-The name of the compiled TFLite model for Edge TPU.
-"""
-
 
 def compile_edgetpu(path):
+    """
+    Compiles a TensorFlow Lite model for the Edge TPU (Tensor Processing Unit).
+
+    Parameters:
+    path : str
+        The path to the TensorFlow Lite model file that needs to be compiled for Edge TPU.
+
+    Returns:
+    str or None
+        The filename of the compiled Edge TPU model, or None if the initial TensorFlow Lite model file was not found.
+    """
+
+    # Check if the specified path exists, print an error message and return None if it does not
     if not os.path.exists(path):
         print(f"{path} not found")
         return None
 
+    # Determine the filename of the Edge TPU model by replacing '.tflite' with '_edgetpu.tflite' in the original
+    # filename
     edgetpu_model_name = path.replace('.tflite', '_edgetpu.tflite')
+
+    # Compile the TensorFlow Lite model for Edge TPU using the edgetpu_compiler tool
     os.system('edgetpu_compiler -sa {}'.format(path))
 
     return edgetpu_model_name
