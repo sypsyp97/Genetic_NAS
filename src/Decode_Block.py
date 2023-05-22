@@ -11,8 +11,8 @@ def decoded_block(x, layer_array):
     Parameters:
     x : tensor
         Input tensor to the block.
-    layer_array : list of int
-        A list of binary digits that encode the specifications of the block's layers.
+    layer_array : np.ndarray
+        An array of binary digits that encode the specifications of the block's layers.
 
     Returns:
     tensor
