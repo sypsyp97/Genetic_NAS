@@ -4,7 +4,7 @@ This repository hosts the source code for Yipeng Sun's Master's Thesis project o
 
 ## Overview
 
-The project's objective is to explore the potential of genetic algorithms for creating models that are adaptable for the Edge TPU. These models aim to leverage the capabilities of the Edge TPU to enhance inference speed while maintaining a high level of accuracy.
+The project's objective is to explore the potential of genetic algorithms for creating models for image classification tasks that are adaptable for the Edge TPU. These models aim to leverage the capabilities of the Edge TPU to enhance inference speed while maintaining a high level of accuracy.
 
 ## Environment
 
