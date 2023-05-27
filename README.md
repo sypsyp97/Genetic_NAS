@@ -6,6 +6,20 @@ This repository hosts the source code for Yipeng Sun's Master's Thesis project o
 
 The project's objective is to explore the potential of genetic algorithms for creating models that are adaptable for the Edge TPU. These models aim to leverage the capabilities of the Edge TPU to enhance inference speed while maintaining a high level of accuracy.
 
+## Environment
+
+This project was developed using Python 3.9. Here are the major libraries used:
+
+- TensorFlow 2.11
+
+To ensure that you have the correct versions of these libraries, it's recommended to create a virtual environment and install the necessary packages using `pip`:
+
+```bash
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+```
+
 ## Repository Structure
 
 The repository is structured as follows:
@@ -16,6 +30,9 @@ The repository is structured as follows:
 - `test.ipynb`: A Jupyter notebook used for testing and generating figures for the master thesis.
 - `test.jpg`: An image file that is used for testing the inference on Edge TPU.
 - `tf_flower_test.py`: A Python script that is used for testing the application with the TensorFlow Flowers dataset.
+- `requirements.txt`: Specifies the libraries and their respective versions required for this project.
+
+
 
 ## Usage Example
 
