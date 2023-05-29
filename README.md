@@ -39,6 +39,8 @@ The repository is structured as follows:
 Here's an example of how you can use the `start_evolution` function to initiate the process of NAS:
 
 ```python
+from src.Evolutionary_Algorithm import start_evolution
+
 population_array, max_fitness_history, average_fitness_history, best_models_arrays = start_evolution(
         train_ds=train_dataset,
         val_ds=val_dataset,
