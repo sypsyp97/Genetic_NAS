@@ -1,5 +1,0 @@
-Model_Checker
-=============
-
-.. automodule:: src.Model_Checker
-   :members:

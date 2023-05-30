@@ -1,5 +1,0 @@
-TFLITE_Converter
-================
-
-.. automodule:: src.TFLITE_Converter
-   :members:

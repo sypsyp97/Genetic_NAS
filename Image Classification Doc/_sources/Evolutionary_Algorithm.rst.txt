@@ -1,5 +1,0 @@
-Evolutionary_Algorithm
-======================
-
-.. automodule:: src.Evolutionary_Algorithm
-   :members:

@@ -1,5 +1,0 @@
-Gene_Pool
-=========
-
-.. automodule:: src.Gene_Pool
-   :members:

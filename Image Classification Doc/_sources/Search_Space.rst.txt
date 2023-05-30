@@ -1,5 +1,0 @@
-Search_Space
-============
-
-.. automodule:: src.Search_Space
-   :members:
