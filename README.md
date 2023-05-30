@@ -52,6 +52,8 @@ population_array, max_fitness_history, average_fitness_history, best_models_arra
         time=formatted_date
     )
 ```
+## Sphinx Documentation
+Sphinx Documentation files can be found in the `gh-pages` branch of this repository.
 
 ## License
 
