@@ -1,5 +1,5 @@
-from tools.TFLITE_Converter import convert_to_tflite
-from tools.Compile_Edge_TPU import compile_edgetpu
+from src.TFLITE_Converter import convert_to_tflite
+from src.Compile_Edge_TPU import compile_edgetpu
 
 import os
 
@@ -9,10 +9,12 @@ def is_edge_tpu_compatible(model):
     Checks if a given Keras model is compatible with Edge TPU.
 
     Parameters:
+    -----------
     model : tensorflow.python.keras.engine.functional.Functional
         The Keras model to be checked for Edge TPU compatibility.
 
     Returns:
+    --------
     bool
         True if the model is compatible with Edge TPU, False otherwise.
     """
@@ -50,10 +52,12 @@ def model_has_attention(model):
     Checks if a given model contains multi head attention layers and whether they meet certain conditions.
 
     Parameters:
+    -----------
     model : tensorflow.python.keras.engine.functional.Functional
         The Keras model to be checked for multi head attention layers.
 
     Returns:
+    --------
     bool
         True if the model contains multi head attention layers and all these layers output shapes are less than or equal to 256,
         False otherwise.
@@ -94,10 +98,12 @@ def model_has_problem(model):
     Checks if a given model contains any issues related to multi head attention layers and Edge TPU compatibility.
 
     Parameters:
+    -----------
     model : tensorflow.python.keras.engine.functional.Functional
         The Keras model to be checked.
 
     Returns:
+    --------
     bool
         True if the model has an issue, False otherwise.
     """
@@ -113,4 +119,3 @@ def model_has_problem(model):
     else:
         # If the model does not contain multi head attention layers, it has an issue, return True
         return True
-

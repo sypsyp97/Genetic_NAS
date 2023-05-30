@@ -5,12 +5,14 @@ def compile_edgetpu(path):
     """
     Compiles a TensorFlow Lite model for the Edge TPU (Tensor Processing Unit).
 
-    Parameters:
-    path : str
+    Parameters
+    ----------
+    path: str
         The path to the TensorFlow Lite model file that needs to be compiled for Edge TPU.
 
-    Returns:
-    str or None
+    Returns
+    -------
+    edgetpu_model_name : str or None
         The filename of the compiled Edge TPU model, or None if the initial TensorFlow Lite model file was not found.
     """
 

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.Gene_Pool &mdash; Genetec_NAS 0.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Genetec_NAS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Evaluate_Model.html">Evaluate_Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Compile_Edge_TPU.html">Compile_Edge_TPU</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Decode_Block.html">Decode_Block</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Fitness_Function.html">Fitness_Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Model_Checker.html">Model_Checker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Gene_Pool.html">Gene_Pool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Search_Space.html">Search_Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../TFLITE_Converter.html">TFLITE_Converter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Create_Model.html">Create_Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Evolutionary_Algorithm.html">Evolutionary_Algorithm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Genetec_NAS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">src.Gene_Pool</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for src.Gene_Pool</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">tensorflow_addons</span> <span class="k">as</span> <span class="nn">tfa</span>
+
+<span class="kn">from</span> <span class="nn">keras</span> <span class="kn">import</span> <span class="n">layers</span>
+
+
+<div class="viewcode-block" id="conv_block"><a class="viewcode-back" href="../../Gene_Pool.html#src.Gene_Pool.conv_block">[docs]</a><span class="k">def</span> <span class="nf">conv_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">normalization</span><span class="o">=</span><span class="s1">&#39;BatchNormalization&#39;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;silu6&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Defines a convolutional block with a given layer of inputs `x`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : tf.Tensor</span>
+<span class="sd">        Input tensor for convolutional block.</span>
+<span class="sd">    filters : int, optional</span>
+<span class="sd">        The dimensionality of the output space for the Conv2D layer.</span>
+<span class="sd">    kernel_size : int, optional</span>
+<span class="sd">        The height and width of the 2D convolution window.</span>
+<span class="sd">    strides : int, optional</span>
+<span class="sd">        The strides of the convolution along the height and width.</span>
+<span class="sd">    normalization : str, optional</span>
+<span class="sd">        The type of normalization layer. Supports &#39;BatchNormalization&#39; and &#39;LayerNormalization&#39;.</span>
+<span class="sd">    activation : str, optional</span>
+<span class="sd">        The activation function to use. Supports &#39;relu&#39;, &#39;relu6&#39;, &#39;silu&#39;, and &#39;silu6&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x : tf.Tensor</span>
+<span class="sd">        Output tensor after applying convolution, normalization, and activation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Apply Conv2D layer</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Apply normalization</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">normalization_layer</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;BatchNormalization&#39;</span><span class="p">:</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">),</span>
+                               <span class="s1">&#39;LayerNormalization&#39;</span><span class="p">:</span> <span class="n">layers</span><span class="o">.</span><span class="n">LayerNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)}[</span><span class="n">normalization</span><span class="p">]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">normalization_layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">normalization</span><span class="si">}</span><span class="s2"> not found in the list of normalization layers.&quot;</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+
+    <span class="c1"># Apply activation function</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">activation_function</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;relu&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span>
+                               <span class="s1">&#39;relu6&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu6</span><span class="p">,</span>
+                               <span class="s1">&#39;silu&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">silu</span><span class="p">,</span>
+                               <span class="s1">&#39;silu6&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">silu</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">6</span><span class="p">)}[</span><span class="n">activation</span><span class="p">]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">activation_function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">activation</span><span class="si">}</span><span class="s2"> not found in the list of activation functions.&quot;</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+
+    <span class="k">return</span> <span class="n">x</span></div>
+
+
+<div class="viewcode-block" id="inverted_residual_block"><a class="viewcode-back" href="../../Gene_Pool.html#src.Gene_Pool.inverted_residual_block">[docs]</a><span class="k">def</span> <span class="nf">inverted_residual_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">expansion_factor</span><span class="p">,</span> <span class="n">output_channels</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                            <span class="n">normalization</span><span class="o">=</span><span class="s1">&#39;BatchNormalization&#39;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;silu6&#39;</span><span class="p">,</span> <span class="n">residual</span><span class="o">=</span><span class="s1">&#39;Concatenate&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Defines an inverted residual block with a given layer of inputs `x`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : tf.Tensor</span>
+<span class="sd">        Input tensor for the inverted residual block.</span>
+<span class="sd">    expansion_factor : int</span>
+<span class="sd">        Determines the number of output channels for the first Conv2D layer in the block.</span>
+<span class="sd">    output_channels : int</span>
+<span class="sd">        The number of output channels for the last Conv2D layer in the block.</span>
+<span class="sd">    strides : int, optional</span>
+<span class="sd">        The strides of the convolution along the height and width.</span>
+<span class="sd">    kernel_size : int, optional</span>
+<span class="sd">        The height and width of the 2D convolution window.</span>
+<span class="sd">    normalization : str, optional</span>
+<span class="sd">        The type of normalization layer. Supports &#39;BatchNormalization&#39; and &#39;LayerNormalization&#39;.</span>
+<span class="sd">    activation : str, optional</span>
+<span class="sd">        The activation function to use. Supports &#39;relu&#39;, &#39;relu6&#39;, &#39;silu&#39;, and &#39;silu6&#39;.</span>
+<span class="sd">    residual : str, optional</span>
+<span class="sd">        The type of residual connection to use. Supports &#39;Concatenate&#39;, &#39;StochasticDepth&#39;, and &#39;Add&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    m : tf.Tensor</span>
+<span class="sd">        Output tensor after applying the inverted residual block operations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Apply 1x1 Conv2D layer for channel expansion</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">expansion_factor</span> <span class="o">*</span> <span class="n">output_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Apply normalization</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">normalization_layer</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;BatchNormalization&#39;</span><span class="p">:</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">),</span>
+                               <span class="s1">&#39;LayerNormalization&#39;</span><span class="p">:</span> <span class="n">layers</span><span class="o">.</span><span class="n">LayerNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)}[</span><span class="n">normalization</span><span class="p">]</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">normalization_layer</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">normalization</span><span class="si">}</span><span class="s2"> not found in the list of normalization layers.&quot;</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+
+    <span class="c1"># Apply depthwise convolution</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">DepthwiseConv2D</span><span class="p">(</span><span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">m</span><span class="p">)</span>
+
+    <span class="c1"># Apply normalization again</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">normalization_layer</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;BatchNormalization&#39;</span><span class="p">:</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">),</span>
+                               <span class="s1">&#39;LayerNormalization&#39;</span><span class="p">:</span> <span class="n">layers</span><span class="o">.</span><span class="n">LayerNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)}[</span><span class="n">normalization</span><span class="p">]</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">normalization_layer</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">normalization</span><span class="si">}</span><span class="s2"> not found in the list of normalization layers.&quot;</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+
+    <span class="c1"># Apply activation function</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">activation_function</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;relu&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span>
+                               <span class="s1">&#39;relu6&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu6</span><span class="p">,</span>
+                               <span class="s1">&#39;silu&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">silu</span><span class="p">,</span>
+                               <span class="s1">&#39;silu6&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">silu</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">6</span><span class="p">)}[</span><span class="n">activation</span><span class="p">]</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">activation_function</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">activation</span><span class="si">}</span><span class="s2"> not found in the list of activation functions.&quot;</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+
+    <span class="c1"># Apply 1x1 Conv2D layer for channel reduction</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">output_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">m</span><span class="p">)</span>
+
+    <span class="c1"># Apply normalization</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">normalization_layer</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;BatchNormalization&#39;</span><span class="p">:</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">),</span>
+                               <span class="s1">&#39;LayerNormalization&#39;</span><span class="p">:</span> <span class="n">layers</span><span class="o">.</span><span class="n">LayerNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)}[</span><span class="n">normalization</span><span class="p">]</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">normalization_layer</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">normalization</span><span class="si">}</span><span class="s2"> not found in the list of normalization layers.&quot;</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+
+    <span class="c1"># Apply the appropriate residual connection based on the provided parameters The specific residual connection</span>
+    <span class="c1"># used will depend on the strides, residual connection type, and input/output channel dimensions The</span>
+    <span class="c1"># &#39;Concatenate&#39; option concatenates the output of the block with the original input, &#39;StochasticDepth&#39; randomly</span>
+    <span class="c1"># drops some of the residual paths during training, and &#39;Add&#39; performs an element-wise addition of the output and</span>
+    <span class="c1"># input.</span>
+
+    <span class="c1"># If strides are equal to 1 and residual connection type is &#39;Concatenate&#39;</span>
+    <span class="k">if</span> <span class="n">strides</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;Concatenate&#39;</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)([</span><span class="n">m</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+    <span class="c1"># If input and output channels are equal and strides are equal to 1</span>
+    <span class="k">elif</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">output_channels</span><span class="p">)</span> <span class="ow">and</span> <span class="n">strides</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;Concatenate&#39;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)([</span><span class="n">m</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;StochasticDepth&#39;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">tfa</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">StochasticDepth</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)([</span><span class="n">m</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;Add&#39;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Add</span><span class="p">()([</span><span class="n">m</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+    <span class="c1"># If strides are equal to 2 and residual connection type is &#39;Concatenate&#39;</span>
+    <span class="k">elif</span> <span class="n">strides</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;Concatenate&#39;</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">output_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)([</span><span class="n">m</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+    <span class="c1"># If input and output channels are equal and strides are equal to 2</span>
+    <span class="k">elif</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">output_channels</span><span class="p">)</span> <span class="ow">and</span> <span class="n">strides</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">output_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">normalization_layer</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;BatchNormalization&#39;</span><span class="p">:</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">),</span>
+                                   <span class="s1">&#39;LayerNormalization&#39;</span><span class="p">:</span> <span class="n">layers</span><span class="o">.</span><span class="n">LayerNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)}[</span><span class="n">normalization</span><span class="p">]</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">normalization_layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">normalization</span><span class="si">}</span><span class="s2"> not found in the list of normalization layers.&quot;</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">if</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;Concatenate&#39;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)([</span><span class="n">m</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;StochasticDepth&#39;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">tfa</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">StochasticDepth</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)([</span><span class="n">m</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;Add&#39;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Add</span><span class="p">()([</span><span class="n">m</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+
+    <span class="c1"># Returns the output tensor after applying the inverted residual block operations.</span>
+    <span class="k">return</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="ffn"><a class="viewcode-back" href="../../Gene_Pool.html#src.Gene_Pool.ffn">[docs]</a><span class="k">def</span> <span class="nf">ffn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">hidden_units</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements a Feed-Forward Network (FFN), which is an essential component</span>
+<span class="sd">    of various deep learning architectures.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : tensor</span>
+<span class="sd">        The input tensor to the FFN.</span>
+<span class="sd">    hidden_units : list</span>
+<span class="sd">        A list containing the number of hidden units for each dense layer in the FFN.</span>
+<span class="sd">    dropout_rate : float</span>
+<span class="sd">        The dropout rate used by the dropout layers in the FFN.</span>
+<span class="sd">    use_bias : bool, default=False</span>
+<span class="sd">        If True, the layers in the FFN will use bias vectors.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x : tensor</span>
+<span class="sd">        The output tensor from the FFN.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Reshape the input tensor to (-1, 1, x.shape[1], x.shape[-1]) so that it can</span>
+    <span class="c1"># be passed into the Conv2D layer</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="c1"># For each number of hidden units, add a new dense layer to the FFN</span>
+    <span class="k">for</span> <span class="n">hidden_unit</span> <span class="ow">in</span> <span class="n">hidden_units</span><span class="p">:</span>
+        <span class="c1"># Apply Conv2D operation, the number of filters is defined by the current hidden unit</span>
+        <span class="c1"># the kernel size is 1, and padding is &#39;same&#39;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="n">hidden_unit</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="n">use_bias</span><span class="p">)(</span><span class="n">a</span><span class="p">)</span>
+
+        <span class="c1"># Apply layer normalization to standardize the inputs (layer outputs)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">LayerNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)(</span><span class="n">a</span><span class="p">)</span>
+
+        <span class="c1"># Apply activation function (SiLU - Sigmoid Linear Unit) with a cap at 6 for the output</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">silu</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="mi">6</span><span class="p">)</span>
+
+        <span class="c1"># Apply dropout for regularization (prevent overfitting)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout_rate</span><span class="p">)(</span><span class="n">a</span><span class="p">)</span>
+
+    <span class="c1"># Reshape the output tensor back to its original shape</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="n">x</span></div>
+
+
+<div class="viewcode-block" id="transformer_block"><a class="viewcode-back" href="../../Gene_Pool.html#src.Gene_Pool.transformer_block">[docs]</a><span class="k">def</span> <span class="nf">transformer_block</span><span class="p">(</span><span class="n">encoded_patches</span><span class="p">,</span> <span class="n">transformer_layers</span><span class="p">,</span> <span class="n">projection_dim</span><span class="p">,</span> <span class="n">num_heads</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a Transformer block, which contains multiple layers of multi-head</span>
+<span class="sd">    self-attention followed by a feed-forward network (FFN). Each of these</span>
+<span class="sd">    operations is followed by a stochastic depth skip connection, and layer normalization.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    encoded_patches : tensor</span>
+<span class="sd">        The input tensor to the Transformer block.</span>
+<span class="sd">    transformer_layers : int</span>
+<span class="sd">        The number of layers in the Transformer block.</span>
+<span class="sd">    projection_dim : int</span>
+<span class="sd">        The number of output dimensions for the Transformer block.</span>
+<span class="sd">    num_heads : int, default=2</span>
+<span class="sd">        The number of attention heads for each self-attention layer in the Transformer block.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    encoded_patches : tensor</span>
+<span class="sd">        The output tensor from the Transformer block.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">transformer_layers</span><span class="p">):</span>
+        <span class="c1"># First Layer Normalization operation</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">LayerNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)(</span><span class="n">encoded_patches</span><span class="p">)</span>
+
+        <span class="c1"># Create a multi-head self-attention layer</span>
+        <span class="n">attention_output</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MultiHeadAttention</span><span class="p">(</span><span class="n">num_heads</span><span class="o">=</span><span class="n">num_heads</span><span class="p">,</span>
+                                                     <span class="n">key_dim</span><span class="o">=</span><span class="n">projection_dim</span><span class="p">)(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t1</span><span class="p">)</span>
+
+        <span class="c1"># Skip connection 1 - Stochastic Depth is a type of regularization technique</span>
+        <span class="c1"># that randomly drops entire layers from the neural network during training.</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">tfa</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">StochasticDepth</span><span class="p">()([</span><span class="n">attention_output</span><span class="p">,</span> <span class="n">encoded_patches</span><span class="p">])</span>
+
+        <span class="c1"># Second Layer Normalization operation</span>
+        <span class="n">t3</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">LayerNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)(</span><span class="n">t2</span><span class="p">)</span>
+
+        <span class="c1"># Feed Forward Network (FFN) layer</span>
+        <span class="n">t3</span> <span class="o">=</span> <span class="n">ffn</span><span class="p">(</span><span class="n">t3</span><span class="p">,</span> <span class="n">hidden_units</span><span class="o">=</span><span class="p">[</span><span class="n">projection_dim</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">projection_dim</span><span class="p">],</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+        <span class="c1"># Skip connection 2</span>
+        <span class="n">encoded_patches</span> <span class="o">=</span> <span class="n">tfa</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">StochasticDepth</span><span class="p">()([</span><span class="n">t3</span><span class="p">,</span> <span class="n">t2</span><span class="p">])</span>
+
+    <span class="c1"># Final Layer Normalization operation</span>
+    <span class="n">encoded_patches</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">LayerNormalization</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)(</span><span class="n">encoded_patches</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">encoded_patches</span></div>
+
+
+<div class="viewcode-block" id="mobilevit_block"><a class="viewcode-back" href="../../Gene_Pool.html#src.Gene_Pool.mobilevit_block">[docs]</a><span class="k">def</span> <span class="nf">mobilevit_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">num_blocks</span><span class="p">,</span> <span class="n">projection_dim</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">num_heads</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">residual</span><span class="o">=</span><span class="s1">&#39;Concatenate&#39;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;silu6&#39;</span><span class="p">,</span> <span class="n">normalization</span><span class="o">=</span><span class="s1">&#39;BatchNormalization&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Constructs a MobileViT block which consists of local feature extraction,</span>
+<span class="sd">    global feature extraction (via transformer block), and merging of local and global features.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : tensor</span>
+<span class="sd">        Input tensor.</span>
+<span class="sd">    num_blocks : int</span>
+<span class="sd">        Number of transformer layers to use in the transformer block.</span>
+<span class="sd">    projection_dim : int</span>
+<span class="sd">        Output dimensions for the Convolution and Transformer blocks.</span>
+<span class="sd">    strides : int, default=1</span>
+<span class="sd">        Stride length for the Convolution blocks.</span>
+<span class="sd">    kernel_size : int, default=3</span>
+<span class="sd">        Kernel size for the Convolution blocks.</span>
+<span class="sd">    num_heads : int, default=2</span>
+<span class="sd">        Number of attention heads for the MultiHeadAttention layer in the Transformer block.</span>
+<span class="sd">    residual : str, default=&#39;Concatenate&#39;</span>
+<span class="sd">        Type of residual connection. Options are &#39;Concatenate&#39;, &#39;StochasticDepth&#39;, and &#39;Add&#39;.</span>
+<span class="sd">    activation : str, default=&#39;silu6&#39;</span>
+<span class="sd">        Activation function to use in the Convolution blocks.</span>
+<span class="sd">    normalization : str, default=&#39;BatchNormalization&#39;</span>
+<span class="sd">        Normalization layer to use in the Convolution blocks.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    local_global_features : tensor</span>
+<span class="sd">        Output tensor after the MobileViT block.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Local feature extraction via Convolutional blocks</span>
+    <span class="n">local_features</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">projection_dim</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span>
+                                <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">normalization</span><span class="o">=</span><span class="n">normalization</span><span class="p">)</span>
+    <span class="n">local_features</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">local_features</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">projection_dim</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">normalization</span><span class="o">=</span><span class="n">normalization</span><span class="p">)</span>
+
+    <span class="c1"># Reshaping local features into non-overlapping patches for the Transformer block</span>
+    <span class="n">non_overlapping_patches</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">local_features</span><span class="p">,</span> <span class="p">(</span>
+        <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">local_features</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">local_features</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">local_features</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="c1"># Global feature extraction via Transformer block</span>
+    <span class="n">global_features</span> <span class="o">=</span> <span class="n">transformer_block</span><span class="p">(</span><span class="n">non_overlapping_patches</span><span class="p">,</span> <span class="n">num_blocks</span><span class="p">,</span> <span class="n">projection_dim</span><span class="p">,</span> <span class="n">num_heads</span><span class="o">=</span><span class="n">num_heads</span><span class="p">)</span>
+
+    <span class="c1"># Reshape the global features to match the dimensions of the local features</span>
+    <span class="n">folded_feature_map</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">global_features</span><span class="p">,</span> <span class="p">(</span>
+        <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">local_features</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">local_features</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">local_features</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="c1"># Apply another Convolutional block to the folded_feature_map</span>
+    <span class="n">folded_feature_map</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">folded_feature_map</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span>
+                                    <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">normalization</span><span class="o">=</span><span class="n">normalization</span><span class="p">)</span>
+
+    <span class="c1"># Merge local and global features depending on the stride and residual type</span>
+    <span class="k">if</span> <span class="n">strides</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;Concatenate&#39;</span><span class="p">:</span>
+            <span class="n">local_global_features</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)([</span><span class="n">folded_feature_map</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;StochasticDepth&#39;</span><span class="p">:</span>
+            <span class="n">local_global_features</span> <span class="o">=</span> <span class="n">tfa</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">StochasticDepth</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)([</span><span class="n">folded_feature_map</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;Add&#39;</span><span class="p">:</span>
+            <span class="n">local_global_features</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Add</span><span class="p">()([</span><span class="n">folded_feature_map</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">local_global_features</span> <span class="o">=</span> <span class="n">folded_feature_map</span>
+
+    <span class="k">elif</span> <span class="n">strides</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1"># Apply 2D convolution on x if stride is 2</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;Concatenate&#39;</span><span class="p">:</span>
+            <span class="n">local_global_features</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)([</span><span class="n">folded_feature_map</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;StochasticDepth&#39;</span><span class="p">:</span>
+            <span class="n">local_global_features</span> <span class="o">=</span> <span class="n">tfa</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">StochasticDepth</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)([</span><span class="n">folded_feature_map</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">residual</span> <span class="o">==</span> <span class="s1">&#39;Add&#39;</span><span class="p">:</span>
+            <span class="n">local_global_features</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Add</span><span class="p">()([</span><span class="n">folded_feature_map</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">local_global_features</span> <span class="o">=</span> <span class="n">folded_feature_map</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">local_global_features</span> <span class="o">=</span> <span class="n">folded_feature_map</span>
+
+    <span class="c1"># Pass the merged features through a final Convolution block</span>
+    <span class="n">local_global_features</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">local_global_features</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">projection_dim</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                       <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">normalization</span><span class="o">=</span><span class="n">normalization</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">local_global_features</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Yipeng Sun.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,13 +1,11 @@
-import gc
-
 import numpy as np
 
-from tools.Create_Model import create_model
-from tools.Evaluate_Model import evaluate_tflite_model
-from tools.Create_Model import train_model
-from tools.Model_Checker import model_has_problem
-from tools.TFLITE_Converter import convert_to_tflite
-from tools.Compile_Edge_TPU import compile_edgetpu
+from src.Create_Model import create_model
+from src.Evaluate_Model import evaluate_tflite_model
+from src.Create_Model import train_model
+from src.Model_Checker import model_has_problem
+from src.TFLITE_Converter import convert_to_tflite
+from src.Compile_Edge_TPU import compile_edgetpu
 
 from src.Fitness_Function import calculate_fitness
 import pickle
@@ -16,16 +14,19 @@ import os
 
 def create_first_population(population, num_classes=5):
     """
-    Generate the initial population of models for a genetic algorithm.
+    Generates the initial set of models for a genetic algorithm.
 
-    Parameters:
-    population : int
-        The number of models to generate.
-    num_classes : int, optional
-        The number of output classes in the model, defaults to 5.
+    Parameters
+    ----------
+    population: int
+        The quantity of models to create.
 
-    Returns:
-    np.ndarray
+    num_classes: int, optional
+        The number of output classes in the model. Defaults to 5.
+
+    Returns
+    -------
+    first_population_array : np.ndarray
         A 3D numpy array representing the initial population of models.
     """
 
@@ -51,37 +52,32 @@ def create_first_population(population, num_classes=5):
     return first_population_array
 
 
-def select_models(train_ds,
-                  val_ds,
-                  test_ds,
-                  time,
-                  population_array,
-                  generation,
-                  epochs=30,
-                  num_classes=5):
+def select_models(train_ds, val_ds, test_ds, time, population_array, generation, epochs=30, num_classes=5):
     """
-    Train and evaluate a population of models, and select the best ones based on their fitness.
+    Trains, evaluates, and selects the top performing models from a population based on their fitness scores.
 
-    Parameters:
-    train_ds : tf.data.Dataset
-        The training dataset.
-    val_ds : tf.data.Dataset
-        The validation dataset.
-    test_ds : tf.data.Dataset
-        The test dataset.
-    time : datetime or str
-        A timestamp used in directory names for saving results.
-    population_array : np.ndarray
+    Parameters
+    ----------
+    train_ds: tf.data.Dataset
+        The dataset used for training the models.
+    val_ds: tf.data.Dataset
+        The dataset used for validating the models during training.
+    test_ds: tf.data.Dataset
+        The dataset used for testing the trained models.
+    time: datetime or str
+        A timestamp utilized in directory names for saving results.
+    population_array: np.ndarray
         A 3D numpy array representing the population of models.
-    generation : int
+    generation: int
         The generation number of the models, used in directory names for saving results.
-    epochs : int, optional
-        The number of epochs to train each model for, defaults to 30.
-    num_classes : int, optional
-        The number of output classes in the model, defaults to 5.
+    epochs: int, optional
+        The number of epochs to train each model. Defaults to 30.
+    num_classes: int, optional
+        The number of output classes in the model. Defaults to 5.
 
-    Returns:
-    tuple
+    Returns
+    -------
+    best_models_arrays, max_fitness, average_fitness : tuple
         A tuple containing a list of the best model arrays, the maximum fitness, and the average fitness of the population.
     """
 
@@ -156,14 +152,16 @@ def select_models(train_ds,
 
 def crossover(parent_arrays):
     """
-    Performs crossover operation on a list of parent arrays to generate a child array.
+    Perform a crossover operation on a list of parent arrays to generate a child array.
 
     Parameters:
+    -----------
     parent_arrays : list of np.ndarray
         A list of parent arrays.
 
     Returns:
-    np.ndarray
+    -----------
+    child_array : np.ndarray
         A child array that is a combination of the parent arrays.
     """
 
@@ -179,16 +177,18 @@ def crossover(parent_arrays):
 
 def mutate(model_array, mutate_prob=0.05):
     """
-    Performs mutation operation on a given model array.
+    Perform a mutation operation on a given model array.
 
     Parameters:
+    ------------
     model_array : np.ndarray
         The model array to be mutated.
     mutate_prob : float, optional
-        The probability of mutation for each element in the array, defaults to 0.05.
+        The probability of mutation for each element in the array. Defaults to 0.05.
 
     Returns:
-    np.ndarray
+    ------------
+    mutated_array : np.ndarray
         The mutated model array.
     """
 
@@ -204,18 +204,20 @@ def mutate(model_array, mutate_prob=0.05):
 
 def create_next_population(parent_arrays, population=20, num_classes=5):
     """
-    Creates the next generation of model arrays by performing crossover and mutation operations.
+    Create the next generation of model arrays by performing crossover and mutation operations.
 
     Parameters:
+    -----------
     parent_arrays : list of np.ndarray
         A list of parent arrays.
     population : int, optional
-        The size of the population to be generated, defaults to 20.
+        The size of the population to be generated. Defaults to 20.
     num_classes : int, optional
-        The number of classes for the model, defaults to 5.
+        The number of classes for the model. Defaults to 5.
 
     Returns:
-    np.ndarray
+    -----------
+    next_population_array : np.ndarray
         The next generation of model arrays.
     """
 
@@ -253,9 +255,10 @@ def create_next_population(parent_arrays, population=20, num_classes=5):
 def start_evolution(train_ds, val_ds, test_ds, generations, population, num_classes, epochs, population_array=None,
                     time=None):
     """
-    Starts the evolutionary process for model optimization.
+    Start the evolutionary process for model optimization.
 
     Parameters:
+    -----------
     train_ds : tensorflow Dataset
         The training dataset.
     val_ds : tensorflow Dataset
@@ -276,7 +279,8 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
         The timestamp to append to the result directory name.
 
     Returns:
-    tuple
+    -----------
+    population_array, max_fitness_history, average_fitness_history, best_models_arrays : tuple
         The final population array, the history of maximum fitness score,
         the history of average fitness score, and the best model arrays.
     """
@@ -330,3 +334,4 @@ def start_evolution(train_ds, val_ds, test_ds, generations, population, num_clas
     # Return the final population array, the history of maximum fitness score,
     # the history of average fitness score, and the best model arrays
     return population_array, max_fitness_history, average_fitness_history, best_models_arrays
+

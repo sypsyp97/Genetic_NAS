@@ -5,18 +5,20 @@ from src.Search_Space import kernel_size_space, stride_space, filters_space, \
 
 def decoded_block(x, layer_array):
     """
-    This function defines a block in a neural network architecture, based on an input array specifying the
-    characteristics of the layers within the block.
+    Define a block in a neural network architecture based on an input array specifying the characteristics
+    of the layers within the block.
 
-    Parameters:
+    Parameters
+    ----------
     x : tensor
         Input tensor to the block.
     layer_array : np.ndarray
-        An array of binary digits that encode the specifications of the block's layers.
+        Array of binary digits that encode the specifications of the block's layers.
 
-    Returns:
-    tensor
-        The output tensor after applying the block to the input.
+    Returns
+    -------
+    layer_type_dict[layer_type_index](x) : tensor
+        Output tensor after applying the block to the input.
     """
 
     # Each index corresponds to the binary encoding of different aspects of the layer

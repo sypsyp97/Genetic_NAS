@@ -37,4 +37,3 @@ def calculate_fitness(accuracy, inference_time=1, memory_footprint_tflite=1):
     fitness = (1 - normalized_inference_time) * accuracy
 
     return fitness
-

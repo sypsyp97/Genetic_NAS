@@ -13,6 +13,7 @@ def convert_to_tflite(keras_model, generation=0, i=0, time=0):
     optimization and quantization to the model during the conversion process.
 
     Parameters:
+    -----------
     keras_model : keras.Model
         The TensorFlow Keras model to be converted.
     generation : int, optional
@@ -23,7 +24,8 @@ def convert_to_tflite(keras_model, generation=0, i=0, time=0):
         A timestamp used in the filename of the saved file.
 
     Returns:
-    tuple
+    --------
+    tflite_model, path : tuple
         A tuple containing the converted TensorFlow Lite model and the path of the saved file.
     """
     # Create a TFLiteConverter object from the Keras model

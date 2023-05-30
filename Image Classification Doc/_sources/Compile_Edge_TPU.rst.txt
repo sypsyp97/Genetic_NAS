@@ -1,0 +1,5 @@
+Compile_Edge_TPU
+================
+
+.. automodule:: src.Compile_Edge_TPU
+   :members:

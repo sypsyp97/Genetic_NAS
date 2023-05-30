@@ -362,4 +362,3 @@ def mobilevit_block(x, num_blocks, projection_dim, strides=1, kernel_size=3, num
 
     return local_global_features
 
-

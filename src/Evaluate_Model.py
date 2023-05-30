@@ -123,4 +123,3 @@ def evaluate_tflite_model(tflite_model, tfl_int8=True):
     # Return the accuracy and the average inference speed.
     return float(tflite_accuracy.result()), np.average(inference_speeds)
 
-
