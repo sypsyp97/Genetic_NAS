@@ -3,6 +3,14 @@ from get_datasets.Data_for_TFLITE import x_test
 
 
 def representative_data_gen():
+    """
+    Generator function for the representative dataset required by the TFLite converter for quantization.
+
+    Yields:
+    ---------------
+    list
+        List containing a single batch of data. In this case, the batch size is 1.
+    """
     for data in tf.data.Dataset.from_tensor_slices(x_test).batch(1).take(100):
         yield [(tf.dtypes.cast(data, tf.float32))]
 
