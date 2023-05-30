@@ -52,8 +52,18 @@ population_array, max_fitness_history, average_fitness_history, best_models_arra
         time=formatted_date
     )
 ```
-## Sphinx Documentation
-Sphinx Documentation files can be found in the `gh-pages` branch of this repository.
+
+## Documentation
+
+The detailed documentation for the functions used in this project is available online. Visit [https://sypsyp97.github.io/Genetic_NAS/](https://sypsyp97.github.io/Genetic_NAS/) to access it.
+
+Alternatively, you can clone the `gh-pages` branch of this repository to view the documentation offline. Here are the steps to do so:
+
+1. Open a terminal.
+2. Run the command `git clone -b gh-pages https://github.com/sypsyp97/Genetic_NAS.git`. This will clone only the `gh-pages` branch.
+3. Navigate to the cloned directory using `cd Genetic_NAS`.
+4. Open the `index.html` file in a web browser to view the documentation.
+
 
 ## License
 
