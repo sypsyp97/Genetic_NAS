@@ -1,6 +1,6 @@
 # Genetic_NAS
 
-This repository hosts the source code for Yipeng Sun's Master's Thesis project on Genetic Neural Architecture Search (NAS). The project investigates the use of genetic algorithms to search adaptable models for Edge TPU.
+This repository hosts the source code for Yipeng Sun's Master's Thesis project on Genetic Neural Architecture Search (Genetic_NAS). The project investigates the use of genetic algorithms to search adaptable models for Edge TPU.
 
 ## Overview
 
