@@ -51,6 +51,11 @@ population_array, max_fitness_history, average_fitness_history, best_models_arra
     )
 ```
 
+You can also easily start the NAS process by running the `tf_flower_example.py` script. This script has been designed to make running the NAS process simpler by predefining certain parameters and steps.
+```bash
+python tf_flower_example.py
+```
+
 ## Documentation
 
 The detailed documentation for the functions used in this project is available online. Visit [https://sypsyp97.github.io/Genetic_NAS/](https://sypsyp97.github.io/Genetic_NAS/) to access it.
