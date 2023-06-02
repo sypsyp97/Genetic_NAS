@@ -57,8 +57,8 @@ cd Genetic_NAS
 
 2. Set up a [Miniconda](https://docs.conda.io/en/latest/miniconda.html) environment and install the required packages:
 ```bash
-conda create -n env python=3.9
-conda activate env
+conda create -n Genetic_NAS python=3.9
+conda activate Genetic_NAS
 pip install -r requirements.txt
 
 ```
