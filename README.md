@@ -10,6 +10,18 @@ Welcome to the Genetic_NAS repository, the home of Yipeng Sun's Master's Thesis 
 
 ---
 
+## Contents
+- [Overview](https://github.com/sypsyp97/Genetic_NAS#overview)
+- [Prerequisites](https://github.com/sypsyp97/Genetic_NAS#prerequisites)
+- [Environment and Installation](https://github.com/sypsyp97/Genetic_NAS#environment-and-installation)
+- [Repository Structure](https://github.com/sypsyp97/Genetic_NAS#repository-structure)
+- [Usage Example](https://github.com/sypsyp97/Genetic_NAS#usage-example)
+- [Documentation](https://github.com/sypsyp97/Genetic_NAS#documentation)
+- [License](https://github.com/sypsyp97/Genetic_NAS#license)
+- [Citation](https://github.com/sypsyp97/Genetic_NAS#citation)
+
+---
+
 ## Overview
 
 The expanding use of edge devices and the constraints on cloud connectivity call for efficient, on-device neural networks for real-time applications. Manually designing these networks is complex due to the need for a balance between accuracy, speed, and efficiency, particularly for edge devices with computational and power limitations. Neural Architecture Search (NAS) has been introduced to automate the design process, often producing models that surpass human-designed ones. Genetic Algorithms, which traverse vast search spaces to find optimal solutions using mechanisms akin to natural selection, have shown potential in NAS. 
@@ -19,6 +31,8 @@ The goal of this project is to harness the power of Genetic Algorithm-based NAS 
 If you find our work and our open-sourced efforts useful, ⭐️ to encourage our following development! :)
 
 ---
+
+
 ## Prerequisites
 
 To get the most out of this project, you should have:
