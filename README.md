@@ -1,5 +1,8 @@
 # Genetic Neural Architecture Search (Genetic_NAS)
 
+![GitHub Code License](https://img.shields.io/github/license/sypsyp97/Genetic_NAS)
+![GitHub last commit](https://img.shields.io/github/last-commit/sypsyp97/Genetic_NAS)
+
 Welcome to the Genetic_NAS repository, the home of Yipeng Sun's Master's Thesis project. This project explores the use of genetic algorithms to search for adaptable models specifically designed for Edge TPU. We aim to leverage the capabilities of the Edge TPU to enhance inference speed while maintaining a high level of accuracy in image classification tasks.
 
 ## Overview
