@@ -93,13 +93,13 @@ The repository is structured as follows:
 - `src/`: This directory contains the main source code for the project and utility scripts that aid in various tasks throughout the project.
 - `get_datasets/`: This directory includes scripts for data acquisition.
 - `tf_flower_example.py`: A Python script that is used for testing the application with the TensorFlow Flowers dataset.
-- `rst_generator.py`: This script is responsible for generating `reStructuredText (.rst)` files, which are a key part of creating comprehensive documentation for this project. These files are compatible with the [Sphinx Documentation Generator](https://www.sphinx-doc.org/en/master/).
+- `rst_generator.py`: This script is responsible for generating `reStructuredText (.rst)` files, which are a key part of creating comprehensive documentation for this project. These files are compatible with [Sphinx Documentation Generator](https://www.sphinx-doc.org/en/master/).
 
 ---
 
 ## Usage Example
 
-Before running the NAS process, please ensure that you have an Edge TPU device available. You will also need to install the necessary libraries and dependencies for working with the Edge TPU. Instructions for setting up the Edge TPU can be found in the [Coral Documentation](https://coral.ai/docs/accelerator/get-started/).
+Before running the NAS process, please ensure that you have an Edge TPU device available. You will also need to install the necessary libraries and dependencies for working with the Edge TPU. Instructions for setting up the Edge TPU can be found in [Coral Documentation](https://coral.ai/docs/accelerator/get-started/).
 
 Here's an example of how you can use the `start_evolution` function to initiate the process of NAS:
 
