@@ -1,9 +1,10 @@
 # Genetic Neural Architecture Search (Genetic_NAS)
 
-![GitHub Code License](https://img.shields.io/github/license/sypsyp97/Genetic_NAS?style=for-the-badge&logo=github&logoColor=white&color=0D1117&labelColor=161B22)
-![GitHub last commit](https://img.shields.io/github/last-commit/sypsyp97/Genetic_NAS?style=for-the-badge&logo=github&logoColor=white&color=0D1117&labelColor=161B22)
-![GitHub pull request](https://img.shields.io/badge/PRs-not_welcome-red?style=for-the-badge&logo=github&logoColor=white&color=0D1117&labelColor=161B22)
-[![Documentation Status](https://img.shields.io/badge/Documentation-Online-green?style=for-the-badge&logo=read-the-docs&logoColor=white&color=0D1117&labelColor=161B22)](https://sypsyp97.github.io/Genetic_NAS/)
+![GitHub Code License](https://img.shields.io/github/license/sypsyp97/Genetic_NAS?style=plastic&logo=github&logoColor=white&color=blue)
+![GitHub last commit](https://img.shields.io/github/last-commit/sypsyp97/Genetic_NAS?style=plastic&logo=github&logoColor=white&color=yellow)
+![GitHub pull request](https://img.shields.io/badge/PRs-not_welcome-red?style=plastic&logo=github&logoColor=white)
+[![Documentation Status](https://img.shields.io/badge/Documentation-Online-green?style=plastic&logo=read-the-docs&logoColor=white)](https://sypsyp97.github.io/Genetic_NAS/)
+
 
 
 Welcome to the Genetic_NAS repository, the home of Yipeng Sun's Master's Thesis project. This project explores the use of genetic algorithms to search for adaptable models specifically designed for Edge TPU. We aim to leverage the capabilities of the Edge TPU to enhance inference speed while maintaining a high level of accuracy in image classification tasks.
