@@ -14,6 +14,8 @@ Welcome to the Genetic_NAS repository, the home of Yipeng Sun's Master's Thesis 
 
 The core goal of Genetic_NAS is to harness the power of genetic algorithms to find optimal models for image classification that can effectively utilize the capabilities of the Edge TPU. The aim is to boost inference speed without compromising on the accuracy of predictions.
 
+If you find our work and our open-sourced efforts useful, ⭐️ to encourage our following development! :)
+
 ---
 ## Prerequisites
 
