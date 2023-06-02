@@ -28,6 +28,7 @@ The expanding use of edge devices and the constraints on cloud connectivity call
 
 The goal of this project is to harness the power of Genetic Algorithm-based NAS to create edge-optimized models specifically designed for Edge TPUs. This aims to enable real-time, accurate image analysis across various applications while minimizing power consumption and computational resource usage.
 
+#### Genetic_NAS Workflow
 ![Genetic_NAS Workflow](workflow.png)
 
 If you find our work and our open-sourced efforts useful, ⭐️ to encourage our following development! :)
