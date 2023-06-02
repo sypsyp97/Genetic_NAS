@@ -91,7 +91,7 @@ This project is licensed under the terms of the [MIT License](LICENSE).
 If this work is helpful, please cite as:
 
 ```bibtex
-@Misc{Genetic-NAS,
+@Misc{Genetic_NAS,
   title = {Genetic Neural Architecture Search for Edge TPU},
   author = {Yipeng Sun},
   howpublished = {\url{https://github.com/sypsyp97/Genetic_NAS.git}},
