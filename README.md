@@ -137,7 +137,7 @@ Alternatively, you can clone the `gh-pages` branch of this repository to view th
 ---
 ## License
 
-This project is licensed under the terms of the [MIT License](LICENSE). 
+This project is licensed under [MIT License](LICENSE). 
 
 ---
 ## Citation
