@@ -12,7 +12,7 @@ Welcome to the Genetic_NAS repository, the home of Yipeng Sun's Master's Thesis 
 
 ## Overview
 
-The core goal of Genetic_NAS is to harness the power of genetic algorithms to find optimal models for image classification that can effectively utilize the capabilities of the Edge TPU. The aim is to boost inference speed without compromising on the accuracy of predictions.
+The expanding use of edge devices and the constraints on cloud connectivity call for efficient, on-device neural networks for real-time applications. Manually designing these networks is complex due to the need for a balance between accuracy, speed, and efficiency, particularly for edge devices with computational and power limitations. Neural Architecture Search (NAS) has been introduced to automate the design process, often producing models that surpass human-designed ones. Genetic Algorithms, which traverse vast search spaces to find optimal solutions using mechanisms akin to natural selection, have shown potential in NAS. The goal of this project is to harness the power of Genetic Algorithm-based NAS to create edge-optimized models specifically designed for Edge TPUs. This aims to enable real-time, accurate image analysis across various applications while minimizing power consumption and computational resource usage.
 
 If you find our work and our open-sourced efforts useful, ⭐️ to encourage our following development! :)
 
