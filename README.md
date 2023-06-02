@@ -98,6 +98,3 @@ If this work is helpful, please cite as:
   year = {2023}
 }
 ```
-
-## Contact
-If you have questions or feedback, feel free to reach out at [yipeng.sun@fau.de](yipeng.sun@fau.de).
