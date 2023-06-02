@@ -66,6 +66,30 @@ pip install -r requirements.txt
 ## Repository Structure
 
 The repository is structured as follows:
+```
+├── src
+|  └── Compile_Edge_TPU.py
+|  └── Create_Model.py
+|  └── Decode_Block.py
+|  └── Evaluate_Model.py
+|  └── Evolutionary_Algorithm.py
+|  └── Fitness_Function.py
+|  └── Gene_Pool.py
+|  └── Model_Checker.py
+|  └── Search_Space.py
+|  └── TFLITE_Converter.py
+|
+├── assets
+|  └── workflow.png
+|
+├── get_datasets
+|  └── Data_for_TFLITE.py
+|
+├── tf_flower_example.py
+├── rst_generator.py
+├── requirements.txt
+└── README.md
+```
 
 - `src/`: This directory contains the main source code for the project and utility scripts that aid in various tasks throughout the project.
 - `get_datasets/`: This directory includes scripts for data acquisition.
