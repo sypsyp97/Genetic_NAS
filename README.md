@@ -6,7 +6,6 @@
 [![Documentation Status](https://img.shields.io/badge/Documentation-Online-green?style=plastic&logo=read-the-docs&logoColor=white)](https://sypsyp97.github.io/Genetic_NAS/)
 
 
-
 Welcome to the Genetic_NAS repository, the home of Yipeng Sun's Master's Thesis project. This project explores the use of genetic algorithms to search for adaptable models specifically designed for Edge TPU. We aim to leverage the capabilities of the Edge TPU to enhance inference speed while maintaining a high level of accuracy in image classification tasks.
 
 ## Overview
