@@ -1,26 +1,36 @@
-# Genetic_NAS
+# Genetic Neural Architecture Search (Genetic_NAS)
 
-
-This repository hosts the source code for Yipeng Sun's Master's Thesis project on Genetic Neural Architecture Search (Genetic_NAS). The project investigates the use of genetic algorithms to search adaptable models for Edge TPU.
+Welcome to the Genetic_NAS repository, the home of Yipeng Sun's Master's Thesis project. This project explores the use of genetic algorithms to search for adaptable models specifically designed for Edge TPU. We aim to leverage the capabilities of the Edge TPU to enhance inference speed while maintaining a high level of accuracy in image classification tasks.
 
 ## Overview
 
-The project's objective is to explore the potential of genetic algorithms for searching models for image classification tasks that are adaptable for the Edge TPU. These models aim to leverage the capabilities of the Edge TPU to enhance inference speed while maintaining a high level of accuracy.
+The core goal of Genetic_NAS is to harness the power of genetic algorithms to find optimal models for image classification that can effectively utilize the capabilities of the Edge TPU. The aim is to boost inference speed without compromising on the accuracy of predictions.
 
-## Environment
+## Prerequisites
 
-This project was developed using Python 3.9. Here are the major libraries used:
+To get the most out of this project, you should have:
 
-- TensorFlow 2.11
+- Familiarity with Python 3.9 and above
+- Basic understanding of neural networks
+- Some knowledge about genetic algorithms
 
-To ensure that you have the correct versions of these libraries, it's recommended to create a virtual environment and install the necessary packages using `pip`:
+## Environment and Installation
+
+This project is developed in Python 3.9 environment with TensorFlow 2.11 being the major library used. To set up the environment, follow these steps:
+
+1. Clone the repository to your local machine：
+ ```bash
+# Clone the repository
+git clone https://github.com/sypsyp97/Genetic_NAS.git
+cd Genetic_NAS
+```
+2. Set up a virtual environment and install the required packages using `pip`:
 
 ```bash
 python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 ```
-
 ## Repository Structure
 
 The repository is structured as follows:
@@ -30,7 +40,6 @@ The repository is structured as follows:
 - `tf_flower_example.py`: A Python script that is used for testing the application with the TensorFlow Flowers dataset.
 - `requirements.txt`: Specifies the libraries and their respective versions required for this project.
 - `rst_generator.py`: A script used to generate reStructuredText (.rst) files for use with the Sphinx documentation generator.
-
 
 
 ## Usage Example
