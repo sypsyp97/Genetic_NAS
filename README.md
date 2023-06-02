@@ -49,6 +49,8 @@ The repository is structured as follows:
 
 ## Usage Example
 
+Before running the NAS process, please ensure that you have an Edge TPU device available. You will also need to install the necessary libraries and dependencies for working with the Edge TPU. Instructions for setting up the Edge TPU can be found in the [Coral documentation](https://coral.ai/docs/accelerator/get-started/).
+
 Here's an example of how you can use the `start_evolution` function to initiate the process of NAS:
 
 ```python
