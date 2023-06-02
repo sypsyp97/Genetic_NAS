@@ -122,7 +122,7 @@ If this work is helpful, please cite as:
 ```bibtex
 @Misc{Genetic_NAS,
   title = {Genetic Neural Architecture Search for Edge TPU},
-  author = {Yipeng Sun},
+  author = {Yipeng Sun, Andreas M. Kist},
   howpublished = {\url{https://github.com/sypsyp97/Genetic_NAS.git}},
   year = {2023}
 }
