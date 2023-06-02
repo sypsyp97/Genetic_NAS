@@ -49,13 +49,13 @@ To get the most out of this project, you should have:
 
 This project is developed in [Python 3.9](https://www.python.org/downloads/release/python-390/) environment with [TensorFlow 2.11](https://www.tensorflow.org/install/pip) being the major library used. To set up the environment, follow these steps:
 
-1. Clone the repository to your local machine：
+- Clone the repository to your local machine：
  ```bash
 git clone https://github.com/sypsyp97/Genetic_NAS.git
 cd Genetic_NAS
 ```
 
-2. Set up a [Miniconda](https://docs.conda.io/en/latest/miniconda.html) environment and install the required packages:
+- Set up a [Miniconda](https://docs.conda.io/en/latest/miniconda.html) environment and install the required packages:
 ```bash
 conda create -n Genetic_NAS python=3.9
 conda activate Genetic_NAS
