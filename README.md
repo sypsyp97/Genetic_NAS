@@ -8,10 +8,13 @@
 
 Welcome to the Genetic_NAS repository, the home of Yipeng Sun's Master's Thesis project. This project explores the use of genetic algorithms to search for adaptable models specifically designed for Edge TPU. We aim to leverage the capabilities of the Edge TPU to enhance inference speed while maintaining a high level of accuracy in image classification tasks.
 
+---
+
 ## Overview
 
 The core goal of Genetic_NAS is to harness the power of genetic algorithms to find optimal models for image classification that can effectively utilize the capabilities of the Edge TPU. The aim is to boost inference speed without compromising on the accuracy of predictions.
 
+---
 ## Prerequisites
 
 To get the most out of this project, you should have:
@@ -20,6 +23,7 @@ To get the most out of this project, you should have:
 - Basic understanding of neural networks
 - Some knowledge about genetic algorithms
 
+---
 ## Environment and Installation
 
 This project is developed in Python 3.9 environment with TensorFlow 2.11 being the major library used. To set up the environment, follow these steps:
@@ -36,6 +40,7 @@ python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 ```
+---
 ## Repository Structure
 
 The repository is structured as follows:
@@ -46,6 +51,7 @@ The repository is structured as follows:
 - `requirements.txt`: Specifies the libraries and their respective versions required for this project.
 - `rst_generator.py`: A script used to generate reStructuredText (.rst) files for use with the Sphinx documentation generator.
 
+---
 
 ## Usage Example
 
@@ -72,7 +78,7 @@ You can also easily start the NAS process by running the `tf_flower_example.py` 
 ```bash
 python tf_flower_example.py
 ```
-
+---
 ## Documentation
 
 The detailed documentation for the functions used in this project is available [online](https://sypsyp97.github.io/Genetic_NAS/).
@@ -84,11 +90,12 @@ Alternatively, you can clone the `gh-pages` branch of this repository to view th
 3. Navigate to the cloned directory using `cd Genetic_NAS`.
 4. Open the `index.html` file in a web browser to view the documentation.
 
-
+---
 ## License
 
 This project is licensed under the terms of the [MIT License](LICENSE). 
 
+---
 ## Citation
 
 If this work is helpful, please cite as:
