@@ -68,9 +68,9 @@ python tf_flower_example.py
 
 ## Documentation
 
-The detailed documentation for the functions used in this project is available online. Visit [https://sypsyp97.github.io/Genetic_NAS/](https://sypsyp97.github.io/Genetic_NAS/) to access it.
+The detailed documentation for the functions used in this project is available [online](https://sypsyp97.github.io/Genetic_NAS/).
 
-Alternatively, you can clone the `gh-pages` branch of this repository to view the documentation offline. Here are the steps to do so:
+Alternatively, you can clone the `gh-pages` branch of this repository to view the documentation offline:
 
 1. Open a terminal.
 2. Run the command `git clone -b gh-pages https://github.com/sypsyp97/Genetic_NAS.git`. This will clone only the `gh-pages` branch.
@@ -81,3 +81,6 @@ Alternatively, you can clone the `gh-pages` branch of this repository to view th
 ## License
 
 This project is licensed under the terms of the MIT license. For more details, see the `LICENSE` file.
+
+## Contact
+If you have questions or feedback, feel free to reach out at [yipeng.sun@fau.de](yipeng.sun@fau.de).
