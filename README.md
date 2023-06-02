@@ -19,7 +19,7 @@ Welcome to the Genetic_NAS repository, the home of [Yipeng Sun](https://github.c
 - [Documentation](https://github.com/sypsyp97/Genetic_NAS#documentation)
 - [License](https://github.com/sypsyp97/Genetic_NAS#license)
 - [Citation](https://github.com/sypsyp97/Genetic_NAS#citation)
-- 
+
 ---
 
 ## Overview
