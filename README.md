@@ -130,8 +130,9 @@ The detailed documentation for the functions used in this project is available [
 Alternatively, you can clone the `gh-pages` branch of this repository to view the documentation offline:
 
 - Open a terminal.
-- Run the command `git clone -b gh-pages https://github.com/sypsyp97/Genetic_NAS.git`. 
-- Navigate to the cloned directory using `cd Genetic_NAS`.
+- Run the command `git clone -b gh-pages https://github.com/sypsyp97/Genetic_NAS.git ./Genetic_NAS_Doc
+`. 
+- Navigate to the cloned directory using `cd Genetic_NAS_Doc`.
 - Open the `index.html` file in a web browser to view the documentation.
 
 ---
