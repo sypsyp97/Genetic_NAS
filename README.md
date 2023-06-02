@@ -12,7 +12,6 @@ Welcome to the Genetic_NAS repository, a crucial segment of [Yipeng Sun](https:/
 
 ## Contents
 - [Overview](https://github.com/sypsyp97/Genetic_NAS#overview)
-- [Prerequisites](https://github.com/sypsyp97/Genetic_NAS#prerequisites)
 - [Environment and Installation](https://github.com/sypsyp97/Genetic_NAS#environment-and-installation)
 - [Repository Structure](https://github.com/sypsyp97/Genetic_NAS#repository-structure)
 - [Usage Example](https://github.com/sypsyp97/Genetic_NAS#usage-example)
@@ -32,17 +31,6 @@ The goal of this repository is to harness the power of Genetic Algorithm-based N
 ![Genetic_NAS Workflow](assets/workflow.png)
 
 If you find our work and our open-sourced efforts useful, ⭐️ to encourage our following development! :)
-
----
-
-
-## Prerequisites
-
-To get the most out of this project, you should have:
-
-- Familiarity with Python 3.9 and above
-- Basic understanding of neural networks
-- Some knowledge about genetic algorithms
 
 ---
 ## Environment and Installation
