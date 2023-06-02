@@ -25,7 +25,6 @@ This project is developed in Python 3.9 environment with TensorFlow 2.11 being t
 
 1. Clone the repository to your local machine：
  ```bash
-# Clone the repository
 git clone https://github.com/sypsyp97/Genetic_NAS.git
 cd Genetic_NAS
 ```
