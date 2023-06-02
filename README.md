@@ -1,7 +1,5 @@
 # Genetic_NAS
 
-![GitHub Code License](https://img.shields.io/github/license/hiyouga/ChatGLM-Efficient-Tuning)
-![GitHub last commit](https://img.shields.io/github/last-commit/hiyouga/ChatGLM-Efficient-Tuning)
 
 This repository hosts the source code for Yipeng Sun's Master's Thesis project on Genetic Neural Architecture Search (Genetic_NAS). The project investigates the use of genetic algorithms to search adaptable models for Edge TPU.
 
