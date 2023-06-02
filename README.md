@@ -6,7 +6,7 @@
 [![Documentation Status](https://img.shields.io/badge/Documentation-Online-green?style=plastic&logo=read-the-docs&logoColor=white)](https://sypsyp97.github.io/Genetic_NAS/)
 
 
-Welcome to the Genetic_NAS repository, the home of [Yipeng Sun](https://github.com/sypsyp97)'s Master's Thesis project. This project explores the use of genetic algorithms to search for adaptable models specifically designed for Edge TPU. 
+Welcome to the Genetic_NAS repository, a crucial segment of [Yipeng Sun](https://github.com/sypsyp97)'s Master's Thesis project. This project explores the use of genetic algorithms to search for adaptable models specifically designed for Edge TPU. 
 
 ---
 
@@ -26,7 +26,7 @@ Welcome to the Genetic_NAS repository, the home of [Yipeng Sun](https://github.c
 
 The expanding use of edge devices and the constraints on cloud connectivity call for efficient, on-device neural networks for real-time applications. Manually designing these networks is complex due to the need for a balance between accuracy, speed, and efficiency, particularly for edge devices with computational and power limitations. Neural Architecture Search (NAS) has been introduced to automate the design process, often producing models that surpass human-designed ones. Genetic Algorithms, which traverse vast search spaces to find optimal solutions using mechanisms akin to natural selection, have shown potential in NAS. 
 
-The goal of this project is to harness the power of Genetic Algorithm-based NAS to create edge-optimized models specifically designed for Edge TPUs. This aims to enable real-time, accurate image analysis across various applications while minimizing power consumption and computational resource usage.
+The goal of this repository is to harness the power of Genetic Algorithm-based NAS to create edge-optimized models specifically designed for Edge TPUs. This aims to enable real-time, accurate image classification tasks while minimizing power consumption and computational resource usage.
 
 #### Genetic_NAS Workflow
 ![Genetic_NAS Workflow](assets/workflow.png)
