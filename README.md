@@ -19,7 +19,7 @@ Welcome to the Genetic_NAS repository, the home of [Yipeng Sun](https://github.c
 - [Documentation](https://github.com/sypsyp97/Genetic_NAS#documentation)
 - [License](https://github.com/sypsyp97/Genetic_NAS#license)
 - [Citation](https://github.com/sypsyp97/Genetic_NAS#citation)
-
+- 
 ---
 
 ## Overview
@@ -69,7 +69,7 @@ The repository is structured as follows:
 - `tf_flower_example.py`: A Python script that is used for testing the application with the TensorFlow Flowers dataset.
 - `requirements.txt`: Specifies the libraries and their respective versions required for this project.
 - `rst_generator.py`: This script is responsible for generating `reStructuredText (.rst)` files, which are a key part of creating comprehensive documentation for this project. These files are compatible with the [Sphinx Documentation Generator](https://www.sphinx-doc.org/en/master/).
-- 
+
 ---
 
 ## Usage Example
