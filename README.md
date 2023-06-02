@@ -87,14 +87,12 @@ The repository is structured as follows:
 |
 ├── tf_flower_example.py
 ├── rst_generator.py
-├── requirements.txt
 └── README.md
 ```
 
 - `src/`: This directory contains the main source code for the project and utility scripts that aid in various tasks throughout the project.
 - `get_datasets/`: This directory includes scripts for data acquisition.
 - `tf_flower_example.py`: A Python script that is used for testing the application with the TensorFlow Flowers dataset.
-- `requirements.txt`: Specifies the libraries and their respective versions required for this project.
 - `rst_generator.py`: This script is responsible for generating `reStructuredText (.rst)` files, which are a key part of creating comprehensive documentation for this project. These files are compatible with the [Sphinx Documentation Generator](https://www.sphinx-doc.org/en/master/).
 
 ---
