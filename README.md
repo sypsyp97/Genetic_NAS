@@ -9,6 +9,8 @@
 
 Welcome to the Genetic_NAS repository, a crucial segment of [Yipeng Sun](https://github.com/sypsyp97)'s Master's Thesis project. This project explores the use of genetic algorithms to search for adaptable models specifically designed for Edge TPU. 
 
+If you find our work and our open-sourced efforts useful, ⭐️ to encourage our following development! :)
+
 ---
 
 ## Contents
@@ -32,8 +34,6 @@ The goal of this repository is to harness the power of Genetic Algorithm-based N
 
 #### Genetic_NAS Workflow
 ![Genetic_NAS Workflow](assets/workflow.png)
-
-If you find our work and our open-sourced efforts useful, ⭐️ to encourage our following development! :)
 
 ---
 ## Environment and Installation
