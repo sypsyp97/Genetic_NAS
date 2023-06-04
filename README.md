@@ -7,22 +7,20 @@
 [![Python 3.9](https://img.shields.io/badge/Python-3.9-3776AB?style=plastic&logo=python&logoColor=white)](https://docs.python.org/3.9/)
 
 
-
-
-
-
 Welcome to the Genetic_NAS repository, a crucial segment of [Yipeng Sun](https://github.com/sypsyp97)'s Master's Thesis project. This project explores the use of genetic algorithms to search for adaptable models specifically designed for Edge TPU. 
 
 ---
 
 ## Contents
-- [Overview](https://github.com/sypsyp97/Genetic_NAS#overview)
-- [Environment and Installation](https://github.com/sypsyp97/Genetic_NAS#environment-and-installation)
-- [Repository Structure](https://github.com/sypsyp97/Genetic_NAS#repository-structure)
-- [Usage Example](https://github.com/sypsyp97/Genetic_NAS#usage-example)
-- [Documentation](https://github.com/sypsyp97/Genetic_NAS#documentation)
-- [License](https://github.com/sypsyp97/Genetic_NAS#license)
-- [Citation](https://github.com/sypsyp97/Genetic_NAS#citation)
+
+- [Overview](#overview)
+- [Environment and Installation](#environment-and-installation)
+- [Repository Structure](#repository-structure)
+- [Usage Example](#usage-example)
+- [Documentation](#documentation)
+- [License](#license)
+- [Citation](#citation)
+- [Contact](#contact)
 
 ---
 
@@ -149,3 +147,14 @@ If this work is helpful, please cite as:
   year = {2023}
 }
 ```
+---
+
+## Contact
+
+For further assistance or any questions, feel free to open an issue on this GitHub repository or reach out to the maintainers.
+
+**Yipeng Sun**
+- Github: [@sypsyp97](https://github.com/sypsyp97)
+- Email: [yipeng.sun@fau.de](mailto:yipeng.sun@fau.de)
+
+Please adhere to the code of conduct when interacting with the community and keep discussions relevant to the project. Happy coding!
