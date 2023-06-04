@@ -1,10 +1,18 @@
 # Genetic Neural Architecture Search (Genetic_NAS)
 
-![GitHub Code License](https://img.shields.io/github/license/sypsyp97/Genetic_NAS?style=plastic&logo=github&logoColor=white&color=blue)
+<!-- ![GitHub Code License](https://img.shields.io/github/license/sypsyp97/Genetic_NAS?style=plastic&logo=github&logoColor=white&color=blue)
 ![GitHub last commit](https://img.shields.io/github/last-commit/sypsyp97/Genetic_NAS?style=plastic&logo=github&logoColor=white&color=yellow)
 ![Contributions](https://img.shields.io/badge/Contributions-Contact%20Maintainer-orange?style=plastic&logo=github&logoColor=white)
 [![Documentation Status](https://img.shields.io/badge/Documentation-Online-green?style=plastic&logo=read-the-docs&logoColor=white)](https://sypsyp97.github.io/Genetic_NAS/)
-[![Python 3.9](https://img.shields.io/badge/Python-3.9-800080?style=plastic&logo=python&logoColor=white)](https://docs.python.org/3.9/)
+[![Python 3.9](https://img.shields.io/badge/Python-3.9-800080?style=plastic&logo=python&logoColor=white)](https://docs.python.org/3.9/) -->
+
+
+[![License: MIT](https://img.shields.io/github/license/sypsyp97/Genetic_NAS?style=plastic&logo=github&logoColor=white&color=ff69b4)](https://github.com/sypsyp97/Genetic_NAS/blob/main/LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/sypsyp97/Genetic_NAS?style=plastic&logo=github&logoColor=white&color=blueviolet)](https://github.com/sypsyp97/Genetic_NAS/commits/main)
+[![Contributions](https://img.shields.io/badge/Contributions-Contact%20Maintainer-yellow?style=plastic&logo=github&logoColor=white)](https://github.com/sypsyp97/Genetic_NAS/issues)
+[![Documentation](https://img.shields.io/badge/Documentation-Online-green?style=plastic&logo=read-the-docs&logoColor=white)](https://sypsyp97.github.io/Genetic_NAS/)
+[![Python 3.9](https://img.shields.io/badge/Python-3.9-3776AB?style=plastic&logo=python&logoColor=white)](https://docs.python.org/3.9/)
+
 
 
 
