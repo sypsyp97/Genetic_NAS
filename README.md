@@ -7,7 +7,7 @@
 [![Python 3.9](https://img.shields.io/badge/Python-3.9-3776AB?style=plastic&logo=python&logoColor=white)](https://docs.python.org/3.9/)
 
 
-Welcome to the Genetic_NAS repository, a crucial segment of [Yipeng Sun](https://github.com/sypsyp97)'s Master's Thesis project. This project explores the use of genetic algorithms to search for adaptable models specifically designed for Edge TPU. 
+Welcome to the Genetic_NAS repository, a crucial part of [Yipeng Sun](https://github.com/sypsyp97)'s Master's Thesis project. This project explores the use of genetic algorithms to search for adaptable models specifically designed for Edge TPU. 
 
 If you find our work and our open-sourced efforts useful, ⭐️ to encourage our following development! :)
 
