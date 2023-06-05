@@ -1,7 +1,7 @@
 # Genetic Neural Architecture Search (Genetic_NAS)
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=plastic&logo=apache)](https://opensource.org/licenses/Apache-2.0)
-[![Last Commit](https://img.shields.io/github/last-commit/sypsyp97/Genetic_NAS?style=plastic&logo=github&logoColor=white&color=blueviolet)](https://github.com/sypsyp97/Genetic_NAS/commits/main)
+[![Latest Commit](https://img.shields.io/github/last-commit/sypsyp97/Genetic_NAS?style=plastic&logo=github&logoColor=white&color=blueviolet&label=Latest%20Commit)](https://github.com/sypsyp97/Genetic_NAS/commits/main)
 [![Contributions](https://img.shields.io/badge/Contributions-Contact%20Maintainer-yellow?style=plastic&logo=github&logoColor=white)](https://github.com/sypsyp97/Genetic_NAS/issues)
 [![Documentation](https://img.shields.io/badge/Documentation-Online-green?style=plastic&logo=read-the-docs&logoColor=white)](https://sypsyp97.github.io/Genetic_NAS/)
 [![Python 3.9](https://img.shields.io/badge/Python-3.9-3776AB?style=plastic&logo=python&logoColor=white)](https://docs.python.org/3.9/)
