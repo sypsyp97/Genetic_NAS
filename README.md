@@ -132,7 +132,7 @@ xdg-open index.html
 ---
 ## License
 
-This project is licensed under [MIT License](LICENSE). 
+This project is licensed under [Apache-2.0 License](LICENSE). 
 
 ---
 ## Citation
