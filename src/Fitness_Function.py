@@ -1,6 +1,7 @@
 # calculate the fitness
-import numpy as np
 from math import pi
+
+import numpy as np
 
 
 def calculate_fitness(accuracy, inference_time=1, memory_footprint_tflite=1):

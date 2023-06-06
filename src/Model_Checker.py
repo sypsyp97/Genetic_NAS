@@ -1,7 +1,7 @@
-from src.TFLITE_Converter import convert_to_tflite
-from src.Compile_Edge_TPU import compile_edgetpu
-
 import os
+
+from src.Compile_Edge_TPU import compile_edgetpu
+from src.TFLITE_Converter import convert_to_tflite
 
 
 def is_edge_tpu_compatible(model):
@@ -68,7 +68,7 @@ def model_has_attention(model):
     # Iterate over all the layers in the model
     for layer in model.layers:
         # Check if the current layer is a multi head attention layer
-        if 'multi_head_attention' in str(layer):
+        if "multi_head_attention" in str(layer):
             # If it is, set the flag to True and break the loop
             contains_multi_head_attention = True
             break
@@ -77,7 +77,7 @@ def model_has_attention(model):
     if contains_multi_head_attention:
         # Check all multi head attention layers in the model
         for layer in model.layers:
-            if 'multi_head_attention' in str(layer):
+            if "multi_head_attention" in str(layer):
                 # Retrieve the output shape of the current layer
                 output_shape = layer.output.shape
                 # The second dimension of the output shape represents the size

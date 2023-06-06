@@ -1,5 +1,5 @@
-from keras import layers
 import tensorflow_addons as tfa
+from keras import layers
 from tensorflow import keras
 
 from src.Decode_Block import decoded_block
@@ -53,12 +53,17 @@ def model_summary(model):
     Prints the model summary and the number of trainable weights.
     """
     model.summary()
-    print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
+    print("Number of trainable weights = {}".format(len(model.trainable_weights)))
 
 
-def train_model(train_ds, val_ds, model, epochs=30,
-                checkpoint_filepath="checkpoints/checkpoint",
-                early_stopping_patience=10):
+def train_model(
+    train_ds,
+    val_ds,
+    model,
+    epochs=30,
+    checkpoint_filepath="checkpoints/checkpoint",
+    early_stopping_patience=10,
+):
     """
     Trains the given model with the specified training and validation datasets.
 
@@ -85,10 +90,12 @@ def train_model(train_ds, val_ds, model, epochs=30,
         A record of training loss values and metrics values at successive epochs.
     """
     # Define callback to save the model weights with the best validation accuracy
-    checkpoint_callback = keras.callbacks.ModelCheckpoint(checkpoint_filepath,
-                                                          monitor="val_accuracy",
-                                                          save_best_only=True,
-                                                          save_weights_only=True)
+    checkpoint_callback = keras.callbacks.ModelCheckpoint(
+        checkpoint_filepath,
+        monitor="val_accuracy",
+        save_best_only=True,
+        save_weights_only=True,
+    )
 
     # Define the loss function
     loss_fn = keras.losses.CategoricalCrossentropy(label_smoothing=0.1)
@@ -99,21 +106,21 @@ def train_model(train_ds, val_ds, model, epochs=30,
     opt = tfa.optimizers.Lookahead(opt)
 
     # Compile the model with the specified loss function and optimizer
-    model.compile(optimizer=opt,
-                  loss=loss_fn,
-                  metrics=['accuracy'])
+    model.compile(optimizer=opt, loss=loss_fn, metrics=["accuracy"])
 
     # Define early stopping callback to stop training when validation loss stops improving
-    early_stopping_callback = keras.callbacks.EarlyStopping(monitor='val_loss',
-                                                            patience=early_stopping_patience,
-                                                            restore_best_weights=True)
+    early_stopping_callback = keras.callbacks.EarlyStopping(
+        monitor="val_loss", patience=early_stopping_patience, restore_best_weights=True
+    )
 
     # Begin training the model
     try:
-        history = model.fit(train_ds,
-                            epochs=epochs,
-                            validation_data=val_ds,
-                            callbacks=[checkpoint_callback, early_stopping_callback])
+        history = model.fit(
+            train_ds,
+            epochs=epochs,
+            validation_data=val_ds,
+            callbacks=[checkpoint_callback, early_stopping_callback],
+        )
         # Load the best weights from the model checkpoint
         model.load_weights(checkpoint_filepath)
     except Exception as e:
@@ -123,5 +130,3 @@ def train_model(train_ds, val_ds, model, epochs=30,
 
     # Return the trained model and its history
     return model, history
-
-

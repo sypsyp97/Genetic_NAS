@@ -1,8 +1,10 @@
-from get_datasets.Data_for_TFLITE import x_test, y_test
 import time
+
 import numpy as np
 import tensorflow as tf
 import tflite_runtime.interpreter as tflite
+
+from get_datasets.Data_for_TFLITE import x_test, y_test
 
 
 def model_evaluation(trained_model, test_ds):
@@ -43,7 +45,10 @@ def evaluate_tflite_model(tflite_model, tfl_int8=True):
     """
     try:
         # Initialize the TFLite interpreter with Edge TPU delegate.
-        interpreter = tflite.Interpreter(model_path=tflite_model, experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
+        interpreter = tflite.Interpreter(
+            model_path=tflite_model,
+            experimental_delegates=[tflite.load_delegate("libedgetpu.so.1")],
+        )
 
         # Allocate tensors for the TFLite interpreter.
         interpreter.allocate_tensors()
@@ -55,8 +60,8 @@ def evaluate_tflite_model(tflite_model, tfl_int8=True):
         output_index = output_details[0]["index"]
 
         # Get the scale and zero point for quantization from the input and output tensor details.
-        scale_in, zero_point_in = input_details[0]['quantization']
-        scale_out, zero_point_out = output_details[0]['quantization']
+        scale_in, zero_point_in = input_details[0]["quantization"]
+        scale_out, zero_point_out = output_details[0]["quantization"]
 
         # Initialize lists to store prediction labels, test labels and inference speeds.
         prediction_labels = []
@@ -95,7 +100,11 @@ def evaluate_tflite_model(tflite_model, tfl_int8=True):
             prediction_labels.append(digit)
 
             # Get the true label.
-            test_labels.append(np.argmax(y_test[i], ))
+            test_labels.append(
+                np.argmax(
+                    y_test[i],
+                )
+            )
 
         # Convert prediction and test labels to NumPy arrays.
         prediction_labels = np.array(prediction_labels)
@@ -122,4 +131,3 @@ def evaluate_tflite_model(tflite_model, tfl_int8=True):
 
     # Return the accuracy and the average inference speed.
     return float(tflite_accuracy.result()), np.average(inference_speeds)
-

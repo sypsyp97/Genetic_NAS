@@ -23,9 +23,9 @@ def compile_edgetpu(path):
 
     # Determine the filename of the Edge TPU model by replacing '.tflite' with '_edgetpu.tflite' in the original
     # filename
-    edgetpu_model_name = path.replace('.tflite', '_edgetpu.tflite')
+    edgetpu_model_name = path.replace(".tflite", "_edgetpu.tflite")
 
     # Compile the TensorFlow Lite model for Edge TPU using the edgetpu_compiler tool
-    os.system('edgetpu_compiler -sa {}'.format(path))
+    os.system("edgetpu_compiler -sa {}".format(path))
 
     return edgetpu_model_name
