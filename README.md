@@ -151,7 +151,7 @@ If this work is helpful, please cite as:
 
 ## Contact
 
-For further assistance or any questions, feel free to open an issue on this GitHub repository or reach out to the maintainers.
+For further assistance or any questions, feel free to open an issue on this GitHub repository or reach out to the maintainer.
 
 **Yipeng Sun**
 - Github: [@sypsyp97](https://github.com/sypsyp97)
