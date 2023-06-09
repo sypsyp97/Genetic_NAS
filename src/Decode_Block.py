@@ -6,9 +6,8 @@ from src.Search_Space import (activation_space, expansion_factor_space,
 
 
 def decoded_block(x, layer_array):
-    """
-    Define a block in a neural network architecture based on an input array specifying the characteristics
-    of the layers within the block.
+    """Define a block in a neural network architecture based on an input array
+    specifying the characteristics of the layers within the block.
 
     Parameters
     ----------

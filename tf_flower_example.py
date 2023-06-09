@@ -4,7 +4,6 @@ from datetime import datetime
 
 import tensorflow as tf
 import tensorflow_datasets as tfds
-
 from src.Evolutionary_Algorithm import create_next_population, start_evolution
 
 # Set the random seed for reproducibility.

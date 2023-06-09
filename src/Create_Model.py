@@ -1,9 +1,8 @@
 import tensorflow_addons as tfa
 from keras import layers
-from tensorflow import keras
-
 from src.Decode_Block import decoded_block
 from src.Gene_Pool import conv_block
+from tensorflow import keras
 
 
 # This function constructs the model architecture.
@@ -49,9 +48,7 @@ def create_model(model_array, num_classes=5, input_shape=(256, 256, 3)):
 
 
 def model_summary(model):
-    """
-    Prints the model summary and the number of trainable weights.
-    """
+    """Prints the model summary and the number of trainable weights."""
     model.summary()
     print("Number of trainable weights = {}".format(len(model.trainable_weights)))
 
@@ -64,8 +61,7 @@ def train_model(
     checkpoint_filepath="checkpoints/checkpoint",
     early_stopping_patience=10,
 ):
-    """
-    Trains the given model with the specified training and validation datasets.
+    """Trains the given model with the specified training and validation datasets.
 
     Parameters
     ----------

@@ -3,7 +3,6 @@ import time
 import numpy as np
 import tensorflow as tf
 import tflite_runtime.interpreter as tflite
-
 from get_datasets.Data_for_TFLITE import x_test, y_test
 
 

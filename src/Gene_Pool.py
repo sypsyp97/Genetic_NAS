@@ -211,9 +211,8 @@ def inverted_residual_block(
 
 
 def ffn(x, hidden_units, dropout_rate, use_bias=False):
-    """
-    Implements a Feed-Forward Network (FFN), which is an essential component
-    of various deep learning architectures.
+    """Implements a Feed-Forward Network (FFN), which is an essential component of
+    various deep learning architectures.
 
     Parameters
     ----------
@@ -230,7 +229,6 @@ def ffn(x, hidden_units, dropout_rate, use_bias=False):
     -------
     x : tensor
         The output tensor from the FFN.
-
     """
 
     # Reshape the input tensor to (-1, 1, x.shape[1], x.shape[-1]) so that it can
@@ -261,10 +259,9 @@ def ffn(x, hidden_units, dropout_rate, use_bias=False):
 
 
 def transformer_block(encoded_patches, transformer_layers, projection_dim, num_heads=2):
-    """
-    Creates a Transformer block, which contains multiple layers of multi-head
-    self-attention followed by a feed-forward network (FFN). Each of these
-    operations is followed by a stochastic depth skip connection, and layer normalization.
+    """Creates a Transformer block, which contains multiple layers of multi-head self-
+    attention followed by a feed-forward network (FFN). Each of these operations is
+    followed by a stochastic depth skip connection, and layer normalization.
 
     Parameters
     ----------
@@ -323,9 +320,9 @@ def mobilevit_block(
     activation="silu6",
     normalization="BatchNormalization",
 ):
-    """
-    Constructs a MobileViT block which consists of local feature extraction,
-    global feature extraction (via transformer block), and merging of local and global features.
+    """Constructs a MobileViT block which consists of local feature extraction, global
+    feature extraction (via transformer block), and merging of local and global
+    features.
 
     Parameters
     ----------

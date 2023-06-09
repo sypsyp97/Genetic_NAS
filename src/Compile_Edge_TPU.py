@@ -2,8 +2,7 @@ import os
 
 
 def compile_edgetpu(path):
-    """
-    Compiles a TensorFlow Lite model for the Edge TPU (Tensor Processing Unit).
+    """Compiles a TensorFlow Lite model for the Edge TPU (Tensor Processing Unit).
 
     Parameters
     ----------

@@ -5,8 +5,7 @@ import numpy as np
 
 
 def calculate_fitness(accuracy, inference_time=1, memory_footprint_tflite=1):
-    """
-    Calculate the fitness of a model based on its accuracy and inference time.
+    """Calculate the fitness of a model based on its accuracy and inference time.
 
     The fitness is defined as a weighted combination of the accuracy and the normalized inference time,
     with a higher accuracy and a lower inference time leading to a higher fitness. The inference time

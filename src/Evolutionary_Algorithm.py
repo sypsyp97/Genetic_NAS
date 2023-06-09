@@ -2,7 +2,6 @@ import os
 import pickle
 
 import numpy as np
-
 from src.Compile_Edge_TPU import compile_edgetpu
 from src.Create_Model import create_model, train_model
 from src.Evaluate_Model import evaluate_tflite_model
@@ -12,8 +11,7 @@ from src.TFLITE_Converter import convert_to_tflite
 
 
 def create_first_population(population, num_classes=5):
-    """
-    Generates the initial set of models for a genetic algorithm.
+    """Generates the initial set of models for a genetic algorithm.
 
     Parameters
     ----------
@@ -61,8 +59,8 @@ def select_models(
     epochs=30,
     num_classes=5,
 ):
-    """
-    Trains, evaluates, and selects the top performing models from a population based on their fitness scores.
+    """Trains, evaluates, and selects the top performing models from a population based
+    on their fitness scores.
 
     Parameters
     ----------
@@ -165,8 +163,8 @@ def select_models(
 
 
 def crossover(parent_arrays):
-    """
-    Perform a crossover operation on a list of parent arrays to generate a child array.
+    """Perform a crossover operation on a list of parent arrays to generate a child
+    array.
 
     Parameters:
     -----------
@@ -190,8 +188,7 @@ def crossover(parent_arrays):
 
 
 def mutate(model_array, mutate_prob=0.05):
-    """
-    Perform a mutation operation on a given model array.
+    """Perform a mutation operation on a given model array.
 
     Parameters:
     ------------
@@ -219,8 +216,8 @@ def mutate(model_array, mutate_prob=0.05):
 
 
 def create_next_population(parent_arrays, population=20, num_classes=5):
-    """
-    Create the next generation of model arrays by performing crossover and mutation operations.
+    """Create the next generation of model arrays by performing crossover and mutation
+    operations.
 
     Parameters:
     -----------
@@ -285,8 +282,7 @@ def start_evolution(
     population_array=None,
     time=None,
 ):
-    """
-    Start the evolutionary process for model optimization.
+    """Start the evolutionary process for model optimization.
 
     Parameters:
     -----------
