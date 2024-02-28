@@ -16,14 +16,6 @@ auto = tf.data.AUTOTUNE
 resize_bigger = 280
 num_classes = 5
 
-# Load the data from the pickle file.
-with open("results_28032023195907/generation_2/best_model_arrays.pkl", "rb") as f:
-    data = pickle.load(f)
-    f.close()
-
-# Create the next population using the parent arrays.
-next = create_next_population(parent_arrays=data, population=20, num_classes=5)
-
 
 # Define the preprocessing function for the dataset.
 def preprocess_dataset(is_training=True):
@@ -85,6 +77,5 @@ if __name__ == "__main__":
         population=20,
         num_classes=5,
         epochs=30,
-        population_array=next,
         time=formatted_date,
     )
