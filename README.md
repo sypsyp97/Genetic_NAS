@@ -132,28 +132,3 @@ xdg-open index.html
 ## License
 
 This project is licensed under [Apache-2.0 License](LICENSE). 
-
----
-## Citation
-
-If this work is helpful, please cite as:
-
-```bibtex
-@Misc{Genetic_NAS,
-  title = {Genetic Neural Architecture Search for Edge TPU},
-  author = {Yipeng Sun, Andreas M. Kist},
-  howpublished = {\url{https://github.com/sypsyp97/Genetic_NAS.git}},
-  year = {2023}
-}
-```
----
-
-## Contact
-
-For further assistance or any questions, feel free to open an issue on this GitHub repository or reach out to the maintainer.
-
-**Yipeng Sun**
-- Github: [@sypsyp97](https://github.com/sypsyp97)
-- Email: [yipeng.sun@fau.de](mailto:yipeng.sun@fau.de)
-
-Please adhere to the code of conduct when interacting with the community and keep discussions relevant to the project. Happy coding!
